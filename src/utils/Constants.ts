@@ -1,0 +1,1 @@
+export const EMBED_DEFAULT_COLOR = '#ff8c08'
