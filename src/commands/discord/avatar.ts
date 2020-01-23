@@ -1,14 +1,18 @@
 import { Command } from 'discord-akairo';
 import { Message, User } from 'discord.js';
 
-import { discord } from '../../categories';
+import { Discord } from '../../categories';
 import Embed from '../../utils/Embed';
+
+interface ArgsI {
+	user: User
+}
 
 class AvatarCommand extends Command {
   constructor() {
     super('avatar', {
       aliases: ['avatar'],
-      category: discord,
+      category: Discord,
       args: [
         {
           id: 'user',
@@ -19,7 +23,7 @@ class AvatarCommand extends Command {
     });
   }
 
-  exec(msg: Message, args) {
+  exec (msg: Message, args: ArgsI) {
     const { user } = args;
 
     const embed = new Embed(msg.author)

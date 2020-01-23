@@ -1,0 +1,33 @@
+{
+  "name": "dominguez",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "Tsugami <yslan3000@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "lint": "eslint --fix",
+    "prebuild": "rimraf dist",
+    "build": "sucrase ./src -d ./dist --transforms typescript,imports"
+  },
+  "devDependencies": {
+    "@types/giphy-api": "^2.0.2",
+    "@types/node": "^13.1.8",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "nodemon": "^2.0.2",
+    "sucrase": "^3.12.1",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "discord-akairo": "^7.5.6",
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "giphy-api": "^2.0.1",
+    "moment": "^2.24.0",
+    "nekos.life": "^2.0.4"
+  }
+}
