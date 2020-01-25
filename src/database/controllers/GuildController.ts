@@ -1,5 +1,5 @@
 import Base from './Base'
-import { GuildDocument, WelcomeModule, TicketModule } from '../models/Guild'
+import { GuildDocument, WelcomeModule, TicketConfigModule } from '../models/Guild'
 
 class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
   private async save (): Promise<T> {
@@ -32,7 +32,7 @@ class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
     return this.save()
   }
 
-  updateTicket (data: TicketModule): Promise<T> {
+  updateTicket (data: TicketConfigModule): Promise<T> {
     if (this.data.ticket) {
       this.data.ticket = this.updateData(data, this.data.ticket)
     } else {
