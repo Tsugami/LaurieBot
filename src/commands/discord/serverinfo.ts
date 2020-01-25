@@ -15,7 +15,8 @@ class ServerinfoCommand extends Command {
   constructor() {
     super('serverinfo', {
       aliases: ['serverinfo'],
-      category: Discord
+      category: Discord,
+      channelRestriction: 'guild',
     });
   }
 
@@ -26,7 +27,7 @@ class ServerinfoCommand extends Command {
 
     function getMemberSizeByStatus(status: PresenceStatusData) {
       return guild.members.filter(m => m.user.presence.status === status).size
-    } 
+    }
 
     text.addTitle(Emojis.FOLDER, 'INFORMAÇÕES DO SERVIDOR')
     text.addField(Emojis.COMPUTER, 'ID', guild.id)
@@ -35,7 +36,7 @@ class ServerinfoCommand extends Command {
     text.addField(Emojis.CALENDER, 'Criado em', getDate(guild.createdAt))
     text.addField(Emojis.INBOX, 'Entrei em', getDate(guild.joinedAt))
     text.skip()
-    text.addTitle(Emojis.PERSON, 'INFORMAÇÕES DOS MEMBROS')  
+    text.addTitle(Emojis.PERSON, 'INFORMAÇÕES DOS MEMBROS')
     text.addField(Emojis.PERSONS, 'Membros', guild.members.size)
     text.addField(Emojis.ROBOT, 'Robôs', guild.members.filter(m => m.user.bot).size)
     text.addField(Emojis.STATUS_ONLINE, 'Online', getMemberSizeByStatus('online'))

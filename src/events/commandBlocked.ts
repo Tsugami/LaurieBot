@@ -39,8 +39,13 @@ export default class CommandBlockedListener extends Listener {
     		if (userIsCooldown(msg.author.id)) {
     			addUserCooldown(msg.author.id)
     			msg.reply('os comandos não estão habilitados nesse canal.')
-    		}
-    	}
+        }
+        break
+      }
+      case 'guild': {
+        msg.reply('essse comando está disponivel apenas em servidores.')
+        break
+      }
   	}
   }
 }

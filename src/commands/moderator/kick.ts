@@ -1,8 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message, GuildMember } from 'discord.js';
 import { Moderator } from '../../categories';
-import Embed from '../../utils/Embed';
-
 
 interface ArgsI {
   member: GuildMember
@@ -14,6 +12,7 @@ class KickCommand extends Command {
     super('kick', {
       aliases: ['kick', 'expulsar'],
       category: Moderator,
+      channelRestriction: 'guild',
       userPermissions: 'KICK_MEMBERS',
       clientPermissions: 'KICK_MEMBERS',
       args: [

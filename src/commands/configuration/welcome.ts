@@ -44,6 +44,7 @@ class WelcomeCommand extends Command {
     super('welcome', {
       aliases: ['welcome'],
       category: Configuration,
+      channelRestriction: 'guild',
       userPermissions: 'MANAGE_CHANNELS',
       args: [
         {

@@ -15,6 +15,7 @@ class SetChannelPnCommand extends Command {
     super('setchannelpn', {
       aliases: ['setchannelpn', 'setcanalpn'],
       userPermissions: 'MANAGE_GUILD',
+      channelRestriction: 'guild',
       category: Configuration,
       args: [
         {

@@ -13,6 +13,7 @@ class BanCommand extends Command {
     super('clear', {
       aliases: ['clear', 'prune', 'limpar'],
       category: Moderator,
+      channelRestriction: 'guild',
       userPermissions: 'MANAGE_MESSAGES',
       clientPermissions: 'MANAGE_MESSAGES',
       args: [

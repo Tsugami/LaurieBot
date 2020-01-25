@@ -1,14 +1,11 @@
 import { Command } from 'discord-akairo';
-import { Message, GuildMember, PresenceStatusData } from 'discord.js';
+import { Message, GuildMember } from 'discord.js';
 
 import { Discord } from '../../categories';
 import Embed from '../../utils/Embed';
 import Text from '../../utils/Text';
-import getCountryInPortuguese from '../../utils/getCountryInPortuguese';
 import { Emojis } from '../../utils/Constants'
 import { getDate } from '../../utils/Date';
-
-import moment from 'moment'
 
 
 class UserinfoCommand extends Command {
@@ -16,6 +13,7 @@ class UserinfoCommand extends Command {
     super('userinfo', {
       aliases: ['userinfo'],
       category: Discord,
+      channelRestriction: 'guild',
       args: [
         {
           id: 'member',

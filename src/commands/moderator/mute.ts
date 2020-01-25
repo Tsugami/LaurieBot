@@ -15,6 +15,7 @@ class MuteCommand extends Command {
     super('mute', {
       aliases: ['mute', 'mutar'],
       category: Moderator,
+      channelRestriction: 'guild',
       userPermissions: 'MUTE_MEMBERS',
       clientPermissions: 'MUTE_MEMBERS',
       args: [

@@ -1,8 +1,7 @@
 import { Command } from 'discord-akairo';
-import { Message, GuildMember, Role, Permissions, TextChannel, VoiceChannel } from 'discord.js';
+import { Message, GuildMember } from 'discord.js';
 import { Moderator } from '../../categories';
-import Embed from '../../utils/Embed';
-import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME } from '../../utils/Constants';
+import { MUTE_ROLE_NAME } from '../../utils/Constants';
 
 
 interface ArgsI {
@@ -15,6 +14,7 @@ class UnmuteCommand extends Command {
     super('unmute', {
       aliases: ['unmute', 'desmutar'],
       category: Moderator,
+      channelRestriction: 'guild',
       userPermissions: 'MUTE_MEMBERS',
       clientPermissions: 'MUTE_MEMBERS',
       args: [
