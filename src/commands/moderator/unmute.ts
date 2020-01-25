@@ -15,6 +15,8 @@ class UnmuteCommand extends Command {
     super('unmute', {
       aliases: ['unmute', 'desmutar'],
       category: Moderator,
+      userPermissions: 'MUTE_MEMBERS',
+      clientPermissions: 'MUTE_MEMBERS',
       args: [
         {
           id: 'member',
@@ -27,7 +29,7 @@ class UnmuteCommand extends Command {
         {
           id: 'reason',
           type: 'string',
-          default: 'Motivo declarado.'
+          default: 'Motivo não declarado.'
         }
       ],
     });
@@ -38,14 +40,6 @@ class UnmuteCommand extends Command {
     const member = args.member
     const ownerId = msg.guild.ownerID
     const bot = msg.guild.me
-
-    if (!author.permissions.has('MUTE_MEMBERS')) {
-      return msg.reply('você não possui permissões para desmutar um usuário(a).')
-    }
-
-    if (!bot.permissions.has('MUTE_MEMBERS')) {
-      return msg.reply('eu não possuo permissões para desmutar um usuário(a).')
-    }
 
     if (ownerId !== author.user.id && member.highestRole.position >= author.highestRole.position) {
       return msg.reply('você não tem cargo suficiente pra desmutar esse membro.')
@@ -62,6 +56,7 @@ class UnmuteCommand extends Command {
 
     try {
       await member.removeRole(role, args.reason)
+      this.client.emit('punishmentCommand', msg, this, member, args.reason)
       return msg.reply('usuário(a) desmutado(a) com sucesso!')
     } catch (error) {
       console.error(error)

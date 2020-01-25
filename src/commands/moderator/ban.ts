@@ -14,6 +14,8 @@ class BanCommand extends Command {
     super('ban', {
       aliases: ['ban', 'banir'],
       category: Moderator,
+      userPermissions: 'BAN_MEMBERS',
+      clientPermissions: 'BAN_MEMBERS',
       args: [
         {
           id: 'member',
@@ -26,7 +28,7 @@ class BanCommand extends Command {
         {
           id: 'reason',
           type: 'string',
-          default: 'Motivo declarado.'
+          default: 'Motivo não declarado.'
         }
       ],
     });
@@ -37,14 +39,6 @@ class BanCommand extends Command {
     const member = args.member
     const ownerId = msg.guild.ownerID
     const bot = msg.guild.me
-
-    if (!author.permissions.has('BAN_MEMBERS')) {
-      return msg.reply('você não possui permissões para banir um usuário(a).')
-    }
-
-    if (!bot.permissions.has('BAN_MEMBERS')) {
-      return msg.reply('eu não possuo permissões para banir um usuário(a).')
-    }
 
     if (ownerId === member.user.id) {
       return msg.reply('você não pode banir o dono do servidor.')
@@ -60,6 +54,7 @@ class BanCommand extends Command {
 
     try {
       await member.kick(args.reason)
+      this.client.emit('punishmentCommand', msg, this, member, args.reason)
       return msg.reply('usuário(a) banido(a) com sucesso!')
     } catch (error) {
       console.error(error)

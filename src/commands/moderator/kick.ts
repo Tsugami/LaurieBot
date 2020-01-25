@@ -14,6 +14,8 @@ class KickCommand extends Command {
     super('kick', {
       aliases: ['kick', 'expulsar'],
       category: Moderator,
+      userPermissions: 'KICK_MEMBERS',
+      clientPermissions: 'KICK_MEMBERS',
       args: [
         {
           id: 'member',
@@ -26,7 +28,7 @@ class KickCommand extends Command {
         {
           id: 'reason',
           type: 'string',
-          default: 'Motivo declarado.'
+          default: 'Motivo não declarado.'
         }
       ],
     });
@@ -37,14 +39,6 @@ class KickCommand extends Command {
     const member = args.member
     const ownerId = msg.guild.ownerID
     const bot = msg.guild.me
-
-    if (!author.permissions.has('KICK_MEMBERS')) {
-      return msg.reply('você não possui permissões para expulsar um usuário(a).')
-    }
-
-    if (!bot.permissions.has('KICK_MEMBERS')) {
-      return msg.reply('eu não possuo permissões para expulsar um usuário(a).')
-    }
 
     if (ownerId === member.user.id) {
       return msg.reply('você não pode expulsar o dono do servidor.')
@@ -61,6 +55,7 @@ class KickCommand extends Command {
 
     try {
       await member.kick(args.reason)
+      this.client.emit('punishmentCommand', msg, this, member, args.reason)
       return msg.reply('usuário(a) expulso(a) com sucesso!')
     } catch (error) {
       console.error(error)

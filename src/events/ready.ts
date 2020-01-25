@@ -18,6 +18,7 @@ export default class ReadyListener extends Listener {
     PRFIX: ${client.akairoOptions.prefix}
     SERVIDORES: ${client.guilds.size}
     USUÁRIOS: ${client.users.size}
-    ${bar}`);
+    ${bar}
+    ${client.listenerHandler.modules.map(x=> x.id)}`);
   }
 }

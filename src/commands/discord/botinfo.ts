@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import { Message, User, Client } from 'discord.js';
+import { Message, Client } from 'discord.js';
 
 import { Discord } from '../../categories';
 import Embed from '../../utils/Embed';

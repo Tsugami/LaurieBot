@@ -92,7 +92,7 @@ class UserinfoCommand extends Command {
     const embed = new Embed(author)
       .setAuthor(user.username, user.displayAvatarURL)
       .setDescription(text)
-      .setThumbnail(author.displayAvatarURL)
+      .setThumbnail(user.displayAvatarURL)
     msg.reply(embed);
   }
 }

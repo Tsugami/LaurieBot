@@ -15,6 +15,8 @@ class MuteCommand extends Command {
     super('mute', {
       aliases: ['mute', 'mutar'],
       category: Moderator,
+      userPermissions: 'MUTE_MEMBERS',
+      clientPermissions: 'MUTE_MEMBERS',
       args: [
         {
           id: 'member',
@@ -27,7 +29,7 @@ class MuteCommand extends Command {
         {
           id: 'reason',
           type: 'string',
-          default: 'Motivo declarado.'
+          default: 'Motivo não declarado.'
         }
       ],
     });
@@ -38,14 +40,6 @@ class MuteCommand extends Command {
     const member = args.member
     const ownerId = msg.guild.ownerID
     const bot = msg.guild.me
-
-    if (!author.permissions.has('MUTE_MEMBERS')) {
-      return msg.reply('você não possui permissões para mutar um usuário(a).')
-    }
-
-    if (!bot.permissions.has('MUTE_MEMBERS')) {
-      return msg.reply('eu não possuo permissões para mutar um usuário(a).')
-    }
 
     if (ownerId === member.user.id) {
       return msg.reply('você não pode mutar o dono do servidor.')
@@ -101,6 +95,7 @@ class MuteCommand extends Command {
 
     try {
       await member.addRole(role)
+      this.client.emit('punishmentCommand', msg, this, member, args.reason)
       return msg.reply('usuário(a) mutado(a) com sucesso!')
     } catch (error) {
       console.error(error)

@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/giphy-api": "^2.0.2",
+    "@types/mongoose": "^5.5.43",
     "@types/node": "^13.1.8",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
     "@typescript-eslint/parser": "^2.17.0",
@@ -27,7 +28,9 @@
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "giphy-api": "^2.0.1",
+    "jimp": "^0.9.3",
     "moment": "^2.24.0",
+    "mongoose": "^5.8.9",
     "nekos.life": "^2.0.4"
   }
 }

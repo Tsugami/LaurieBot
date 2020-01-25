@@ -1,5 +1,6 @@
 export const EMBED_DEFAULT_COLOR = '#ff8c08'
 export const MUTE_ROLE_NAME = 'Mutado'
+export const ASSET_BASE_PATH = 'https://storage.googleapis.com/data-sunlight-146313.appspot.com';
 export enum Emojis {
 	FOLDER = '📁',
 	CROWN = '👑',
@@ -10,7 +11,7 @@ export enum Emojis {
 	ROBOT = '🤖',
 	EARTH = '🌍',
 	INBOX = '📥',
-	UNKNOWN= '❓'
+	UNKNOWN = '❓',
 	TV = '📺',
 	VIDEO_GAME = '🎮',
 	HEADPHONES = '🎧',
@@ -24,6 +25,13 @@ export enum Emojis {
 	LABEL = '🏷️',
 	SHIELD = '🛡️',
 	KEYBOARD = '⌨️',
+	MAN_JUDGE = '👨‍⚖️',
+	BALLOT_BOX = '🗳️',
+	PAGE = '📄',
+	SCALES = '⚖️',
+	CAP = '🧢',
+	CARD_INDEX = '📇',
+	SPEECH_BALLON = '💬',
 	STATUS_ONLINE = '<:online:669594447251636226>',
 	STATUS_OFFLINE = '<:offline:669594447138258964>',
 	STATUS_BUSY = '<:ocupado:669594449440931846>',

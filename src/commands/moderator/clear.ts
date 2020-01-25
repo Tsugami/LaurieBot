@@ -13,6 +13,8 @@ class BanCommand extends Command {
     super('clear', {
       aliases: ['clear', 'prune', 'limpar'],
       category: Moderator,
+      userPermissions: 'MANAGE_MESSAGES',
+      clientPermissions: 'MANAGE_MESSAGES',
       args: [
         {
           id: 'amount',
@@ -27,17 +29,6 @@ class BanCommand extends Command {
   }
 
   async exec (msg: Message, args: ArgsI) {
-
-    if (!msg.member.permissions.has('MANAGE_MESSAGES')) {
-      return msg.reply('você não possui permissões para gerenciar mensagens um usuário(a).')
-    }
-
-    if (!msg.guild.me.permissions.has('MANAGE_MESSAGES')) {
-      return msg.reply('eu não possuo permissões para gerenciar mensagens um usuário(a).')
-    }
-    
-
-
     const amount = args.amount
     const result = amount > 100 ? 100 : amount < 1 ? 1 : amount
 
