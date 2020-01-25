@@ -57,7 +57,8 @@ class SetChannelTkCommand extends Command {
   constructor() {
     super('setcanaltk', {
       aliases: ['setcanaltk'],
-      userPermissions: 'MANAGE_MESSAGES',
+      userPermissions: 'ADMINISTRATOR',
+      clientPermissions: 'ADMINISTRATOR',
       category: Configuration,
       channelRestriction: 'guild',
       args: [
@@ -126,12 +127,14 @@ class SetChannelTkCommand extends Command {
           return msg.reply('os ticket\'s já estão ativos.')
         }
         await guildData.updateTicket({ active: true, channelId: msg.channel.id })
+        this.client.emit('ticketActivated', guildData, msg.guild, msg.channel)
         return msg.reply('os  ticket\' foram ativados nesse canal.')
       }
       case 'disable': {
         if (!ticket || !ticket.active) {
           return msg.reply('os ticket\'s já estão desativado.')
         }
+        this.client.emit('disabledTicket', guildData, msg.guild)
         await guildData.updateTicket({ active: true, channelId: msg.channel.id })
         return msg.reply('os  ticket\'s foram desativados nesse canal.')
       }
@@ -147,7 +150,7 @@ class SetChannelTkCommand extends Command {
 
         const oldChannel = msg.guild.channels.get(ticket.channelId)
         await guildData.updateTicket({ channelId: args.channel.id })
-        this.client.emit('changeTicketChannel', guildData, args.channel, msg.member)
+        this.client.emit('ticketChannelChanged', guildData, msg.guild, oldChannel, args.channel)
         return msg.reply(`canal de ticket's alterado. ${oldChannel ? oldChannel.toString() : oldId} **>>>** ${args.channel}`)
       }
       case 'category': {
@@ -160,7 +163,7 @@ class SetChannelTkCommand extends Command {
         }
 
         await guildData.updateTicket({ categoryId: args.category.id, channelId: ticket.channelId })
-
+        this.client.emit('ticketCategoryChannelChanged', guildData, msg.guild, args.category)
         let text: string
         if (oldId) {
           const oldCategory = msg.guild.channels.get(oldId)
@@ -181,7 +184,7 @@ class SetChannelTkCommand extends Command {
         }
 
         await guildData.updateTicket({ role: args.role.id, channelId: ticket.channelId })
-
+        this.client.emit('ticketRoleChanged', guildData, msg.guild, oldId, args.role)
         let text: string
         if (oldId) {
           const oldRole = msg.guild.roles.get(oldId)
