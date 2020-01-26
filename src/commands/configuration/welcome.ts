@@ -62,7 +62,6 @@ class WelcomeCommand extends Command {
         {
           id: 'message',
           type: (word, _, args: ArgsI) => {
-            console.log(word, args)
             if (args.option === 'alterar')
               if (word) return word
               else return null

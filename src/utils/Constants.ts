@@ -8,7 +8,8 @@ export enum Emojis {
 	CALENDER = '📆',
 	PERSON = '👤',
 	PERSONS = '👥',
-	ROBOT = '🤖',
+  ROBOT = '🤖',
+  TICKET = '🎫',
 	EARTH = '🌍',
 	INBOX = '📥',
 	UNKNOWN = '❓',
@@ -31,7 +32,8 @@ export enum Emojis {
 	SCALES = '⚖️',
 	CAP = '🧢',
 	CARD_INDEX = '📇',
-	SPEECH_BALLON = '💬',
+  SPEECH_BALLON = '💬',
+  RED_TICKET = '🎟️',
 	STATUS_ONLINE = '<:online:669594447251636226>',
 	STATUS_OFFLINE = '<:offline:669594447138258964>',
 	STATUS_BUSY = '<:ocupado:669594449440931846>',
@@ -39,4 +41,10 @@ export enum Emojis {
 	WALLET = '<:identidade:669615608622481441>',
 	JAVA = '<:java:669685001205448716>',
 	PLACA_MINECRAFT = '<:info:669682580693712907>'
+}
+
+export const TICKET_EMOJIS =  {
+  REVIEW: Emojis.LABEL,
+  REPORT: Emojis.RED_TICKET,
+  QUESTION: Emojis.TICKET,
 }

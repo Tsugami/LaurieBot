@@ -79,11 +79,9 @@ class MuteCommand extends Command {
       msg.guild.channels.forEach(async channel => {
         if (channel instanceof TextChannel) {
           await channel.overwritePermissions(role, { SEND_MESSAGES: false, ADD_REACTIONS: false })
-            .then(() => console.log('alterou no canal', channel.name))
             .catch(() => channelsFailed.push(channel))
         } else if (channel instanceof VoiceChannel) {
           await channel.overwritePermissions(role, { SPEAK: false, CONNECT: false })
-            .then(() => console.log('alterou no canal', channel.name))
             .catch(() => channelsFailed.push(channel))
         }
       })

@@ -1,5 +1,7 @@
 import { Document } from 'mongoose'
 
+export type findFn<V> = (v: V, i: number, arr: V[]) => boolean
+
 class BaseController<Doc extends Document> {
   readonly data: Doc
 
@@ -11,10 +13,10 @@ class BaseController<Doc extends Document> {
     return Object.assign(old, update)
   }
 
-  updateDataInArray<O, K extends keyof O>(update: O, list: O[], keySearch: K): O[] {
-    const findIndex = list.findIndex(x => x[keySearch] === update[keySearch])
+  updateDataInArray<O>(update: O, list: O[], fnSearch: findFn<O>): O[] {
+    const findIndex = list.findIndex(fnSearch)
     if (findIndex >= 0) {
-      list[findIndex] = this.updateData(list[findIndex], update)
+      list[findIndex] = { ...list[findIndex], ...update }
     } else {
       list.push(update)
     }
