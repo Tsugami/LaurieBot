@@ -1,4 +1,4 @@
-import countries from '../assets/paises_em_portugues.json'
+import countries from '@assets/paises_em_portugues.json'
 
 export default function getCountryInPortuguese (countryInEnglish: string): string {
 	const country = countryInEnglish.toLowerCase()

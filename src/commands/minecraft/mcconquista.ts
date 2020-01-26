@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message, Attachment } from 'discord.js';
-import { Minecraft } from '../../categories';
-import { getAwardImage } from '../../services/minecraft';
+import { Minecraft } from '@categories';
+import { getAwardImage } from '@services/minecraft';
 
 
 interface ArgsI {

@@ -1,8 +1,8 @@
 import { Command } from 'discord-akairo';
 import { Message, User } from 'discord.js';
 
-import { Discord } from '../../categories';
-import Embed from '../../utils/Embed';
+import { Discord } from '@categories';
+import Embed from '@utils/Embed';
 
 interface ArgsI {
 	user: User

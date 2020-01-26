@@ -1,8 +1,8 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-import { Configuration } from '../../categories';
-import { guild } from '../../database';
+import { Configuration } from '@categories';
+import { guild } from '@database/index';
 
 type optionTypes = 'off' | 'on'
 interface ArgsI {

@@ -1,6 +1,6 @@
 import { Listener } from 'discord-akairo';
 import { GuildMember, TextChannel } from 'discord.js'
-import { guild } from '../database'
+import { guild } from '@database/index'
 
 function parseWelcome (text: string, user: string, guild: string) {
   return text.replace(/{{user}}/gi, user).replace(/{{guild}}/gi, guild)

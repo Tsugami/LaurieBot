@@ -1,10 +1,10 @@
 import { Listener, Command } from 'discord-akairo';
 import { Message, GuildMember, TextChannel } from 'discord.js'
-import Embed from '../utils/Embed'
-import Text from '../utils/Text'
-import { Emojis } from '../utils/Constants'
-import { getDate } from '../utils/Date';
-import { guild } from '../database'
+import Embed from '@utils/Embed'
+import Text from '@utils/Text'
+import { Emojis } from '@utils/Constants'
+import { getDate } from '@utils/Date';
+import { guild } from '@database/index'
 
 export default class PunishmentCommand extends Listener {
   constructor() {

@@ -1,11 +1,11 @@
 import { Command } from 'discord-akairo';
 import { Message, GuildMember } from 'discord.js';
 
-import { Discord } from '../../categories';
-import Embed from '../../utils/Embed';
-import Text from '../../utils/Text';
-import { Emojis } from '../../utils/Constants'
-import { getDate } from '../../utils/Date';
+import { Discord } from '@categories';
+import Embed from '@utils/Embed';
+import Text from '@utils/Text';
+import { Emojis } from '@utils/Constants'
+import { getDate } from '@utils/Date';
 
 
 class UserinfoCommand extends Command {

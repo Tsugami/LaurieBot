@@ -1,10 +1,8 @@
 import { Command } from 'discord-akairo';
 import { Message, User, Attachment } from 'discord.js';
 
-import { Interactivity } from '../../categories';
-import { getRandomInt } from '../../utils/Math';
-import { Emojis } from '../../utils/Constants';
-import { ship2 } from '../../utils/Jimp';
+import { Interactivity } from '@categories';
+import { ship2 } from '@utils/Jimp';
 
 interface ArgsI {
   user1: User;

@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message, GuildMember } from 'discord.js';
-import { Moderator } from '../../categories';
-import { MUTE_ROLE_NAME } from '../../utils/Constants';
+import { Moderator } from '@categories';
+import { MUTE_ROLE_NAME } from '@utils/Constants';
 
 
 interface ArgsI {

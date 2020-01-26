@@ -1,8 +1,8 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { Moderator } from '../../categories';
-import Embed from '../../utils/Embed';
-import { Emojis } from '../../utils/Constants';
+import { Moderator } from '@categories';
+import Embed from '@utils/Embed';
+import { Emojis } from '@utils/Constants';
 
 
 interface ArgsI {

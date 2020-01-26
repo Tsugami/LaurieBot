@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { TicketCategory } from '../../categories';
-import { findTicketTypeArg, TicketArgType } from '../../modules/ticket/TicketUtil'
+import { TicketCategory } from '@categories';
+import { findTicketTypeArg, TicketArgType } from '@ticket/TicketUtil'
 import { Ticket } from 'database/models/Guild';
 
 interface ArgsI {

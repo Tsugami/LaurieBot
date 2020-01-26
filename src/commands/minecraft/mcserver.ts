@@ -1,10 +1,10 @@
 import { Command } from 'discord-akairo';
-import { Message, User } from 'discord.js';
-import { Minecraft } from '../../categories';
-import Embed from '../../utils/Embed';
-import Text from '../../utils/Text';
-import { Emojis } from '../../utils/Constants';
-import { getServer } from '../../services/minecraft';
+import { Message } from 'discord.js';
+import { Minecraft } from '@categories';
+import Embed from '@utils/Embed';
+import Text from '@utils/Text';
+import { Emojis } from '@utils/Constants';
+import { getServer } from '@services/minecraft';
 
 
 interface ArgsI {

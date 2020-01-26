@@ -1,8 +1,8 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import GifSearch from '../../services/giphy';
-import { Discord } from '../../categories';
-import { Emojis } from '../../utils/Constants';
+import GifSearch from '@services/giphy';
+import { Discord } from '@categories';
+import { Emojis } from '@utils/Constants';
 
 interface ArgsI {
     query: string

@@ -1,8 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { Moderator } from '../../categories';
-import Embed from '../../utils/Embed';
-
+import { Moderator } from '@categories';
 
 interface ArgsI {
   amount: number

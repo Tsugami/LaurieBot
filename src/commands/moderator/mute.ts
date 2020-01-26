@@ -1,8 +1,7 @@
 import { Command } from 'discord-akairo';
-import { Message, GuildMember, Role, Permissions, TextChannel, VoiceChannel } from 'discord.js';
-import { Moderator } from '../../categories';
-import Embed from '../../utils/Embed';
-import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME } from '../../utils/Constants';
+import { Message, GuildMember, Role, TextChannel, VoiceChannel } from 'discord.js';
+import { Moderator } from '@categories';
+import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME } from '@utils/Constants';
 
 
 interface ArgsI {

@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { Moderator } from '../../categories';
+import { Moderator } from '@categories';
 
 interface ArgsI {
   text: string

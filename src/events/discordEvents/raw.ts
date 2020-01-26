@@ -1,7 +1,7 @@
 import { Listener } from 'discord-akairo';
 import { Message, TextChannel } from 'discord.js'
-import { guild } from '../../database'
-import { isTicketEmoji } from '../../modules/ticket/TicketUtil'
+import { guild } from '@database/index'
+import { isTicketEmoji } from '@ticket/TicketUtil'
 
 export default class messageReactionAddEvent extends Listener {
   constructor() {

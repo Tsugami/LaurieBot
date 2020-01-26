@@ -1,6 +1,6 @@
 import { Listener, Command } from 'discord-akairo';
 import { Message } from 'discord.js'
-import Permissions from '../assets/permissions.json'
+import Permissions from '@assets/permissions.json'
 
 function getPermissions (permission: string): string {
 	return Permissions[permission]

@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import 'tsconfig-paths/register'
 
 import { AkairoClient } from 'discord-akairo'
 import mongoose from 'mongoose'

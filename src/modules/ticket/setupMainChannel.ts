@@ -1,7 +1,7 @@
 import { Guild, TextChannel, ChannelData, Message, Role, CategoryChannel } from 'discord.js'
-import GuildController from '../../database/controllers/GuildController'
-import { TICKET_EMOJIS } from '../../utils/Constants'
-import Embed from '../../utils/Embed'
+import GuildController from '@database/controllers/GuildController'
+import { TICKET_EMOJIS } from '@utils/Constants'
+import Embed from '@utils/Embed'
 
 export async function setupMainChannel(guild: Guild, channel: TextChannel, guildData: GuildController, category?: CategoryChannel, role?: Role) {
   const channelData: ChannelData = {

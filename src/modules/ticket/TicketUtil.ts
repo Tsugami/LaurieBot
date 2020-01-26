@@ -1,8 +1,8 @@
-import { TICKET_EMOJIS, Emojis } from '../../utils/Constants'
-import { CategoryTypes, Ticket } from '../../database/models/Guild'
-import { guild } from '../../database'
-import GuildController from '../../database/controllers/GuildController'
-import Embed from '../../utils/Embed'
+import { TICKET_EMOJIS, Emojis } from '@utils/Constants'
+import { CategoryTypes, Ticket } from '@database/models/Guild'
+import { guild } from '@database/index'
+import GuildController from '@database/controllers/GuildController'
+import Embed from '@utils/Embed'
 import { TextChannel, Message, Guild, ChannelData } from 'discord.js'
 import { ArgumentTypeFunction } from 'discord-akairo';
 

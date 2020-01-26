@@ -1,7 +1,7 @@
 import { Listener } from 'discord-akairo';
 import { Message } from 'discord.js'
-import { guild } from '../../database'
-import { addUserList, isMainChannel } from '../../modules/ticket/TicketUtil'
+import { guild } from '@database/index'
+import { addUserList, isMainChannel } from '@ticket/TicketUtil'
 
 export default class messageEvent extends Listener {
   constructor() {

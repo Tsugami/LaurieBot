@@ -1,5 +1,5 @@
 import { Guild, TextChannel } from 'discord.js'
-import GuildController from '../../database/controllers/GuildController'
+import GuildController from '@database/controllers/GuildController'
 
 export default async function deleteAllHandler (guildData: GuildController, guild: Guild) {
   const ticketConfig = guildData.data.ticket

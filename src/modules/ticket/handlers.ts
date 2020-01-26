@@ -1,5 +1,5 @@
 import { Message, TextChannel, CategoryChannel , Role, ChannelCreationOverwrites } from 'discord.js';
-import { guild } from '../../database';
+import { guild } from '@database/index';
 import { setupMainChannel } from './'
 import deleteAll from './deleteAllHandler'
 

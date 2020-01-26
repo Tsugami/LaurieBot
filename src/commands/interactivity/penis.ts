@@ -1,9 +1,9 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-import { Interactivity } from '../../categories';
-import { getRandomInt } from '../../utils/Math';
-import { Emojis } from '../../utils/Constants';
+import { Interactivity } from '@categories';
+import { getRandomInt } from '@utils/Math';
+import { Emojis } from '@utils/Constants';
 
 class PenisCommand extends Command {
   constructor() {

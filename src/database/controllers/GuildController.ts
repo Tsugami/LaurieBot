@@ -1,5 +1,5 @@
 import Base, { findFn } from './Base'
-import { GuildDocument, WelcomeModule, TicketConfigModule, Ticket } from '../models/Guild'
+import { GuildDocument, WelcomeModule, TicketConfigModule, Ticket } from '@database/models/Guild'
 
 class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
   private async save (): Promise<T> {

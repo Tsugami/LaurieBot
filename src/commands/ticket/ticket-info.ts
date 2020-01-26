@@ -1,13 +1,13 @@
 import { Command } from 'discord-akairo';
 import { Message, User } from 'discord.js';
-import { TicketCategory } from '../../categories';
-import { Ticket }  from '../../database/models/Guild';
+import { TicketCategory } from '@categories';
+import { Ticket }  from '@database/models/Guild';
 import GuildController from 'database/controllers/GuildController';
-import { findTicketTypeArg, getEmojiByCategory } from '../../modules/ticket/TicketUtil'
-import Embed from '../../utils/Embed';
-import Text from '../../utils/Text';
-import { getDate } from '../../utils/Date';
-import { Emojis } from '../../utils/Constants';
+import { findTicketTypeArg, getEmojiByCategory } from '@ticket/TicketUtil'
+import Embed from '@utils/Embed';
+import Text from '@utils/Text';
+import { getDate } from '@utils/Date';
+import { Emojis } from '@utils/Constants';
 
 type goodResult = { ticket: Ticket, guildData: GuildController }
 type ticket = 'desabilidado' | 'no-tickets' | 'user-no-ticket' |'user-no-perm' | goodResult

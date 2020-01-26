@@ -1,8 +1,8 @@
 import { Listener } from 'discord-akairo';
 import { MessageReaction, User, TextChannel, ChannelCreationOverwrites } from 'discord.js'
-import { guild } from '../../database'
-import GuildController from '../../database/controllers/GuildController';
-import { getCategoryByEmoji, TicketNameRegex } from '../../modules/ticket/TicketUtil'
+import { guild } from '@database/index'
+import GuildController from '@database/controllers/GuildController';
+import { getCategoryByEmoji, TicketNameRegex } from '@ticket/TicketUtil'
 
 export default class messageReactionAddEvent extends Listener {
   constructor() {

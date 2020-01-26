@@ -1,15 +1,12 @@
 import { Command } from 'discord-akairo';
 import { Message, User, PresenceStatusData } from 'discord.js';
 
-import { Discord } from '../../categories';
-import Embed from '../../utils/Embed';
-import Text from '../../utils/Text';
-import getCountryInPortuguese from '../../utils/getCountryInPortuguese';
-import { Emojis } from '../../utils/Constants'
-import { getDate } from '../../utils/Date';
-
-import moment from 'moment'
-
+import { Discord } from '@categories';
+import Embed from '@utils/Embed';
+import Text from '@utils/Text';
+import getCountryInPortuguese from '@utils/getCountryInPortuguese';
+import { Emojis } from '@utils/Constants'
+import { getDate } from '@utils/Date';
 
 class ServerinfoCommand extends Command {
   constructor() {

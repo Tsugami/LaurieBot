@@ -2,7 +2,7 @@ import { Command } from 'discord-akairo';
 import { Message, User } from 'discord.js';
 
 import Embed from './Embed'
-import { Interactivity } from '../categories'
+import { Interactivity } from '@categories'
 
 type textFuncT = (author: User, user: User) => string
 type urlFuncT = () => Promise<string>

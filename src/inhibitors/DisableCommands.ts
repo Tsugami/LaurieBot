@@ -1,5 +1,5 @@
 import { Inhibitor } from 'discord-akairo';
-import { guild } from '../database';
+import { guild } from '@database/index';
 
 
 export default new Inhibitor('commands', async (msg, commmand) => {
