@@ -1,79 +1,46 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { TicketCategory } from '../../categories';
-import { guild }  from '../../database';
-import { Ticket }  from '../../database/models/Guild';
-import GuildController from 'database/controllers/GuildController';
+import { findTicketTypeArg, TicketArgType } from '../../modules/ticket/TicketUtil'
+import { Ticket } from 'database/models/Guild';
 
-type goodResult = { ticket: Ticket, guildData: GuildController }
-type ticketId = 'desabilidado' | 'no-tickets' | 'user-no-ticket' |'user-no-perm' | goodResult
 interface ArgsI {
-  ticketId: ticketId
+  ticket: TicketArgType,
+  rating: number | string
 }
 
 class CloseTicketCommand extends Command {
   constructor() {
     super('close', {
-      aliases: ['close'],
+      aliases: ['close', 'fecharticket', 'fechar'],
       category: TicketCategory,
       channelRestriction: 'guild',
       args: [
         {
-          id: 'ticketId',
-          type: async (w, msg, args): Promise<ticketId> => {
-            const guildData = await guild(msg.guild.id)
-            const ticketData = guildData.data.ticket
-
-            if (!ticketData || !ticketData.active) return 'desabilidado'
-            if (!ticketData.tickets) return 'no-tickets'
-
-            const hasRole = () => ticketData.role &&  msg.member.roles.has(ticketData.role)
-            const hasPermission = () => !msg.member.permissions.has('ADMINISTRATOR') || hasRole()
-
-            if (!w) {
-              // check if channel is ticket channel
-              const ticketChannel = ticketData.tickets.find(x => x.channelId === msg.channel.id)
-              if (ticketChannel) {
-                return { ticket: ticketChannel, guildData}
-              }
-              // check if user has ticket
-              const userTicket = ticketData.tickets.find(x => x.authorId === msg.author.id && !x.closed)
-              if (userTicket) {
-                return { ticket: userTicket, guildData }
-              }
-              // check if user has permission to manager ticket's
-              if (hasPermission()) {
-                return 'user-no-ticket'
-              } else {
-                return Promise.reject()
-              }
-            } else {
-              if (hasPermission()) return 'user-no-perm'
-
-              const handler = (x: 'textChannel' | 'member') => this.client.commandHandler.resolver.type(x)(w, msg, args)
-              // check if that's user
-              const channel = handler('textChannel')
-              if (channel) {
-                const find =  ticketData.tickets.find(x => x.channelId === channel.id)
-                if (find) return {ticket: find, guildData }
-                else return Promise.reject()
-              }
-              // check if that's user
-              const member = handler('member')
-              if (member) {
-                const find =  ticketData.tickets.find(x => x.authorId === member.user.id && !x.closed)
-                if (find) return { ticket: find, guildData }
-                else return Promise.reject()
-              }
-
-              return Promise.reject()
-            }
-          },
+          id: 'ticket',
+          type: (w, msg, args) => findTicketTypeArg(w, msg, args, this.client.commandHandler.resolver.type, true),
           prompt: {
             start: `digite o nome do dono do ticket ou o canal do ticket para fechat.`,
             retry: 'input invalido.'
           },
         },
+        {
+          id: 'rating',
+          type: (w, msg, args: ArgsI) => {
+            if (typeof args.ticket === 'object') {
+              if (args.ticket.ticket.authorId === msg.author.id) {
+                const num = parseInt(w)
+                if (!isNaN(num)) {
+                  return num > 10 ? 10 : num < 0 ? 0 : num
+                } else return null
+              } else return ''
+            } else return ''
+          },
+          prompt: {
+            start: `qual nota de 1 a 10 você da pra esse ticket?`,
+            retry: 'digite um número valido.'
+          },
+        }
         ],
       defaultPrompt: {
         cancelWord: 'cancelar',
@@ -83,28 +50,38 @@ class CloseTicketCommand extends Command {
   }
 
   async exec (msg: Message, args: ArgsI) {
-    if (args.ticketId === 'desabilidado') {
-      return msg.reply('os ticket\'s estão desabilitados.')
-    } else if (args.ticketId === 'no-tickets') {
-      return msg.reply('não tem nenhum ticket aberto.')
-    } else if (args.ticketId === 'user-no-ticket') {
+    if (args.ticket === 'desabilidado') {
+      return msg.reply('esse comando só está disponivel com os ticket\'s ativo.')
+    } else if (args.ticket === 'no-tickets') {
+      return msg.reply('não tem nenhum ticket existente.')
+    } else if (args.ticket === 'user-no-ticket') {
       return msg.reply('você não tem nenhum ticket aberto.')
-    } else if (args.ticketId === 'user-no-perm') {
+    } else if (args.ticket === 'user-no-perm') {
       return msg.reply('você não tem permissão para fechar ticket\'s.')
+    } else if (args.ticket === 'all-closed') {
+      return msg.reply('todos os ticket\'s estão fechados')
     }
-    const { guildData, ticket } = args.ticketId
+
+    const { guildData, ticket } = args.ticket
+    if (ticket.closed) {
+      return msg.reply('esse ticket já está fechado.')
+    }
 
     const closeTicket = async () => {
       const channel = msg.guild.channels.get(ticket.channelId)
       if (channel) await channel.delete()
-      return guildData.updateTickets({
+      const data: Ticket = {
         channelId: ticket.channelId,
         authorId: ticket.authorId,
         category: ticket.category,
         closed: true,
         closedAt: new Date(),
         closedBy: msg.author.id
-      })
+      }
+
+      if (data && typeof args.rating === 'number') data.rating = args.rating
+
+      return guildData.updateTickets(data)
     }
 
     const sendMessage = (s: string) => {
