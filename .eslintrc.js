@@ -14,17 +14,12 @@ module.exports = {
       "import/parsers": {
         "@typescript-eslint/parser": [".ts", ".tsx"]
       },
-      "import/resolver": {
-        // use <root>/tsconfig.json
-        "typescript": {
-          "alwaysTryTypes": true // always try to resolve types under `<roo/>@types` directory even it doesn't contain any source code, like `@types/unist`
-        },
-
-        // use <root>/path/to/folder/tsconfig.json
-        "typescript": {
-          "directory": "<root>/tsconfig.json"
-        },
-
+      // "import/resolver": {
+      //   // use <root>/path/to/folder/tsconfig.json
+      //   "typescript": {
+      //     "directory": "<root>/tsconfig.json"
+      //   },
+      // }
     },
     "globals": {
         "Atomics": "readonly",
@@ -39,6 +34,11 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": "off"
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "class-methods-use-this": "off",
+      "import/no-unresolved": "off",
+      "import/prefer-default-export": "off",
+      "import/extensions": "off",
+      "no-param-reassign": "off"
     }
-};
+}

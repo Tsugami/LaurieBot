@@ -4,9 +4,8 @@ import { Moderator } from '@categories';
 import Embed from '@utils/Embed';
 import { Emojis } from '@utils/Constants';
 
-
 interface ArgsI {
-  text: string
+  text: string;
 }
 
 class AnunciarCommand extends Command {
@@ -23,15 +22,15 @@ class AnunciarCommand extends Command {
           match: 'text',
           prompt: {
             start: 'uma mensagem você quer anunciar?',
-            retry: 'mensagem invalida.'
-          }
-        }
+            retry: 'mensagem invalida.',
+          },
+        },
       ],
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    return msg.channel.send(new Embed(msg.author).setAuthor(`${Emojis.ANUNCIAR} ANÚNCIO`).setDescription(args.text))
+  async exec(msg: Message, args: ArgsI) {
+    return msg.channel.send(new Embed(msg.author).setAuthor(`${Emojis.ANUNCIAR} ANÚNCIO`).setDescription(args.text));
   }
 }
 

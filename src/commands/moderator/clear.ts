@@ -3,7 +3,7 @@ import { Message } from 'discord.js';
 import { Moderator } from '@categories';
 
 interface ArgsI {
-  amount: number
+  amount: number;
 }
 
 class BanCommand extends Command {
@@ -20,24 +20,24 @@ class BanCommand extends Command {
           type: 'number',
           prompt: {
             start: 'quantas mensagens você gostaria de deletar?',
-            retry: 'isso não é um número valido!'
-          }
-        }
+            retry: 'isso não é um número valido!',
+          },
+        },
       ],
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    const amount = args.amount
-    const result = amount > 100 ? 100 : amount < 1 ? 1 : amount
+  async exec(msg: Message, args: ArgsI) {
+    const { amount } = args;
+    const result = amount > 100 ? 100 : amount < 1 ? 1 : amount;
 
     try {
-      await msg.delete()
-      await msg.channel.bulkDelete(result)
-      return msg.reply(`${result} mensagens foram deletadas.`)
+      await msg.delete();
+      await msg.channel.bulkDelete(result);
+      return msg.reply(`${result} mensagens foram deletadas.`);
     } catch (error) {
-      console.error(error)
-      return msg.reply('não foi possivel deletar as mensagens.')
+      console.error(error);
+      return msg.reply('não foi possivel deletar as mensagens.');
     }
   }
 }

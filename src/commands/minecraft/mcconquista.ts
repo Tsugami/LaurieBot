@@ -3,9 +3,8 @@ import { Message, Attachment } from 'discord.js';
 import { Minecraft } from '@categories';
 import { getAwardImage } from '@services/minecraft';
 
-
 interface ArgsI {
-  text: string
+  text: string;
 }
 
 class McConquistaCommand extends Command {
@@ -22,8 +21,8 @@ class McConquistaCommand extends Command {
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-  	const image = getAwardImage('Conquista desbloqueada!', args.text)
+  async exec(msg: Message, args: ArgsI) {
+    const image = getAwardImage('Conquista desbloqueada!', args.text);
     msg.reply(new Attachment(image, 'image.png'));
   }
 }

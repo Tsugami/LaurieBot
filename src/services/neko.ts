@@ -1,4 +1,5 @@
-const client = require('nekos.life');
-const neko = new client();
+import NeekoClient from 'nekos.life';
 
-export default neko
+const neko = new NeekoClient();
+
+export default neko;

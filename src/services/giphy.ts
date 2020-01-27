@@ -1,3 +1,3 @@
-import GiphyApi from 'giphy-api'
+import GiphyApi from 'giphy-api';
 
-export default GiphyApi(process.env.GIPHY_KEY)
+export default GiphyApi(process.env.GIPHY_KEY);

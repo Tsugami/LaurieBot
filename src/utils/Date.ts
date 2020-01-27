@@ -1,8 +1,7 @@
-import moment from 'moment'
+import moment from 'moment';
 
-moment.locale('pt-br')
+moment.locale('pt-br');
 
-
-export function getDate (timestamp: Date) {
-	return moment(timestamp).format('LLL');
+export function getDate(timestamp: Date) {
+  return moment(timestamp).format('LLL');
 }

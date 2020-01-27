@@ -4,9 +4,8 @@ import { Minecraft } from '@categories';
 import Embed from '@utils/Embed';
 import { getUser } from '@services/minecraft';
 
-
 interface ArgsI {
-	username: string
+  username: string;
 }
 
 class McSkinCommand extends Command {
@@ -23,17 +22,15 @@ class McSkinCommand extends Command {
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    let res
+  async exec(msg: Message, args: ArgsI) {
+    let res;
     try {
-      res = await getUser(args.username)
+      res = await getUser(args.username);
     } catch (_) {
-      return msg.reply('Não achei nenhum usuário com esse nome!')
+      return msg.reply('Não achei nenhum usuário com esse nome!');
     }
 
-    const embed = new Embed(msg.author)
-    	.setAuthor(res.name)
-      .setImage(res.skin);
+    const embed = new Embed(msg.author).setAuthor(res.name).setImage(res.skin);
     msg.reply(embed);
   }
 }

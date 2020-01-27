@@ -13,16 +13,16 @@ class PenisCommand extends Command {
     });
   }
 
-  exec (msg: Message) {
-    const result = getRandomInt(1, 30)
-    let emoji: string
+  exec(msg: Message) {
+    const result = getRandomInt(1, 30);
+    let emoji: string;
 
     if (result < 10) {
-      emoji = Emojis.PINCHING_HAND
+      emoji = Emojis.PINCHING_HAND;
     } else if (result > 23) {
-      emoji = Emojis.LUL
+      emoji = Emojis.LUL;
     } else {
-      emoji = Emojis.JOIA
+      emoji = Emojis.JOIA;
     }
 
     msg.reply(`seu pau tem ${result} centímetros. ${emoji}`);

@@ -19,23 +19,23 @@ class ShipCommand extends Command {
           type: 'user',
           id: 'user1',
           prompt: {
-            start: 'quem você quer shipar?'
-          }
+            start: 'quem você quer shipar?',
+          },
         },
         {
           type: 'user',
           id: 'user2',
           prompt: {
-            start: 'com quem você quer shipar?'
-          }
-        }
-      ]
+            start: 'com quem você quer shipar?',
+          },
+        },
+      ],
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    const { buffer, shipName} = await ship2(args.user1, args.user2)
-    const attch = new Attachment(buffer, 'ship.png')
+  async exec(msg: Message, args: ArgsI) {
+    const { buffer, shipName } = await ship2(args.user1, args.user2);
+    const attch = new Attachment(buffer, 'ship.png');
     return msg.reply(shipName, attch);
   }
 }

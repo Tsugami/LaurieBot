@@ -3,7 +3,7 @@ import { Message } from 'discord.js';
 import { Moderator } from '@categories';
 
 interface ArgsI {
-  text: string
+  text: string;
 }
 
 class AlertarCommand extends Command {
@@ -20,21 +20,24 @@ class AlertarCommand extends Command {
           match: 'text',
           prompt: {
             start: 'uma mensagem você quer alertar?',
-            retry: 'mensagem invalida.'
-          }
-        }
+            retry: 'mensagem invalida.',
+          },
+        },
       ],
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    const dms = await Promise.all(msg.guild.members.filter(m => !m.user.bot).map(member => member.createDM().catch(() => null)))
-    for (const dm of dms) {
+  async exec(msg: Message, args: ArgsI) {
+    const dms = await Promise.all(
+      msg.guild.members.filter(m => !m.user.bot).map(member => member.createDM().catch(() => null)),
+    );
+    dms.forEach(dm => {
       if (dm) {
-        dm.send(args.text).catch(() => null)
+        dm.send(args.text).catch(() => null);
       }
-    }
-    msg.reply('mensagem enviada para todas as pessoas poossiveis!')
+    });
+
+    msg.reply('mensagem enviada para todas as pessoas poossiveis!');
   }
 }
 

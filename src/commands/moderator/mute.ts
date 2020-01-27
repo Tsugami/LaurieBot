@@ -3,10 +3,9 @@ import { Message, GuildMember, Role, TextChannel, VoiceChannel } from 'discord.j
 import { Moderator } from '@categories';
 import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME } from '@utils/Constants';
 
-
 interface ArgsI {
-  member: GuildMember
-  reason: string
+  member: GuildMember;
+  reason: string;
 }
 
 class MuteCommand extends Command {
@@ -23,38 +22,37 @@ class MuteCommand extends Command {
           type: 'member',
           prompt: {
             start: 'qual usuário(a) você gostaria de mutar?',
-            retry: 'Isso não é um usuário valido!'
-          }
+            retry: 'Isso não é um usuário valido!',
+          },
         },
         {
           id: 'reason',
           type: 'string',
-          default: 'Motivo não declarado.'
-        }
+          default: 'Motivo não declarado.',
+        },
       ],
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    const author = msg.member
-    const member = args.member
-    const ownerId = msg.guild.ownerID
-    const bot = msg.guild.me
+  async exec(msg: Message, args: ArgsI) {
+    const author = msg.member;
+    const { member } = args;
+    const ownerId = msg.guild.ownerID;
+    const bot = msg.guild.me;
 
     if (ownerId === member.user.id) {
-      return msg.reply('você não pode mutar o dono do servidor.')
+      return msg.reply('você não pode mutar o dono do servidor.');
     }
 
     if (ownerId !== author.user.id && member.highestRole.position >= author.highestRole.position) {
-      return msg.reply('você não tem cargo suficiente pra mutar esse membro.')
+      return msg.reply('você não tem cargo suficiente pra mutar esse membro.');
     }
 
     if (member.highestRole.position >= bot.highestRole.position) {
-      return msg.reply('eu não tenho cargo suficiente pra mutar esse membro.')
+      return msg.reply('eu não tenho cargo suficiente pra mutar esse membro.');
     }
 
-
-    let role: Role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME)
+    let role: Role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME);
 
     if (!role) {
       if (!bot.permissions.has('MANAGE_ROLES')) {
@@ -67,37 +65,41 @@ class MuteCommand extends Command {
           position: bot.highestRole.position - 1,
           color: EMBED_DEFAULT_COLOR,
           permissions: 0,
-        })
-
+        });
       } catch (error) {
-        console.error(error)
-        return msg.reply('eu não consegui criar o cargo de mutar.')
+        console.error(error);
+        return msg.reply('eu não consegui criar o cargo de mutar.');
       }
 
-      const channelsFailed: Array<TextChannel | VoiceChannel> = []
+      const channelsFailed: Array<TextChannel | VoiceChannel> = [];
       msg.guild.channels.forEach(async channel => {
         if (channel instanceof TextChannel) {
-          await channel.overwritePermissions(role, { SEND_MESSAGES: false, ADD_REACTIONS: false })
-            .catch(() => channelsFailed.push(channel))
+          await channel
+            .overwritePermissions(role, { SEND_MESSAGES: false, ADD_REACTIONS: false })
+            .catch(() => channelsFailed.push(channel));
         } else if (channel instanceof VoiceChannel) {
-          await channel.overwritePermissions(role, { SPEAK: false, CONNECT: false })
-            .catch(() => channelsFailed.push(channel))
+          await channel
+            .overwritePermissions(role, { SPEAK: false, CONNECT: false })
+            .catch(() => channelsFailed.push(channel));
         }
-      })
+      });
 
       if (channelsFailed.length) {
-        msg.reply(`[AVISO] não foi possivel alterar o cargo \`${role.name}\` nos seguintes canais: ${channelsFailed.map(c => c.toString || c.name || c.id).join(', ')}`)
+        msg.reply(
+          `[AVISO] não foi possivel alterar o cargo \`${role.name}\` nos seguintes canais: ${channelsFailed
+            .map(c => c.toString || c.name || c.id)
+            .join(', ')}`,
+        );
       }
-
     }
 
     try {
-      await member.addRole(role)
-      this.client.emit('punishmentCommand', msg, this, member, args.reason)
-      return msg.reply('usuário(a) mutado(a) com sucesso!')
+      await member.addRole(role);
+      this.client.emit('punishmentCommand', msg, this, member, args.reason);
+      return msg.reply('usuário(a) mutado(a) com sucesso!');
     } catch (error) {
-      console.error(error)
-      return msg.reply('não foi possivel mutar esse usuário.')
+      console.error(error);
+      return msg.reply('não foi possivel mutar esse usuário.');
     }
   }
 }

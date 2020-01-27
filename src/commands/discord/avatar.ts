@@ -5,7 +5,7 @@ import { Discord } from '@categories';
 import Embed from '@utils/Embed';
 
 interface ArgsI {
-	user: User
+  user: User;
 }
 
 class AvatarCommand extends Command {
@@ -23,12 +23,12 @@ class AvatarCommand extends Command {
     });
   }
 
-  exec (msg: Message, args: ArgsI) {
+  exec(msg: Message, args: ArgsI) {
     const { user } = args;
 
     const embed = new Embed(msg.author)
-    	.setAuthor(`📸 ${user.username}`)
-    	.setDescription(`Clique [aqui](${user.displayAvatarURL}) para baixar.`)
+      .setAuthor(`📸 ${user.username}`)
+      .setDescription(`Clique [aqui](${user.displayAvatarURL}) para baixar.`)
       .setImage(user.displayAvatarURL);
     msg.reply(embed);
   }

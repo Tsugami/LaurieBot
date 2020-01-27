@@ -1,12 +1,12 @@
 import { Listener, Command } from 'discord-akairo';
-import { Message, GuildMember, TextChannel } from 'discord.js'
-import Embed from '@utils/Embed'
-import Text from '@utils/Text'
-import { Emojis } from '@utils/Constants'
+import { Message, GuildMember, TextChannel } from 'discord.js';
+import Embed from '@utils/Embed';
+import Text from '@utils/Text';
+import { Emojis } from '@utils/Constants';
 import { getDate } from '@utils/Date';
-import { guild } from '@database/index'
+import { guild } from '@database/index';
 
-export default class PunishmentCommand extends Listener {
+export default class extends Listener {
   constructor() {
     super('punishmentCommand', {
       emitter: 'client',
@@ -15,12 +15,12 @@ export default class PunishmentCommand extends Listener {
   }
 
   async exec(msg: Message, command: Command, member: GuildMember, reason: string) {
-    const guildData = await guild(msg.guild.id)
+    const guildData = await guild(msg.guild.id);
     if (guildData) {
-      const channels = guildData.data.penaltyChannels
+      const channels = guildData.data.penaltyChannels;
 
       for (const channelId of channels) {
-        const channel = msg.guild.channels.get(channelId)
+        const channel = msg.guild.channels.get(channelId);
 
         if (channel instanceof TextChannel) {
           const text = new Text()
@@ -34,13 +34,11 @@ export default class PunishmentCommand extends Listener {
             .addTitle(Emojis.CARD_INDEX, 'INFORMAÇÕES DO USUÁRIO')
             .addField(Emojis.PERSON, 'Nome', member.user.tag)
             .addField(Emojis.COMPUTER, 'Id', member.user.id)
-            .addField(Emojis.CALENDER, 'Entrou em', getDate(member.joinedAt))
+            .addField(Emojis.CALENDER, 'Entrou em', getDate(member.joinedAt));
 
-          const embed = new Embed(msg.author)
-            .setDescription(text)
-            .setThumbnail(member.user.displayAvatarURL)
+          const embed = new Embed(msg.author).setDescription(text).setThumbnail(member.user.displayAvatarURL);
 
-          channel.send(embed)
+          channel.send(embed);
         }
       }
     }

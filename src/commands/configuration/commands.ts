@@ -5,8 +5,8 @@ import { Configuration } from '@categories';
 import { guild } from '@database/index';
 
 interface ArgsI {
-  option: 'off' | 'on',
-}
+  option: 'off' | 'on';
+};
 
 
 class CommandsCommand extends Command {
@@ -22,12 +22,12 @@ class CommandsCommand extends Command {
           type: ['on', 'off'],
           prompt: {
             start: `digite **ON** para ativar e **OFF** para desativar os comandos desse canal.`,
-            retry: 'digite uma das opções corretamente.'
-          }
-        }
-        ],
+            retry: 'digite uma das opções corretamente.',
+          },
+        },
+      ],
       defaultPrompt: {
-        cancelWord: 'cancelar'
+        cancelWord: 'cancelar',
       }
     });
   }

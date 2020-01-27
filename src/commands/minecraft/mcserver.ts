@@ -6,9 +6,8 @@ import Text from '@utils/Text';
 import { Emojis } from '@utils/Constants';
 import { getServer } from '@services/minecraft';
 
-
 interface ArgsI {
-  server: string
+  server: string;
 }
 
 class McServerCommand extends Command {
@@ -25,22 +24,21 @@ class McServerCommand extends Command {
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    let res
+  async exec(msg: Message, args: ArgsI) {
+    let res;
     try {
-      res = await getServer(args.server)
+      res = await getServer(args.server);
     } catch (error) {
-      console.error(error)
-      return msg.reply('Esse não existe ou não esta online.')
+      console.error('Falha ao procurar server de Minecraft', error);
+      return msg.reply('Esse não existe ou não esta online.');
     }
 
     const text = new Text()
-     .addTitle(Emojis.PLACA_MINECRAFT, 'INFORMAÇÕES DO SERVIDOR')
-     .addField(Emojis.COMPUTER, 'Address', res.address)
-     .addField(Emojis.PERSONS, 'Jogadores', res.players)
-     .addField(Emojis.JAVA, 'Versão do Minecraft:', res.version)
-    const embed = new Embed(msg.author)
-      .setDescription(text)
+      .addTitle(Emojis.PLACA_MINECRAFT, 'INFORMAÇÕES DO SERVIDOR')
+      .addField(Emojis.COMPUTER, 'Address', res.address)
+      .addField(Emojis.PERSONS, 'Jogadores', res.players)
+      .addField(Emojis.JAVA, 'Versão do Minecraft:', res.version);
+    const embed = new Embed(msg.author).setDescription(text);
     msg.reply(embed);
   }
 }

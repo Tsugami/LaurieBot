@@ -4,10 +4,10 @@ import { Message } from 'discord.js';
 import { Configuration } from '@categories';
 import { guild } from '@database/index';
 
-type optionTypes = 'off' | 'on'
+type optionTypes = 'off' | 'on';
 interface ArgsI {
-  option: optionTypes,
-}
+  option: optionTypes;
+};
 
 
 class SetChannelPnCommand extends Command {
@@ -23,10 +23,10 @@ class SetChannelPnCommand extends Command {
           type: ['on', 'off'],
           prompt: {
             start: `digite **ON** para ativar e **OFF** para desativar as mensagens de punições nesse canal.`,
-            retry: 'digite uma das opções corretamente.'
-          }
-        }
-        ],
+            retry: 'digite uma das opções corretamente.',
+          },
+        },
+      ],
       defaultPrompt: {
         cancelWord: 'cancelar'
       }

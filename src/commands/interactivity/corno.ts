@@ -13,8 +13,8 @@ class CornoCommand extends Command {
     });
   }
 
-  exec (msg: Message) {
-    const result = getRandomInt(1, 100)
+  exec(msg: Message) {
+    const result = getRandomInt(1, 100);
     msg.reply(`você é ${result}% corno. ${Emojis.OX}`);
   }
 }

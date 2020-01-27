@@ -1,6 +1,6 @@
 import { Listener } from 'discord-akairo';
 
-export default class ReadyListener extends Listener {
+export default class extends Listener {
   constructor() {
     super('ready', {
       emitter: 'client',
@@ -10,7 +10,7 @@ export default class ReadyListener extends Listener {
 
   exec() {
     const { client } = this;
-    const bar = '-'.repeat(20)
+    const bar = '-'.repeat(20);
     console.log(`
     Estou ligado!
     ${bar}
@@ -18,7 +18,6 @@ export default class ReadyListener extends Listener {
     PRFIX: ${client.akairoOptions.prefix}
     SERVIDORES: ${client.guilds.size}
     USUÁRIOS: ${client.users.size}
-    ${bar}
-    ${client.listenerHandler.modules.map(x=> x.id)}`);
+    ${bar}`);
   }
 }

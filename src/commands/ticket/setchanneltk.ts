@@ -1,29 +1,31 @@
 import { Command } from 'discord-akairo';
+import { Message, TextChannel, CategoryChannel, Role } from 'discord.js';
 import {
-  Message, TextChannel, CategoryChannel, Role,
-} from 'discord.js';
-import {
-  activateHandler, deactivateHandler, changeMainChannelHandler, changeCategoryHandler, changeRoleChange,
+  activateHandler,
+  deactivateHandler,
+  changeMainChannelHandler,
+  changeCategoryHandler,
+  changeRoleChange,
 } from '@ticket/handlers';
 import { TicketCategory } from '@categories';
 
 type Option<K extends string> = {
-  key: K,
-  message: string,
-  aliases: string[]
-}
+  key: K;
+  message: string;
+  aliases: string[];
+};
 const defineOptions = <K extends string>(options: Option<K>[]) => options;
 
 const options = defineOptions([
   {
     key: 'enable',
     aliases: ['ativar', 'on'],
-    message: 'Ativar Ticket\'s',
+    message: "Ativar Ticket's",
   },
   {
     key: 'disable',
     aliases: ['desativar', 'off'],
-    message: 'Desativar Ticket\'s',
+    message: "Desativar Ticket's",
   },
   {
     key: 'channel',
@@ -47,13 +49,13 @@ const options = defineOptions([
   },
 ]);
 
-type Keys = (typeof options)[number]['key'];
+type Keys = typeof options[number]['key'];
 
 interface ArgsI {
-  option: Keys,
-  channel: TextChannel,
-  category: CategoryChannel,
-  role: Role,
+  option: Keys;
+  channel: TextChannel;
+  category: CategoryChannel;
+  role: Role;
 }
 
 class SetChannelTkCommand extends Command {
@@ -67,52 +69,59 @@ class SetChannelTkCommand extends Command {
       args: [
         {
           id: 'option',
-          type: (w) => {
-            const x = options.find((x, i) => Number(w) === (i + 1) || w === x.key || x.aliases.includes(w));
+          type: w => {
+            const x = options.find((x, i) => Number(w) === i + 1 || w === x.key || x.aliases.includes(w));
             if (x) return x.key;
           },
           prompt: {
             start: `\n${options.map((o, i) => `**${i + 1}**: ${o.message}`).join('\n')}`,
             retry: 'digite uma das opções corretamente.',
           },
-        }, {
+        },
+        {
           id: 'channel',
           type: (w, msg, args: ArgsI) => {
             const textChannel = this.client.commandHandler.resolver.type('textChannel');
-            return (args.option === 'channel' || args.option === 'enable') ? textChannel(w, msg, args) : '';
+            return args.option === 'channel' || args.option === 'enable' ? textChannel(w, msg, args) : '';
           },
           prompt: {
             start: 'digite pra qual canal de texto você quer que seja o principal.',
             retry: 'digite canal de texto corretamente.',
           },
-        }, {
+        },
+        {
           id: 'category',
           type: (w, msg, args: ArgsI) => {
             if (args.option === 'category' || args.option === 'enable') {
               const categoryChannel = this.client.commandHandler.resolver.type('channel')(w, msg, args);
               if (categoryChannel instanceof CategoryChannel) {
                 return categoryChannel;
-              } return null;
-            } return '';
+              }
+              return null;
+            }
+            return '';
           },
           prompt: {
-            start: 'digite pra qual categoria você quer que seja criado os ticket\'s.',
+            start: "digite pra qual categoria você quer que seja criado os ticket's.",
             retry: 'digite a categoria corretamente.',
           },
-        }, {
+        },
+        {
           id: 'role',
           type: (w, msg, args: ArgsI) => {
             const roleHandler = () => this.client.commandHandler.resolver.type('role')(w, msg, args);
             if (args.option === 'enable') {
               if (w === 'off') {
                 return '';
-              } return roleHandler();
+              }
+              return roleHandler();
             }
             return args.option === 'role' ? roleHandler() : '';
           },
           prompt: {
             start: (_: any, args: ArgsI) => {
-              if (args.option === 'enable') return 'digite qual cargo que terá acesso aos ticket\'s. digite **OFF** pra pular essa etapa.';
+              if (args.option === 'enable')
+                return "digite qual cargo que terá acesso aos ticket's. digite **OFF** pra pular essa etapa.";
               return 'digite pra qual cargo você quer alterar/setar.';
             },
             retry: 'digite cargo corretamente.',
