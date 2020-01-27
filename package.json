@@ -18,12 +18,16 @@
     "@typescript-eslint/parser": "^2.17.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "nodemon": "^2.0.2",
+    "prettier": "^1.19.1",
     "sucrase": "^3.12.1",
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "tsconfig-paths": "^3.9.0",
     "axios": "^0.19.2",
     "discord-akairo": "^7.5.6",
     "discord.js": "^11.5.1",
@@ -32,6 +36,7 @@
     "jimp": "^0.9.3",
     "moment": "^2.24.0",
     "mongoose": "^5.8.9",
-    "nekos.life": "^2.0.4"
+    "nekos.life": "^2.0.4",
+    "tsconfig-paths": "^3.9.0"
   }
 }
