@@ -11,7 +11,7 @@ const pathFolder = path.resolve('src', 'locales');
 export async function buildi18n() {
   return i18next.use(Backend).init(
     {
-      ns: ['categories', 'commands', 'commons', 'errors', 'permissions'],
+      ns: ['categories', 'commands', 'commons', 'errors', 'permissions', 'modules'],
       preload: await readdir(pathFolder),
       fallbackLng: 'pt-BR',
       load: 'currentOnly',

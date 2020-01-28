@@ -5,6 +5,7 @@ import Text from '@utils/Text';
 import { Emojis } from '@utils/Constants';
 import { getDate } from '@utils/Date';
 import { guild } from '@database/index';
+import { getFixedT } from '@struct/Command';
 
 export default class PunishmentCommandListener extends Listener {
   constructor() {
@@ -18,29 +19,30 @@ export default class PunishmentCommandListener extends Listener {
     const guildData = await guild(msg.guild.id);
     if (guildData) {
       const channels = guildData.data.penaltyChannels;
+      const t = getFixedT(msg);
 
-      for (const channelId of channels) {
+      channels.forEach(channelId => {
         const channel = msg.guild.channels.get(channelId);
 
         if (channel instanceof TextChannel) {
           const text = new Text()
-            .addTitle(Emojis.BALLOT_BOX, 'INFORMAÇÕES DE PUNIÇÃO')
-            .addField(Emojis.PAGE, 'Pena', command.id)
-            .addField(Emojis.MAN_JUDGE, 'Juiz', msg.author.toString())
-            .addField(Emojis.SCALES, 'Motivo', reason)
-            .addField(Emojis.CAP, 'Culpado', member.toString())
-            .addField(Emojis.SPEECH_BALLON, 'Canal', msg.channel.toString())
+            .addTitle(Emojis.BALLOT_BOX, t('modules:punishment.punishment_info'))
+            .addField(Emojis.PAGE, t('modules:punishment.type'), command.id)
+            .addField(Emojis.MAN_JUDGE, t('modules:punishment.judge'), msg.author.toString())
+            .addField(Emojis.SCALES, t('modules:punishment.reason'), reason)
+            .addField(Emojis.CAP, t('modules:punishment.user'), member.toString())
+            .addField(Emojis.SPEECH_BALLON, t('modules:punishment.text_channel'), msg.channel.toString())
             .skip()
-            .addTitle(Emojis.CARD_INDEX, 'INFORMAÇÕES DO USUÁRIO')
-            .addField(Emojis.PERSON, 'Nome', member.user.tag)
-            .addField(Emojis.COMPUTER, 'Id', member.user.id)
-            .addField(Emojis.CALENDER, 'Entrou em', getDate(member.joinedAt));
+            .addTitle(Emojis.CARD_INDEX, t('modules:punishment.user_info'))
+            .addField(Emojis.PERSON, t('commons:name'), member.user.tag)
+            .addField(Emojis.COMPUTER, t('commons:id'), member.user.id)
+            .addField(Emojis.CALENDER, t('commons:joined_on'), getDate(member.joinedAt));
 
           const embed = new Embed(msg.author).setDescription(text).setThumbnail(member.user.displayAvatarURL);
 
           channel.send(embed);
         }
-      }
+      });
     }
   }
 }
