@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import 'tsconfig-paths/register';
+import './config/i18next';
 
 import { AkairoClient } from 'discord-akairo';
 import mongoose from 'mongoose';
