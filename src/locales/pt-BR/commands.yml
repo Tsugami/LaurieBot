@@ -151,3 +151,19 @@ unmute:
     bot_has_role_highest: 'eu não tenho cargo suficiente pra desmutar esse membro.'
   user_muted: 'usuário(a) desmutado(a) com sucesso!'
   failed: 'não consegui desmutar esse usuário.'
+close:
+  args:
+    ticket:
+      start: 'digite o nome do dono do ticket ou o canal do ticket para fechar.'
+      retry: 'input invalid'
+    rating:
+      start: 'qual nota de 1 a 10 você da pra esse ticket?'
+      retry: 'digite um número valido.'
+  ticket_module_disabled: 'esse comando só está disponivel com os ticket's ativo.'
+  no_tickets: 'não tem nenhum ticket existente.'
+  no_tickets_open: 'você não tem nenhum ticket aberto.'
+  no_tickets_perm: 'você não tem permissão para fechar ticket's.'
+  tickets_all_closed: 'todos os ticket's estão fechados'
+  already_ticket_closed: 'esse ticket já está fechado.'
+  you_ticket_closed: 'seu ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'
+  ticket_closed: 'ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'

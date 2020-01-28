@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction, Prompt } from '@struct/Command';
+
 import { Message } from 'discord.js';
-import { TicketCategory } from '@categories';
 import { findTicketTypeArg, TicketArgType } from '@ticket/TicketUtil';
 import { Ticket } from 'database/models/Guild';
 
@@ -13,15 +13,15 @@ class CloseTicketCommand extends Command {
   constructor() {
     super('close', {
       aliases: ['close', 'fecharticket', 'fechar'],
-      category: TicketCategory,
+      category: 'ticket',
       channelRestriction: 'guild',
       args: [
         {
           id: 'ticket',
           type: (w, msg, args) => findTicketTypeArg(w, msg, args, this.client.commandHandler.resolver.type, true),
           prompt: {
-            start: `digite o nome do dono do ticket ou o canal do ticket para fechat.`,
-            retry: 'input invalido.',
+            start: Prompt('commands:kick.args.ticket.start'),
+            retry: Prompt('commands:kick.args.ticket.retry'),
           },
         },
         {
@@ -29,9 +29,11 @@ class CloseTicketCommand extends Command {
           type: (w, msg, args: ArgsI) => {
             if (typeof args.ticket === 'object') {
               if (args.ticket.ticket.authorId === msg.author.id) {
-                const num = parseInt(w);
+                const num = parseInt(w, 10);
                 if (!Number.isNaN(num)) {
-                  return num > 10 ? 10 : num < 0 ? 0 : num;
+                  if (num > 10) return 10;
+                  if (num < 0) return 0;
+                  return num;
                 }
                 return null;
               }
@@ -40,38 +42,38 @@ class CloseTicketCommand extends Command {
             return '';
           },
           prompt: {
-            start: `qual nota de 1 a 10 você da pra esse ticket?`,
-            retry: 'digite um número valido.',
+            start: Prompt('commands:kick.args.rating.start'),
+            retry: Prompt('commands:kick.args.rating.retry'),
           },
         },
       ],
       defaultPrompt: {
         cancelWord: 'cancelar',
-        cancel: 'Comando cancelado.',
+        cancel: Prompt('commons:cancel'),
       },
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     if (args.ticket === 'desabilidado') {
-      return msg.reply("esse comando só está disponivel com os ticket's ativo.");
+      return msg.reply(t('commands:close.ticket_module_disabled'));
     }
     if (args.ticket === 'no-tickets') {
-      return msg.reply('não tem nenhum ticket existente.');
+      return msg.reply(t('commands:close.no_exists_tickets'));
     }
     if (args.ticket === 'user-no-ticket') {
-      return msg.reply('você não tem nenhum ticket aberto.');
+      return msg.reply(t('commands:close.no_tickets_open'));
     }
     if (args.ticket === 'user-no-perm') {
-      return msg.reply("você não tem permissão para fechar ticket's.");
+      return msg.reply(t('commands:close.no_tickets_perm'));
     }
     if (args.ticket === 'all-closed') {
-      return msg.reply("todos os ticket's estão fechados");
+      return msg.reply(t('commands:close.tickets_all_closed'));
     }
 
     const { guildData, ticket } = args.ticket;
     if (ticket.closed) {
-      return msg.reply('esse ticket já está fechado.');
+      return msg.reply(t('commands:close.already_ticket_closed'));
     }
 
     const closeTicket = async () => {
@@ -91,22 +93,14 @@ class CloseTicketCommand extends Command {
       return guildData.updateTickets(data);
     };
 
-    const sendMessage = (s: string) => {
-      if (msg.channel.id !== ticket.channelId) {
-        msg.reply(
-          `${s} para acessar as informações dele use \`${this.client.commandHandler.prefix(msg)}ticket-info ${
-            ticket._id
-          }\``,
-        );
-      }
-    };
-
     await closeTicket();
 
+    // eslint-disable-next-line no-underscore-dangle
+    const infocmd = `${this.client.commandHandler.prefix(msg)}ticket-info ${ticket._id}`;
     if (ticket.authorId === msg.author.id) {
-      return sendMessage(`seu ticket foi fechado.`);
+      return msg.reply(t('commands:close.you_ticket_closed', { infocmd }));
     }
-    return sendMessage('ticket fechado.');
+    return msg.reply(t('commands:close.ticket_closed', { infocmd }));
   }
 }
 
