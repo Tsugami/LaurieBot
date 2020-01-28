@@ -1,0 +1,18 @@
+discord:
+  name: 'Discord'
+  description: 'Comandos focado para Discord.'
+interactivity:
+  name: 'Interatividade'
+  description: "Comandos de interação social."
+minecraft:
+  name: "Minecraft"
+  description: "Comandos de minecraft."
+moderator:
+  name: "Moderação"
+  description: "Comandos de moderação de servidor."
+configuration:
+  name: 'Configuração'
+  description: "Comandos de configuração de modulo."
+ticket:
+  name: "Ticket"
+  description: "Comandos do modulo ticket."

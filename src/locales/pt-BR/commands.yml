@@ -1,0 +1,29 @@
+commands:
+  args:
+    option:
+      start: 'digite **{{ onOption }}** para ativar e **{{ offOption }}** para desativar os comandos desse canal.'
+      retry: 'digite uma das opções corretamente.'
+  off_option:
+    already_disabled: 'os comandos já estão desativados nesse canal.'
+    disabled: 'os comandos foram desativados nesse canal.'
+  on_option:
+    already_enabled: 'os comandos já estão ativados nesse canal.'
+    enabled: 'os comandos foram ativados nesse canal.'
+setchannelpn:
+  args:
+    option:
+      start: 'digite **{{ onOption }}** para ativar e **{{ offOption }}** para desativar as mensagens de punições nesse canal.'
+      retry: 'digite uma das opções corretamente.'
+  off_option:
+    already_disabled: 'os mensagens de punições já estão desativados nesse canal.'
+    disabled: 'os mensagens de punições foram desativados nesse canal.'
+  on_option:
+    already_enabled: 'os mensagens de punições já estão ativados nesse canal.'
+    enabled: 'os mensagens de punições foram ativados nesse canal.'
+welcome:
+  args:
+    option:
+      change: 'Alterar mensagem de boas vindas.'
+      enable: 'Ativar mensagem de boas vindas.'
+      disable: 'Desativar mensagem de boas vindas.'
+
