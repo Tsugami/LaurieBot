@@ -27,6 +27,7 @@ export function getFixedT(msg: Message) {
   return i18next.getFixedT(language);
 }
 
+export function Prompt(fn: string, options?: TOptions): (msg: Message) => string;
 export function Prompt<A = any>(fn: string | PrompFunc<A>, options: TOptions = {}): ArgumentPromptFunction {
   if (typeof fn === 'string') return msg => getFixedT(msg)(fn, options);
   return (msg, args, tries) => fn(getFixedT(msg), msg, args, tries);

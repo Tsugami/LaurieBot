@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction } from '@struct/Command';
+
 import { Message } from 'discord.js';
-import { Minecraft } from '@categories';
 import Embed from '@utils/Embed';
 import Text from '@utils/Text';
 import { Emojis } from '@utils/Constants';
@@ -14,7 +14,7 @@ class McServerCommand extends Command {
   constructor() {
     super('mcserver', {
       aliases: ['mcserver'],
-      category: Minecraft,
+      category: 'minecraft',
       args: [
         {
           id: 'server',
@@ -24,20 +24,20 @@ class McServerCommand extends Command {
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     let res;
     try {
       res = await getServer(args.server);
     } catch (error) {
       console.error('Falha ao procurar server de Minecraft', error);
-      return msg.reply('Esse não existe ou não esta online.');
+      return msg.reply(t('commands:mcserver.not_found'));
     }
 
     const text = new Text()
-      .addTitle(Emojis.PLACA_MINECRAFT, 'INFORMAÇÕES DO SERVIDOR')
-      .addField(Emojis.COMPUTER, 'Address', res.address)
-      .addField(Emojis.PERSONS, 'Jogadores', res.players)
-      .addField(Emojis.JAVA, 'Versão do Minecraft:', res.version);
+      .addTitle(Emojis.PLACA_MINECRAFT, t('commands:mcserver.server_info'))
+      .addField(Emojis.COMPUTER, t('commands:mcserver.address'), res.address)
+      .addField(Emojis.PERSONS, t('commands:mcserver.players'), res.players)
+      .addField(Emojis.JAVA, t('commands:mcserver.minecraft_version'), res.version);
     const embed = new Embed(msg.author).setDescription(text);
     msg.reply(embed);
   }

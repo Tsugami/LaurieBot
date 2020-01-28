@@ -1,6 +1,5 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message, GuildMember } from 'discord.js';
-import { Moderator } from '@categories';
 
 interface ArgsI {
   member: GuildMember;
@@ -11,7 +10,7 @@ class KickCommand extends Command {
   constructor() {
     super('kick', {
       aliases: ['kick', 'expulsar'],
-      category: Moderator,
+      category: 'moderator',
       channelRestriction: 'guild',
       userPermissions: 'KICK_MEMBERS',
       clientPermissions: 'KICK_MEMBERS',
@@ -20,44 +19,45 @@ class KickCommand extends Command {
           id: 'member',
           type: 'member',
           prompt: {
-            start: 'qual usuário(a) você gostaria de expulsar?',
-            retry: 'Isso não é um usuário valido!',
+            start: Prompt('commands:kick.args.member.start'),
+            retry: Prompt('commands:kick.args.member.retry'),
           },
         },
         {
           id: 'reason',
           type: 'string',
-          default: 'Motivo não declarado.',
+          match: 'text',
+          default: Prompt('commands:kick.args.default'),
         },
       ],
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     const author = msg.member;
     const { member } = args;
     const ownerId = msg.guild.ownerID;
     const bot = msg.guild.me;
 
     if (ownerId === member.user.id) {
-      return msg.reply('você não pode expulsar o dono do servidor.');
+      return msg.reply(t('commands:kick.user_is_owner'));
     }
 
     if (ownerId !== author.user.id && member.highestRole.position >= author.highestRole.position) {
-      return msg.reply('você não tem cargo suficiente pra expulsar esse membro.');
+      return msg.reply(t('commands:kick.not.author_has_role_highest'));
     }
 
     if (member.highestRole.position >= bot.highestRole.position) {
-      return msg.reply('eu não tenho cargo suficiente pra expulsar esse membro.');
+      return msg.reply(t('commands:kick.not.bot_has_role_highest'));
     }
 
     try {
       await member.kick(args.reason);
       this.client.emit('punishmentCommand', msg, this, member, args.reason);
-      return msg.reply('usuário(a) expulso(a) com sucesso!');
+      return msg.reply(t('commands:kick.user_kicked'));
     } catch (error) {
       console.error(error);
-      return msg.reply('não foi possivel expulsar esse usuário.');
+      return msg.reply(t('commands:kick.failed'));
     }
   }
 }

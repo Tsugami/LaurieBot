@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction } from '@struct/Command';
+
 import { Message, Attachment } from 'discord.js';
-import { Minecraft } from '@categories';
 import { getAwardImage } from '@services/minecraft';
 
 interface ArgsI {
@@ -11,7 +11,7 @@ class McConquistaCommand extends Command {
   constructor() {
     super('mcconquista', {
       aliases: ['mcconquista'],
-      category: Minecraft,
+      category: 'minecraft',
       args: [
         {
           id: 'text',
@@ -21,8 +21,8 @@ class McConquistaCommand extends Command {
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
-    const image = getAwardImage('Conquista desbloqueada!', args.text);
+  async run(msg: Message, t: TFunction, args: ArgsI) {
+    const image = getAwardImage(t('commands:mcconquista.message'), args.text);
     msg.reply(new Attachment(image, 'image.png'));
   }
 }

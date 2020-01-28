@@ -68,3 +68,86 @@ slap:
   message: '{{ user1 }} bateu em {{ user2 }}.'
 kiss:
   message: '{{ user1 }} beijou {{ user2 }}.'
+mcconquista:
+  message: 'Conquista desbloqueada!'
+mcserver:
+  not_found: 'esse servidor não existe ou não esta online.'
+  server_info: 'INFORMAÇÕES DO SERVIDOR'
+  address: 'Address'
+  players: 'Jogadores'
+  minecraft_version: 'Versão do Minecraft'
+mcskin:
+  not_found: 'Não achei nenhum jogador com esse nome!'
+alertar:
+  args:
+    text:
+      start: 'digite uma mensagem de alerta.'
+      retry: 'mensagem invalida.'
+  message: 'mensagem enviada para todas as pessoas possiveis!'
+anunciar:
+  args:
+    text:
+      start: 'digite uma mensagem para anunciar.'
+      retry: 'mensagem invalida.'
+  embed_title: '{{ emoji }} ANÚNCIO'
+ban:
+  args:
+    member:
+      start: 'qual usuário(a) você gostaria de banir?'
+      retry: 'isso não é um usuário valido!'
+    reason:
+      default: 'Motivo não declarado'
+  user_is_owner: 'você não pode banir o dono do servidor.'
+  not:
+    author_has_role_highest: 'você não tem cargo suficiente pra banir esse membro.'
+    bot_has_role_highest: 'eu não tenho cargo suficiente pra banir esse membro.'
+  user_banned: 'usuário(a) banido(a) com sucesso!'
+  user_ban_failed: 'não consegui banir esse usuário.'
+clear:
+  args:
+    amount:
+      start: 'quantas mensagens você gostaria de deletar?'
+      retry: 'isso não é um número valido!'
+  messages_deleted: '{{ amount }} mensagens foram deletadas.'
+  failed: 'não consegui deleta as mensagens'
+kick:
+  args:
+    member:
+      start: 'qual usuário(a) você gostaria de expulsar?'
+      retry: 'isso não é um usuário valido!'
+    reason:
+      default: 'Motivo não declarado'
+  user_is_owner: 'você não pode expulsar o dono do servidor.'
+  not:
+    author_has_role_highest: 'você não tem cargo suficiente pra expulsar esse membro.'
+    bot_has_role_highest: 'eu não tenho cargo suficiente pra expulsar esse membro.'
+  user_kicked: 'usuário(a) expulso(a) com sucesso!'
+  failed: 'não consegui expulsar esse usuário.'
+mute:
+  args:
+    member:
+      start: 'qual usuário(a) você gostaria de mutar?'
+      retry: 'isso não é um usuário valido!'
+    reason:
+      default: 'Motivo não declarado'
+  user_is_owner: 'você não pode mutar o dono do servidor.'
+  not:
+    author_has_role_highest: 'você não tem cargo suficiente pra mutar esse membro.'
+    bot_has_role_highest: 'eu não tenho cargo suficiente pra mutar esse membro.'
+  user_muted: 'usuário(a) mutado(a) com sucesso!'
+  create_mute_role_failed: 'eu não consegui criar o cargo de mutar.'
+  failed: 'não consegui mutar esse usuário.'
+  warn: '[AVISO] não foi possivel alterar o cargo de mutar nos seguintes canais: {{ channels }}'
+unmute:
+  args:
+    member:
+      start: 'qual usuário(a) você gostaria de desmutar?'
+      retry: 'isso não é um usuário valido!'
+    reason:
+      default: 'Motivo não declarado'
+  not:
+    user_muted: 'esse usuário não esta mutado.'
+    author_has_role_highest: 'você não tem cargo suficiente pra desmutar esse membro.'
+    bot_has_role_highest: 'eu não tenho cargo suficiente pra desmutar esse membro.'
+  user_muted: 'usuário(a) desmutado(a) com sucesso!'
+  failed: 'não consegui desmutar esse usuário.'

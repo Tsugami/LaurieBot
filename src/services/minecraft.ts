@@ -32,6 +32,10 @@ export async function getServer(address: string): Promise<MCServerI> {
 
   const response = await axios(`https://mcapi.us/server/status?ip=${host}&port=${port}`);
 
+  if (response.status !== 200 || response.data.status === 'error') throw new Error('not found');
+
+  console.log(response);
+
   return {
     online: true,
     players: `${response.data.players.now}/${response.data.players.max}`,

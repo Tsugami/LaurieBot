@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction, Prompt } from '@struct/Command';
+
 import { Message, GuildMember } from 'discord.js';
-import { Moderator } from '@categories';
 import { MUTE_ROLE_NAME } from '@utils/Constants';
 
 interface ArgsI {
@@ -12,7 +12,7 @@ class UnmuteCommand extends Command {
   constructor() {
     super('unmute', {
       aliases: ['unmute', 'desmutar'],
-      category: Moderator,
+      category: 'moderator',
       channelRestriction: 'guild',
       userPermissions: 'MUTE_MEMBERS',
       clientPermissions: 'MUTE_MEMBERS',
@@ -21,45 +21,45 @@ class UnmuteCommand extends Command {
           id: 'member',
           type: 'member',
           prompt: {
-            start: 'qual usuário(a) você gostaria de desmutar?',
-            retry: 'Isso não é um usuário valido!',
+            start: Prompt('commands:unmute.args.member.start'),
+            retry: Prompt('commands:unmute.args.member.retry'),
           },
         },
         {
           id: 'reason',
           type: 'string',
-          default: 'Motivo não declarado.',
+          default: Prompt('commands:unmute.args.default'),
         },
       ],
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     const author = msg.member;
     const { member } = args;
     const ownerId = msg.guild.ownerID;
     const bot = msg.guild.me;
 
     if (ownerId !== author.user.id && member.highestRole.position >= author.highestRole.position) {
-      return msg.reply('você não tem cargo suficiente pra desmutar esse membro.');
+      return msg.reply(t('commands:kick.not.author_has_role_highest'));
     }
 
     if (member.highestRole.position >= bot.highestRole.position) {
-      return msg.reply('eu não tenho cargo suficiente pra desmutar esse membro.');
+      return msg.reply(t('commands:kick.not.bot_has_role_highest'));
     }
 
     const role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME);
     if (!role || !member.roles.has(role.id)) {
-      return msg.reply('esse usuário não está mutado.');
+      return msg.reply(t('commands:kick.not.user_muted'));
     }
 
     try {
       await member.removeRole(role, args.reason);
       this.client.emit('punishmentCommand', msg, this, member, args.reason);
-      return msg.reply('usuário(a) desmutado(a) com sucesso!');
+      return msg.reply(t('commands:kick.user_muted'));
     } catch (error) {
       console.error(error);
-      return msg.reply('não foi possivel desmutar esse usuário.');
+      return msg.reply(t('commands:kick.failed'));
     }
   }
 }

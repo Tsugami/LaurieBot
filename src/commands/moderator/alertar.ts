@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction, Prompt } from '@struct/Command';
+
 import { Message } from 'discord.js';
-import { Moderator } from '@categories';
 
 interface ArgsI {
   text: string;
@@ -10,7 +10,7 @@ class AlertarCommand extends Command {
   constructor() {
     super('alertar', {
       aliases: ['alertar'],
-      category: Moderator,
+      category: 'moderator',
       channelRestriction: 'guild',
       userPermissions: 'ADMINISTRATOR',
       args: [
@@ -19,15 +19,15 @@ class AlertarCommand extends Command {
           type: 'string',
           match: 'text',
           prompt: {
-            start: 'uma mensagem você quer alertar?',
-            retry: 'mensagem invalida.',
+            start: Prompt('commands:alertar.args.text.start'),
+            retry: Prompt('commands:alertar.args.text.retry'),
           },
         },
       ],
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     const dms = await Promise.all(
       msg.guild.members.filter(m => !m.user.bot).map(member => member.createDM().catch(() => null)),
     );
@@ -37,7 +37,7 @@ class AlertarCommand extends Command {
       }
     });
 
-    msg.reply('mensagem enviada para todas as pessoas poossiveis!');
+    msg.reply(t('commands:alertar.message'));
   }
 }
 

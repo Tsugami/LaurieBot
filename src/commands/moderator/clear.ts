@@ -1,16 +1,15 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message } from 'discord.js';
-import { Moderator } from '@categories';
 
 interface ArgsI {
   amount: number;
 }
 
-class BanCommand extends Command {
+class ClearCommand extends Command {
   constructor() {
     super('clear', {
       aliases: ['clear', 'prune', 'limpar'],
-      category: Moderator,
+      category: 'moderator',
       channelRestriction: 'guild',
       userPermissions: 'MANAGE_MESSAGES',
       clientPermissions: 'MANAGE_MESSAGES',
@@ -19,27 +18,29 @@ class BanCommand extends Command {
           id: 'amount',
           type: 'number',
           prompt: {
-            start: 'quantas mensagens você gostaria de deletar?',
-            retry: 'isso não é um número valido!',
+            start: Prompt('commands:clear.args.amount.start'),
+            retry: Prompt('commands:clear.args.amount.retry'),
           },
         },
       ],
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
-    const { amount } = args;
-    const result = amount > 100 ? 100 : amount < 1 ? 1 : amount;
+  async run(msg: Message, t: TFunction, args: ArgsI) {
+    let { amount } = args;
+
+    if (amount > 100) amount = 100;
+    else if (amount < 1) amount = 1;
 
     try {
       await msg.delete();
-      await msg.channel.bulkDelete(result);
-      return msg.reply(`${result} mensagens foram deletadas.`);
+      await msg.channel.bulkDelete(amount);
+      return msg.reply(t('commads:clear.messages_deleted', { amount }));
     } catch (error) {
       console.error(error);
-      return msg.reply('não foi possivel deletar as mensagens.');
+      return msg.reply(t('commands:clear.failed'));
     }
   }
 }
 
-export default BanCommand;
+export default ClearCommand;

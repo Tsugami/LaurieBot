@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
-import { Message, User } from 'discord.js';
-import { Minecraft } from '@categories';
+import Command, { TFunction } from '@struct/Command';
+
+import { Message } from 'discord.js';
 import Embed from '@utils/Embed';
 import { getUser } from '@services/minecraft';
 
@@ -12,7 +12,7 @@ class McSkinCommand extends Command {
   constructor() {
     super('mcskin', {
       aliases: ['mcskin'],
-      category: Minecraft,
+      category: 'minecraft',
       args: [
         {
           id: 'username',
@@ -22,12 +22,12 @@ class McSkinCommand extends Command {
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     let res;
     try {
       res = await getUser(args.username);
     } catch (_) {
-      return msg.reply('Não achei nenhum usuário com esse nome!');
+      return msg.reply(t('commands:mcskin.not_found'));
     }
 
     const embed = new Embed(msg.author).setAuthor(res.name).setImage(res.skin);
