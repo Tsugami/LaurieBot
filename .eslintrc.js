@@ -39,6 +39,8 @@ module.exports = {
       "import/no-unresolved": "off",
       "import/prefer-default-export": "off",
       "import/extensions": "off",
-      "no-param-reassign": "off"
+      "no-param-reassign": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "consistent-return": "off"
     }
 }
