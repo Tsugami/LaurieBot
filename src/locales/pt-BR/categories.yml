@@ -3,16 +3,16 @@ discord:
   description: 'Comandos focado para Discord.'
 interactivity:
   name: 'Interatividade'
-  description: "Comandos de interação social."
+  description: "Comandos de Interação Social."
 minecraft:
   name: "Minecraft"
-  description: "Comandos de minecraft."
+  description: "Comandos de Minecraft."
 moderator:
   name: "Moderação"
-  description: "Comandos de moderação de servidor."
+  description: "Comandos para Moderação do servidor."
 configuration:
   name: 'Configuração'
-  description: "Comandos de configuração de modulo."
+  description: "Comandos para Configuração de módulo."
 ticket:
   name: "Ticket"
-  description: "Comandos do modulo ticket."
+  description: "Comandos do módulo Ticket."

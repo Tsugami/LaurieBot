@@ -15,11 +15,11 @@ setchannelpn:
       start: 'digite **{{ onOption }}** para ativar e **{{ offOption }}** para desativar as mensagens de punições nesse canal.'
       retry: 'digite uma das opções corretamente.'
   off_option:
-    already_disabled: 'os mensagens de punições já estão desativados nesse canal.'
-    disabled: 'os mensagens de punições foram desativados nesse canal.'
+    already_disabled: 'as mensagens de punições já estão desativadas nesse canal.'
+    disabled: 'as mensagens de punições foram desativadas nesse canal.'
   on_option:
-    already_enabled: 'os mensagens de punições já estão ativados nesse canal.'
-    enabled: 'os mensagens de punições foram ativados nesse canal.'
+    already_enabled: 'as mensagens de punições já estão ativadas nesse canal.'
+    enabled: 'as mensagens de punições foram ativadas nesse canal.'
 welcome:
   args:
     option:
@@ -32,7 +32,7 @@ welcome:
       enable: 'Digite qual será mensagem de boas vindas.'
     channel:
       change_channel: 'Digite qual será o canal de boas vindas.'
-  disabled: 'mensagem de boas vindas foram desativado.'
+  disabled: 'mensagem de boas vindas foram desativadas.'
   enabled: 'mensagem de boas vinda foram ativadas.'
   already_current_message: 'essa mensagem que você enviou já é a atual.'
   message_changed: 'mensagem de boas vidas atualizada.'
