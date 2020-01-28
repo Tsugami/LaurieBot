@@ -4,7 +4,7 @@ import { guild } from '@database/index';
 import GuildController from '@database/controllers/GuildController';
 import { getCategoryByEmoji, TicketNameRegex } from '@ticket/TicketUtil';
 
-export default class extends Listener {
+export default class MessageReactionAddListener extends Listener {
   constructor() {
     super('messageReactionAdd', {
       emitter: 'client',

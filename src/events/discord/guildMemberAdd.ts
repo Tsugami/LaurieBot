@@ -6,7 +6,7 @@ function parseWelcome(text: string, user: string, guildName: string) {
   return text.replace(/{{user}}/gi, user).replace(/{{guild}}/gi, guildName);
 }
 
-export default class extends Listener {
+export default class GuildMemberAddListener extends Listener {
   readonly DEFAULT_MESSAGE: string = '{{user}}, Bem Vindo ao {{guild}}.';
 
   constructor() {

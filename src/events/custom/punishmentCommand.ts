@@ -6,7 +6,7 @@ import { Emojis } from '@utils/Constants';
 import { getDate } from '@utils/Date';
 import { guild } from '@database/index';
 
-export default class extends Listener {
+export default class PunishmentCommandListener extends Listener {
   constructor() {
     super('punishmentCommand', {
       emitter: 'client',

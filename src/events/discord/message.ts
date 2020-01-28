@@ -3,7 +3,7 @@ import { Message } from 'discord.js';
 import { guild } from '@database/index';
 import { addUserList, isMainChannel } from '@ticket/TicketUtil';
 
-export default class extends Listener {
+export default class MessageListener extends Listener {
   constructor() {
     super('message', {
       emitter: 'client',
@@ -18,7 +18,7 @@ export default class extends Listener {
 
     addUserList(msg, guildData);
     if (isMainChannel(msg, guildData)) {
-      return msg.delete();
+      msg.delete();
     }
   }
 }

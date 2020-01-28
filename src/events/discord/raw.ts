@@ -3,7 +3,7 @@ import { Message, TextChannel } from 'discord.js';
 import { guild } from '@database/index';
 import { isTicketEmoji } from '@ticket/TicketUtil';
 
-export default class extends Listener {
+export default class RawListener extends Listener {
   constructor() {
     super('raw', {
       emitter: 'client',

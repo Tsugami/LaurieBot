@@ -17,7 +17,7 @@ function userIsCooldown(userId: string): boolean {
   return disableCommandsCooldown.has(userId);
 }
 
-export default class extends Listener {
+export default class CommandBlockedListener extends Listener {
   constructor() {
     super('commandBlocked', {
       emitter: 'commandHandler',
