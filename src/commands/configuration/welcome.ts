@@ -1,122 +1,129 @@
-import { Command } from 'discord-akairo';
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 
-import { Configuration } from '@categories';
-import { guild } from '@database/index';
+import Command, {
+  optionsArg,
+  Prompt,
+  defineOptions,
+  guildDataArg,
+  TFunction,
+  getArgumentAkairo,
+} from '@struct/Command';
+import GuildController from '@database/controllers/GuildController';
 
-type optionTypes = 'alterar' | 'ativar' | 'desativar' | 'cancelar';
-interface ArgsI {
-  option: optionTypes;
-  message: string;
-}
-
-interface OptionI {
-  aliases: string[];
-  message: string;
-  key: optionTypes;
-}
-
-const options: OptionI[] = [
+const options = defineOptions([
   {
-    key: 'alterar',
+    key: 'change_message',
+    aliases: ['message'],
+    message: 'commands:welcome.args.option.change_message',
+    parse: (_, args: ArgsI) => !!args.guildData.data.welcome,
+  },
+  {
+    key: 'change_channel',
     aliases: ['alterar', 'change'],
-    message: 'Alterar mensagem de boas vindas.',
+    message: 'commands:welcome.args.option.change_channel',
+    parse: (_, args: ArgsI) => !!args.guildData.data.welcome,
   },
   {
-    key: 'ativar',
+    key: 'enable',
     aliases: ['ativar', 'on'],
-    message: 'Ativar mensagem de boas vindas.',
+    message: 'commands:welcome.args.option.enable',
+    parse: (_, args: ArgsI) => !args.guildData.data.welcome,
   },
   {
-    key: 'desativar',
-    aliases: ['desativar', 'change', 'off'],
-    message: 'Desativar mensagem de boas vindas.',
+    key: 'disable',
+    aliases: ['desativar', 'off'],
+    message: 'commands:welcome.args.option.disable',
+    parse: (_, args: ArgsI) => !!args.guildData.data.welcome,
   },
-  {
-    key: 'cancelar',
-    aliases: ['cancelar', 'cancel'],
-    message: 'Cancelar comando.',
-  },
-];
+]);
+
+type Options = 'enable' | 'disable' | 'change_message' | 'change_channel' | 'cancel';
+interface ArgsI {
+  guildData: GuildController;
+  option: Options;
+  message: string;
+  channel: TextChannel;
+}
 
 class WelcomeCommand extends Command {
   constructor() {
     super('welcome', {
       aliases: ['welcome'],
-      category: Configuration,
+      category: 'configuration',
       channelRestriction: 'guild',
       userPermissions: 'MANAGE_CHANNELS',
       args: [
+        guildDataArg,
+        optionsArg('option', options, Prompt('commons:choose_option')),
         {
-          id: 'option',
-          type: word => {
-            const option = options.find((o, i) => Number(word) === i + 1 || o.aliases.includes(word.toLowerCase()));
-            if (option) return option.key;
-          },
+          id: 'message',
+          type: (word, msg, args: ArgsI) =>
+            getArgumentAkairo<Options>(this.client, args.option, [[['change_message', 'enable'], 'string']])(
+              word,
+              msg,
+              args,
+            ),
+          match: 'text',
           prompt: {
-            start: `o você gostaria de fazer?\n${options.map((x, i) => `${i + 1} - ${x.message}`).join('\n')}`,
-            retry: 'digite uma das opções corretamente.',
+            start: Prompt((t, _, args: ArgsI) => {
+              if (args.option === 'change_message') return t('commands:welcome.args.message.change_message');
+              return t('commands:welcome.args.message.enable');
+            }),
           },
         },
         {
-          id: 'message',
-          type: (word, _, args: ArgsI) => {
-            if (args.option === 'alterar')
-              if (word) return word;
-              else return null;
-            return '';
-          },
+          id: 'channel',
+          type: (word, msg, args: ArgsI) =>
+            getArgumentAkairo<Options>(this.client, args.option, [['change_channel', 'textChannel']])(word, msg, args),
           match: 'text',
           prompt: {
-            start: () =>
-              'Digite uma nova mensagem de boas vindas.\n- **Nome do usuário**: `{{user}}`\n- **Nome do servidor**: `{{guild}}`',
+            start: Prompt('commands:welcome.args.channel.change_channel'),
           },
         },
       ],
       defaultPrompt: {
-        cancelWord: 'cancelar',
+        cancelWord: 'cancel',
       },
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
-    const guildData = await guild(msg.guild.id);
-    switch (args.option) {
-      case 'cancelar': {
-        return msg.reply('comando cancelado.');
-      }
-      case 'ativar': {
-        const welcome = guildData.data.welcome.find(x => x.channelId === msg.channel.id);
-        if (welcome && welcome.active) {
-          return msg.reply('mensagem de boas vindas já está ativado.');
-        }
+  async run(msg: Message, t: TFunction, args: ArgsI) {
+    const { guildData, option, message } = args;
+    const { welcome } = guildData.data;
+
+    switch (option) {
+      default:
+        return msg.reply(t('commons:cancel'));
+      case 'enable': {
         await guildData.updateWelcome({
           channelId: msg.channel.id,
-          active: true,
+          message,
         });
-        return msg.reply('mensagem de boas vindas ativada.');
+        return msg.reply(t('commands:welcome.enabled'));
       }
-      case 'desativar': {
-        const welcome = guildData.data.welcome.find(x => x.channelId === msg.channel.id);
-        if (!welcome || !welcome.active) {
-          return msg.reply('mensagem de boas vindas já está desativados.');
-        }
-        await guildData.updateWelcome({
-          channelId: msg.channel.id,
-          active: false,
-        });
-        return msg.reply('mensagem de boas vindas desativado.');
+      case 'disable': {
+        await guildData.disableWelcome();
+        return msg.reply(t('commads:welcome.disabled'));
       }
-      case 'alterar': {
-        const welcome = guildData.data.welcome.find(x => x.channelId === msg.channel.id);
+      case 'change_message': {
         if (welcome && welcome.message && welcome.message === args.message) {
-          return msg.reply('essa já é a atual mensagem de boas vindas.');
+          return msg.reply(t('commands:welcome.already_current_message'));
         }
         await guildData.updateWelcome({
           channelId: msg.channel.id,
           message: args.message,
         });
-        return msg.reply('mensagem de boas vindas alterada.');
+        return msg.reply(t('commands:welcome.message_changed'));
+      }
+      case 'change_channel': {
+        if (welcome && welcome.channelId === args.channel.id) {
+          return msg.reply(t('commands:welcome.already_current_channel'));
+        }
+        await guildData.updateWelcome({
+          message: welcome ? welcome.message : '',
+          channelId: args.channel.id,
+        });
+        return msg.reply(t('commands:welcome.channel_changed'));
       }
     }
   }

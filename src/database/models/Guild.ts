@@ -3,7 +3,6 @@ import { Schema, model, Document, Types } from 'mongoose';
 const welcomeSchema = new Schema(
   {
     message: String,
-    active: Boolean,
     channelId: { type: String, required: true },
   },
   { id: false },
@@ -41,11 +40,10 @@ const GuildSchema = new Schema({
   disableChannels: [String],
   penaltyChannels: [String],
   ticket: ticketConfigSchema,
-  welcome: [welcomeSchema],
+  welcome: welcomeSchema,
 });
 
 export interface WelcomeModule {
-  active?: boolean;
   message?: string;
   channelId: string;
 }
@@ -65,7 +63,10 @@ export interface Ticket {
   createdAt?: Date;
 }
 
-export interface TicketConfigModule extends WelcomeModule {
+export interface TicketConfigModule {
+  active?: boolean;
+  message?: string;
+  channelId: string;
   categoryId?: string;
   role?: string;
   messageId?: string;
@@ -77,7 +78,7 @@ export interface GuildDocument extends Document {
   disableChannels: string[];
   penaltyChannels: string[];
   ticket: TicketConfigModule;
-  welcome: WelcomeModule[];
+  welcome: WelcomeModule | null;
 }
 
 export default model<GuildDocument>('guilds', GuildSchema);

@@ -8,8 +8,12 @@ class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
   }
 
   updateWelcome(data: WelcomeModule): Promise<T> {
-    const dataObj = this.data.toObject();
-    this.data.welcome = this.updateDataInArray(data, dataObj.welcome, x => x.channelId === data.channelId);
+    this.data.welcome = data;
+    return this.save();
+  }
+
+  disableWelcome(): Promise<T> {
+    this.data.welcome = null;
     return this.save();
   }
 

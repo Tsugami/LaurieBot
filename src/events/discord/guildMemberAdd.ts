@@ -18,12 +18,11 @@ export default class GuildMemberAddListener extends Listener {
 
   async exec(member: GuildMember) {
     const guildData = await guild(member.guild.id);
-    const welcome = guildData.data.welcome.filter(x => x.active);
-    for (const data of welcome) {
-      const channel = member.guild.channels.get(data.channelId);
-      if (channel && channel instanceof TextChannel) {
-        const msg = data.message || this.DEFAULT_MESSAGE;
-        channel.send(parseWelcome(msg, member.toString(), guild.name));
+    const { welcome } = guildData.data;
+    if (welcome && welcome.message) {
+      const channel = member.guild.channels.get(welcome.channelId);
+      if (channel instanceof TextChannel) {
+        channel.send(parseWelcome(welcome.message, member.user.username, member.guild.name));
       }
     }
   }

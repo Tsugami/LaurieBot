@@ -23,7 +23,20 @@ setchannelpn:
 welcome:
   args:
     option:
-      change: 'Alterar mensagem de boas vindas.'
+      change_message: 'Alterar mensagem de boas vindas.'
+      change_channel: 'Alterar canal de boas vindas.'
       enable: 'Ativar mensagem de boas vindas.'
       disable: 'Desativar mensagem de boas vindas.'
+    message:
+      change_message: 'Digite a nova mensagem de boas vindas.'
+      enable: 'Digite qual será mensagem de boas vindas.'
+    channel:
+      change_channel: 'Digite qual será o canal de boas vindas.'
+  disabled: 'mensagem de boas vindas foram desativado.'
+  enabled: 'mensagem de boas vinda foram ativadas.'
+  already_current_message: 'essa mensagem que você enviou já é a atual.'
+  message_changed: 'mensagem de boas vidas atualizada.'
+  already_current_channel: "esse já é o atual canal de boas vindas"
+  channel_changed: 'canal de boas vindas atualizado.'
+
 

@@ -8,10 +8,10 @@ import { promisify } from 'util';
 const readdir = promisify(fs.readdir);
 const pathFolder = path.resolve('src', 'locales');
 
-async function loadi18n() {
-  i18next.use(Backend).init(
+export async function buildi18n() {
+  return i18next.use(Backend).init(
     {
-      ns: ['categories', 'commands'],
+      ns: ['categories', 'commands', 'commons'],
       preload: await readdir(pathFolder),
       fallbackLng: 'pt-BR',
       load: 'currentOnly',
@@ -21,12 +21,10 @@ async function loadi18n() {
       interpolation: { escapeValue: false },
       returnEmptyString: false,
     },
-    (error, t) => {
+    error => {
       if (error) {
         console.error(error);
       }
     },
   );
 }
-
-loadi18n();

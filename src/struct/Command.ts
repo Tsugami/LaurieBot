@@ -58,7 +58,13 @@ type Option = {
   parse?: OptionFunc;
 };
 
-export const defineOptions = (options: Option[]) => options;
+const cancelOption: Option = {
+  key: 'cancel',
+  aliases: ['cancelar'],
+  message: 'commons:cancel',
+};
+
+export const defineOptions = (options: Option[]) => [...options, cancelOption];
 export type Keys<options extends Option[]> = options[number]['key'];
 
 export type optionType<T> = [T | T[], ArgumentType];
@@ -70,8 +76,9 @@ export function getArgumentAkairo<T extends string>(
 ): ArgumentTypeFunction {
   return (...args) => {
     const x = options.find(o => (Array.isArray(o[0]) && o[0].includes(key)) || o[0] === key);
+    console.log(x, options, defaultR, key);
     if (x) {
-      if (typeof x[1] === 'string') return client.commandHandler.resolver.type(x[1])(...args);
+      if (typeof x[1] === 'string') return client.commandHandler.resolver.type(x[1])(...args) || null;
     }
     return defaultR;
   };
@@ -85,6 +92,15 @@ export function optionsArg(
 ): ArgumentOptions {
   const optionsParsed = (m: Message, a: any): Option[] => options.filter(o => !o.parse || o.parse(m, a));
 
+  const fillPromptEmpty = (key: 'retry' | 'timeout' | 'ended' | 'cancel') => {
+    if (!promptOptions[key]) promptOptions[key] = Prompt(`commons:prompt_options_default.${key}`);
+  };
+
+  fillPromptEmpty('retry');
+  fillPromptEmpty('timeout');
+  fillPromptEmpty('ended');
+  fillPromptEmpty('cancel');
+
   return {
     id,
     type: (word, m, a) => {
@@ -92,13 +108,14 @@ export function optionsArg(
         (x, i) => Number(word) === i + 1 || word === x.key || x.aliases.includes(word),
       );
       if (option) return option.key;
+      return null;
     },
     prompt: {
       ...promptOptions,
       start: (m, a, t) =>
         `${title(m, a, t)}\n${optionsParsed(m, a)
           .map((o, i) => {
-            return `**${i + 1}**: ${typeof o.message === 'string' ? o.message : o.message(m, a)}`;
+            return `**${i + 1}**: ${typeof o.message === 'string' ? Prompt(o.message)(m, a, t) : o.message(m, a)}`;
           })
           .join('\n')}`,
     },
