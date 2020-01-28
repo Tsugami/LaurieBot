@@ -1,14 +1,15 @@
-import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
+import Command from '@struct/Command';
 
 class PingCommand extends Command {
   constructor() {
     super('ping', {
       aliases: ['ping'],
+      category: 'discord',
     });
   }
 
-  async exec(message: Message) {
+  async run(message: Message) {
     const sent = await message.channel.send('Pong!');
     if (Array.isArray(sent)) return;
 

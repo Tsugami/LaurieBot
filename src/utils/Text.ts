@@ -4,7 +4,7 @@ class Text {
   private description = '';
 
   addTitle(emoji: Emojis, title: string) {
-    this.description += `${emoji} **${title}**\n\n`;
+    this.description += `${emoji} **${title.toUpperCase()}**\n\n`;
     return this;
   }
 

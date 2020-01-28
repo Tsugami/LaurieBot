@@ -53,3 +53,12 @@ export const TICKET_EMOJIS = {
   REPORT: Emojis.RED_TICKET,
   QUESTION: Emojis.TICKET,
 };
+
+export const STATUS_EMOJIS = {
+  offline: Emojis.STATUS_OFFLINE,
+  online: Emojis.STATUS_ONLINE,
+  dnd: Emojis.STATUS_BUSY,
+  idle: Emojis.STATUS_AWAY,
+};
+
+export const PLAYING_EMOJIS = [Emojis.VIDEO_GAME, Emojis.VIDEO_CAMERA, Emojis.HEADPHONES, Emojis.TV];

@@ -38,5 +38,23 @@ welcome:
   message_changed: 'mensagem de boas vidas atualizada.'
   already_current_channel: "esse já é o atual canal de boas vindas"
   channel_changed: 'canal de boas vindas atualizado.'
-
-
+avatar:
+  embed_description: Clique [aqui]({{- avatarUrl }}) para baixar.
+botinfo:
+  bot_info: 'INFORMAÇÕES DO BOT'
+  guilds: 'Servidores'
+  creator: 'Criador'
+  developer: 'Desenvolvedor'
+gif:
+  searching: 'pesquisando... {{ emoji }}'
+  failed_to_fetch: 'não consegui pesquisar um gif, tente mais tarde.'
+  not_found: 'não achei nenhum gif com essa palavra.'
+serverinfo:
+  server_info: 'INFORMAÇÕES DO SERVIDOR'
+  owner: 'Dono'
+  region: 'Região'
+  members_info: 'INFORMAÇÕES DOS MEMBROS'
+  bots: 'Rôbos'
+  members: 'Membros'
+userinfo:
+  user_info: 'INFORMAÇÕES DO(A) {{ username }}'

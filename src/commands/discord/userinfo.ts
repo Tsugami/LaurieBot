@@ -1,10 +1,10 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction } from '@struct/Command';
 import { Message, GuildMember } from 'discord.js';
 
 import { Discord } from '@categories';
 import Embed from '@utils/Embed';
 import Text from '@utils/Text';
-import { Emojis } from '@utils/Constants';
+import { Emojis, STATUS_EMOJIS, PLAYING_EMOJIS } from '@utils/Constants';
 import { getDate } from '@utils/Date';
 
 class UserinfoCommand extends Command {
@@ -23,66 +23,34 @@ class UserinfoCommand extends Command {
     });
   }
 
-  exec(msg: Message, { member }: { member: GuildMember }) {
+  run(msg: Message, t: TFunction, { member }: { member: GuildMember }) {
     const { author, guild } = msg;
-    const { user } = member;
+    const { user, presence } = member;
     const text = new Text();
 
-    let status: string;
-    let statusEmoji: Emojis;
-    switch (user.presence.status) {
-      case 'idle':
-        status = 'Ausente';
-        statusEmoji = Emojis.STATUS_AWAY;
-        break;
-      case 'dnd':
-        status = 'Ocupado';
-        statusEmoji = Emojis.STATUS_BUSY;
-        break;
-      case 'online':
-        status = 'Online';
-        statusEmoji = Emojis.STATUS_ONLINE;
-        break;
-      default:
-        status = 'Offline';
-        statusEmoji = Emojis.STATUS_OFFLINE;
-        break;
-    }
+    const status = t(`commons:status:${presence.status}`);
+    const statusEmoji = STATUS_EMOJIS[presence.status];
 
-    let playing = 'Jogando';
-    let app = 'Nada';
-    let appEmoji: Emojis = Emojis.VIDEO_GAME;
-    if (user.presence.game) {
-      app = user.presence.game.name;
-      switch (user.presence.game.type) {
-        case 1:
-          playing = 'Streamando';
-          appEmoji = Emojis.VIDEO_CAMERA;
-          break;
-        case 2:
-          playing = 'Ouvindo';
-          appEmoji = Emojis.HEADPHONES;
-          break;
-        case 3:
-          playing = 'Assistindo';
-          appEmoji = Emojis.TV;
-      }
-    }
+    const gameName = presence.game ? presence.game.name : t('commons:nothing');
+    const playing = presence.game ? presence.game.type : 0;
+    const playingName = t(`commons:playing.${playing}`);
+    const playingEmoji = PLAYING_EMOJIS[playing];
 
     const roles = member.roles
       .filter(role => role.id !== guild.id)
       .map(role => role.toString())
-      .slice(0, 5)
-      .join(', ');
+      .slice(0, 5);
 
-    text.addTitle(Emojis.WALLET, `INFORMAÇÕES DE ${user.username.toUpperCase()}`);
-    text.addField(Emojis.PERSON, 'Nome', user.tag);
-    text.addField(Emojis.COMPUTER, 'ID', user.id);
-    text.addField(statusEmoji, 'Status', status);
-    text.addField(Emojis.CALENDER, 'Criado em', getDate(user.createdAt));
-    text.addField(Emojis.INBOX, 'Entrou em', getDate(member.joinedAt));
-    text.addField(appEmoji, playing, app);
-    text.addField(Emojis.BRIEFCASE, 'Cargos', roles || 'Nenhum');
+    const roleMessage = roles.length > 0 ? roles.join(', ') : t('commons:none');
+
+    text.addTitle(Emojis.WALLET, t('commands:userinfo.user_info', { username: user.username.toLowerCase() }));
+    text.addField(Emojis.PERSON, t('commons:name'), user.tag);
+    text.addField(Emojis.COMPUTER, t('commons:id'), user.id);
+    text.addField(statusEmoji, t('commons:status_e'), status);
+    text.addField(Emojis.CALENDER, t('commons:created_on'), getDate(user.createdAt));
+    text.addField(Emojis.INBOX, t('commons:joined_on'), getDate(member.joinedAt));
+    text.addField(playingEmoji, playingName, gameName);
+    text.addField(Emojis.BRIEFCASE, t('commons:roles'), roleMessage);
 
     const embed = new Embed(author)
       .setAuthor(user.username, user.displayAvatarURL)

@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import GifSearch from '@services/giphy';
 import { Discord } from '@categories';
 import { Emojis } from '@utils/Constants';
+import Command, { TFunction } from '@struct/Command';
 
 interface ArgsI {
   query: string;
@@ -12,7 +12,7 @@ class GifCommand extends Command {
   constructor() {
     super('gif', {
       aliases: ['gif'],
-      category: Discord,
+      category: 'discord',
       args: [
         {
           id: 'query',
@@ -23,7 +23,7 @@ class GifCommand extends Command {
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     let res;
     let sent: Message | Message[];
 
@@ -35,12 +35,12 @@ class GifCommand extends Command {
     }
 
     try {
-      sent = await msg.reply(`Estou procurando... ${Emojis.COMPUTER}`);
+      sent = await msg.reply(t('commands:gif.searching', { emoji: Emojis.COMPUTER }));
       res = await GifSearch.random(args.query);
     } catch (error) {
       console.error('Falha ao procurar uma gif', error);
       await deleteMsg();
-      msg.reply(`não possivel procurar um gif.`);
+      msg.reply(t('commands:gif.failed_to_fetch'));
     }
 
     if (res) {
@@ -49,7 +49,7 @@ class GifCommand extends Command {
       await deleteMsg();
     } else {
       await deleteMsg();
-      msg.reply('não achei nenhum gif com essa palavra.');
+      msg.reply(t('commands:gif:not_found'));
     }
   }
 }

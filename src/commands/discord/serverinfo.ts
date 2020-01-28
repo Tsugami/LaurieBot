@@ -1,7 +1,6 @@
-import { Command } from 'discord-akairo';
-import { Message, User, PresenceStatusData } from 'discord.js';
+import Command, { TFunction } from '@struct/Command';
+import { Message, PresenceStatusData } from 'discord.js';
 
-import { Discord } from '@categories';
 import Embed from '@utils/Embed';
 import Text from '@utils/Text';
 import getCountryInPortuguese from '@utils/getCountryInPortuguese';
@@ -12,12 +11,12 @@ class ServerinfoCommand extends Command {
   constructor() {
     super('serverinfo', {
       aliases: ['serverinfo'],
-      category: Discord,
+      category: 'discord',
       channelRestriction: 'guild',
     });
   }
 
-  exec(msg: Message) {
+  run(msg: Message, t: TFunction) {
     const { guild, author } = msg;
 
     const text = new Text();
@@ -26,20 +25,20 @@ class ServerinfoCommand extends Command {
       return guild.members.filter(m => m.user.presence.status === status).size;
     }
 
-    text.addTitle(Emojis.FOLDER, 'INFORMAÇÕES DO SERVIDOR');
-    text.addField(Emojis.COMPUTER, 'ID', guild.id);
-    text.addField(Emojis.CROWN, 'Dono', guild.owner.user.username);
-    text.addField(Emojis.EARTH, 'Região', getCountryInPortuguese(guild.region));
-    text.addField(Emojis.CALENDER, 'Criado em', getDate(guild.createdAt));
-    text.addField(Emojis.INBOX, 'Entrei em', getDate(guild.joinedAt));
+    text.addTitle(Emojis.FOLDER, t('commands:serverinfo.server_info'));
+    text.addField(Emojis.COMPUTER, t('commons:id'), guild.id);
+    text.addField(Emojis.CROWN, t('commands:serverinfo.owner'), guild.owner.user.username);
+    text.addField(Emojis.EARTH, t('commands:serverinfo.region'), getCountryInPortuguese(guild.region));
+    text.addField(Emojis.CALENDER, t('commons:created_on'), getDate(guild.createdAt));
+    text.addField(Emojis.INBOX, t('commons:joined_on'), getDate(guild.joinedAt));
     text.skip();
-    text.addTitle(Emojis.PERSON, 'INFORMAÇÕES DOS MEMBROS');
-    text.addField(Emojis.PERSONS, 'Membros', guild.members.size);
-    text.addField(Emojis.ROBOT, 'Robôs', guild.members.filter(m => m.user.bot).size);
-    text.addField(Emojis.STATUS_ONLINE, 'Online', getMemberSizeByStatus('online'));
-    text.addField(Emojis.STATUS_OFFLINE, 'Offline', getMemberSizeByStatus('offline'));
-    text.addField(Emojis.STATUS_BUSY, 'Ocupado', getMemberSizeByStatus('dnd'));
-    text.addField(Emojis.STATUS_AWAY, 'Ausente', getMemberSizeByStatus('idle'));
+    text.addTitle(Emojis.PERSON, t('commands:serverinfo.members_info'));
+    text.addField(Emojis.PERSONS, t('commands:serverinfo.members'), guild.members.size);
+    text.addField(Emojis.ROBOT, t('commands:serverinfo.bots'), guild.members.filter(m => m.user.bot).size);
+    text.addField(Emojis.STATUS_ONLINE, t('commons:status.online'), getMemberSizeByStatus('online'));
+    text.addField(Emojis.STATUS_OFFLINE, t('commons:status.offline'), getMemberSizeByStatus('offline'));
+    text.addField(Emojis.STATUS_BUSY, t('commons:status.dnd'), getMemberSizeByStatus('dnd'));
+    text.addField(Emojis.STATUS_AWAY, t('commons:status.idle'), getMemberSizeByStatus('idle'));
 
     const embed = new Embed(author).setAuthor(guild.name, guild.iconURL).setDescription(text);
     if (guild.iconURL) embed.setThumbnail(`${guild.iconURL}?size=2048`);
