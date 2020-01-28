@@ -12,13 +12,13 @@ export default class MessageListener extends Listener {
   }
 
   async exec(msg: Message) {
-    if (msg.author.bot) return;
+    if (msg.guild) {
+      const guildData = await guild(msg.guild.id);
 
-    const guildData = await guild(msg.guild.id);
-
-    addUserList(msg, guildData);
-    if (isMainChannel(msg, guildData)) {
-      msg.delete();
+      if (!msg.author.bot) addUserList(msg, guildData);
+      if (isMainChannel(msg, guildData)) {
+        msg.delete();
+      }
     }
   }
 }

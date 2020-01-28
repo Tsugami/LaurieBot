@@ -1,10 +1,6 @@
 import { Listener, Command } from 'discord-akairo';
-import { Message } from 'discord.js';
-import Permissions from '@assets/permissions.json';
-
-function getPermissions(permission: string): string {
-  return Permissions[permission];
-}
+import { Message, PermissionResolvable } from 'discord.js';
+import { getFixedT } from '@struct/Command';
 
 const disableCommandsCooldown = new Set<string>();
 
@@ -17,6 +13,8 @@ function userIsCooldown(userId: string): boolean {
   return disableCommandsCooldown.has(userId);
 }
 
+const bold = (str: string) => `**${str}**`;
+
 export default class CommandBlockedListener extends Listener {
   constructor() {
     super('commandBlocked', {
@@ -26,34 +24,31 @@ export default class CommandBlockedListener extends Listener {
   }
 
   exec(msg: Message, command: Command, reason: string) {
-    switch (reason) {
-      case 'userPermissions': {
-        msg.reply(
-          `você não possui permissão de **${getPermissions(
-            String(command.userPermissions),
-          )}** pra executar esse comando.`,
-        );
-        break;
-      }
-      case 'clientPermissions': {
-        msg.reply(
-          `eu não possuo permissão de **${getPermissions(
-            String(command.userPermissions),
-          )}** pra executar esse comando.`,
-        );
-        break;
-      }
-      case 'disableCommands': {
-        if (userIsCooldown(msg.author.id)) {
-          addUserCooldown(msg.author.id);
-          msg.reply('os comandos não estão habilitados nesse canal.');
-        }
-        break;
-      }
-      case 'guild': {
-        msg.reply('essse comando está disponivel apenas em servidores.');
-        break;
-      }
+    const t = getFixedT(msg);
+
+    const getPerm = (perms: PermissionResolvable[] | PermissionResolvable | any): string | null => {
+      if (typeof perms === 'string') return bold(t(`permissions:${perms}`));
+      if (Array.isArray(perms)) return perms.map(x => bold(t(`permissions:${x}`))).join(', ');
+      return null;
+    };
+
+    if (reason === 'userPermissions') {
+      const permissions = getPerm(command.userPermissions);
+      if (permissions) return msg.reply(t('errors:userPermissions', { permissions }));
+    }
+
+    if (reason === 'clientPermissions') {
+      const permissions = getPerm(command.clientPermissions);
+      if (permissions) return msg.reply(t('errors:userPermissions', { permissions }));
+    }
+
+    if (reason === 'disableCommands' && !userIsCooldown(msg.author.id)) {
+      addUserCooldown(msg.author.id);
+      return msg.reply(t('errors:disableCommands'));
+    }
+
+    if (reason === 'guild') {
+      return msg.reply(t('errors:guild'));
     }
   }
 }

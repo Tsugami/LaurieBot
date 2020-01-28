@@ -1,6 +1,6 @@
 choose_option: 'escolha uma das opções abaixo:'
 invalid_option: 'digite uma opção válida.'
-cancel: 'Cancelar.'
+cancel: 'Comando cancelado..'
 unknown: 'Desconhecido(a)'
 name: 'Nome'
 created_on: 'Criando em'

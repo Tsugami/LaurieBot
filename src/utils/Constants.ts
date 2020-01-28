@@ -1,3 +1,5 @@
+import { PresenceStatusData, prense } from 'discord.js';
+
 export const EMBED_DEFAULT_COLOR = '#ff8c08';
 export const MUTE_ROLE_NAME = 'Mutado';
 export const ASSET_BASE_PATH = 'https://storage.googleapis.com/data-sunlight-146313.appspot.com';
@@ -54,11 +56,11 @@ export const TICKET_EMOJIS = {
   QUESTION: Emojis.TICKET,
 };
 
-export const STATUS_EMOJIS = {
+export const STATUS_EMOJIS: Record<PresenceStatusData, Emojis> = {
   offline: Emojis.STATUS_OFFLINE,
   online: Emojis.STATUS_ONLINE,
   dnd: Emojis.STATUS_BUSY,
   idle: Emojis.STATUS_AWAY,
 };
 
-export const PLAYING_EMOJIS = [Emojis.VIDEO_GAME, Emojis.VIDEO_CAMERA, Emojis.HEADPHONES, Emojis.TV];
+export const PLAYING_EMOJIS: Emojis[] = [Emojis.VIDEO_GAME, Emojis.VIDEO_CAMERA, Emojis.HEADPHONES, Emojis.TV];
