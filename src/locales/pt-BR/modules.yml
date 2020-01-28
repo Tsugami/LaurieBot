@@ -1,0 +1,11 @@
+punishment:
+  punishment_info: 'INFORMAÇÕES DE PUNIÇÃO'
+  type: 'Pena'
+  julge: 'Juiz'
+  reason: 'Motivo'
+  user: 'Culpado'
+  text_channel: 'Canal'
+  user_info: 'INFORMAÇÕES DO USUÁRIO'
+ticket:
+  user_already_has_ticket: '{{ author }}, você não pode criar outro ticket com esse aberto.'
+  ticket_created: '{{ author }}, ticket criado!\n{{ role }}'

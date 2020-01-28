@@ -3,6 +3,7 @@ import { MessageReaction, User, TextChannel, ChannelCreationOverwrites } from 'd
 import { guild } from '@database/index';
 import GuildController from '@database/controllers/GuildController';
 import { getCategoryByEmoji, TicketNameRegex } from '@ticket/TicketUtil';
+import { getFixedT } from '@struct/Command';
 
 export default class MessageReactionAddListener extends Listener {
   constructor() {
@@ -24,6 +25,7 @@ export default class MessageReactionAddListener extends Listener {
     const TicketData = guildData && guildData.data.ticket;
     const TicketMessageId = TicketData && TicketData.messageId;
     if (TicketMessageId === msg.id) {
+      const t = getFixedT(msg);
       const channelExists = (id: string): boolean => msg.guild.channels.has(id);
       const hasTicket =
         TicketData.tickets &&
@@ -34,7 +36,7 @@ export default class MessageReactionAddListener extends Listener {
       if (hasTicket) {
         const channel = msg.guild.channels.get(hasTicket.channelId);
         if (channel instanceof TextChannel) {
-          channel.send(`${user.toString()}, você não pode criar outro ticket com esse aberto.`);
+          channel.send(t('modules:ticket.user_already_has_ticket', { author: user }));
         }
       } else {
         // Create Ticket
@@ -66,8 +68,8 @@ export default class MessageReactionAddListener extends Listener {
 
         if (ticketChannel instanceof TextChannel) {
           await guildData.updateTickets({ authorId: user.id, channelId: ticketChannel.id, category });
-
-          await ticketChannel.send(`${user.toString()}, ticket criado!\n${role ? role.toString() : ''}`);
+          const roleStr = role ? role.toString() : '';
+          await ticketChannel.send(t('modules:ticket.ticket_created', { author: user, role: roleStr }));
         }
       }
 
