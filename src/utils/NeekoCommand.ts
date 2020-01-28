@@ -1,21 +1,19 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction } from '@struct/Command';
 import { Message, User } from 'discord.js';
 
-import { Interactivity } from '@categories';
 import Embed from './Embed';
 
-type textFuncT = (author: User, user: User) => string;
 type urlFuncT = () => Promise<string>;
 
 class NeekoCommand extends Command {
-  private textFunc: textFuncT;
+  private text: string;
 
   private urlFunc: urlFuncT;
 
-  constructor(commandName: string, aliases: string[], textFunc: textFuncT, urlFunc: urlFuncT) {
+  constructor(commandName: string, aliases: string[], text: string, urlFunc: urlFuncT) {
     super(commandName, {
       aliases: [commandName, ...aliases],
-      category: Interactivity,
+      category: 'interactivity',
       args: [
         {
           id: 'user',
@@ -26,13 +24,13 @@ class NeekoCommand extends Command {
         },
       ],
     });
-    this.textFunc = textFunc;
+    this.text = text;
     this.urlFunc = urlFunc;
   }
 
-  async exec(msg: Message, { user }: { user: User }) {
+  async run(msg: Message, t: TFunction, { user }: { user: User }) {
     const url = await this.urlFunc();
-    const embed = new Embed(msg.author).setDescription(this.textFunc(msg.author, user)).setImage(url);
+    const embed = new Embed(msg.author).setDescription(t(this.text, { user1: msg.author, user2: user })).setImage(url);
     msg.reply(embed);
   }
 }

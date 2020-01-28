@@ -58,3 +58,13 @@ serverinfo:
   members: 'Membros'
 userinfo:
   user_info: 'INFORMAÇÕES DO(A) {{ username }}'
+corno:
+  message: 'você é {{ num }}% corno. {{ emoji }}'
+penis:
+  message: 'seu pau tem {{ num }} centímetros. {{ emoji }}'
+hug:
+  message: '{{ user1 }} abraçou {{ user2 }}.'
+slap:
+  message: '{{ user1 }} bateu em {{ user2 }}.'
+kiss:
+  message: '{{ user1 }} beijou {{ user2 }}.'
