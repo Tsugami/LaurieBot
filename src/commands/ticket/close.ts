@@ -59,13 +59,13 @@ class CloseTicketCommand extends Command {
       return msg.reply(t('commands:close.ticket_module_disabled'));
     }
     if (args.ticket === 'no-tickets') {
-      return msg.reply(t('commands:close.no_exists_tickets'));
+      return msg.reply(t('commands:close.not.tickets'));
     }
     if (args.ticket === 'user-no-ticket') {
-      return msg.reply(t('commands:close.no_tickets_open'));
+      return msg.reply(t('commands:close.not.tickets_open'));
     }
     if (args.ticket === 'user-no-perm') {
-      return msg.reply(t('commands:close.no_tickets_perm'));
+      return msg.reply(t('commands:close.not.permission'));
     }
     if (args.ticket === 'all-closed') {
       return msg.reply(t('commands:close.tickets_all_closed'));
