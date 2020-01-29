@@ -1,13 +1,13 @@
-import { Message } from 'discord.js';
-import GifSearch from '@services/giphy';
-import { Emojis } from '@utils/Constants';
-import Command, { TFunction } from '@struct/Command';
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _giphy = require('@services/giphy'); var _giphy2 = _interopRequireDefault(_giphy);
+var _Constants = require('@utils/Constants');
+var _Command = require('@struct/Command'); var _Command2 = _interopRequireDefault(_Command);
 
-interface ArgsI {
-  query: string;
-}
 
-class GifCommand extends Command {
+
+
+
+class GifCommand extends _Command2.default {
   constructor() {
     super('gif', {
       aliases: ['gif'],
@@ -22,9 +22,9 @@ class GifCommand extends Command {
     });
   }
 
-  async run(msg: Message, t: TFunction, args: ArgsI) {
+  async run(msg, t, args) {
     let res;
-    let sent: Message | Message[];
+    let sent;
 
     function deleteMsg() {
       if (sent instanceof Array) {
@@ -34,8 +34,8 @@ class GifCommand extends Command {
     }
 
     try {
-      sent = await msg.reply(t('commands:gif.searching', { emoji: Emojis.COMPUTER }));
-      res = await GifSearch.random(args.query);
+      sent = await msg.reply(t('commands:gif.searching', { emoji: _Constants.Emojis.COMPUTER }));
+      res = await _giphy2.default.random(args.query);
     } catch (error) {
       console.error('Falha ao procurar uma gif', error);
       await deleteMsg();
@@ -53,4 +53,4 @@ class GifCommand extends Command {
   }
 }
 
-export default GifCommand;
+exports. default = GifCommand;

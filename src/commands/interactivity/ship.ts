@@ -1,7 +1,6 @@
-import { Command } from 'discord-akairo';
 import { Message, User, Attachment } from 'discord.js';
+import Command, { TFunction } from '@struct/Command';
 
-import { Interactivity } from '@categories';
 import { ship2 } from '@utils/Jimp';
 
 interface ArgsI {
@@ -13,7 +12,7 @@ class ShipCommand extends Command {
   constructor() {
     super('ship', {
       aliases: ['ship', 'shippar'],
-      category: Interactivity,
+      category: 'interactivity',
       args: [
         {
           type: 'user',
@@ -33,10 +32,10 @@ class ShipCommand extends Command {
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
-    const { buffer, shipName } = await ship2(args.user1, args.user2);
+  async run(msg: Message, t, args: ArgsI) {
+    const { buffer } = await ship2(args.user1, args.user2);
     const attch = new Attachment(buffer, 'ship.png');
-    return msg.reply(shipName, attch);
+    return msg.reply(attch);
   }
 }
 

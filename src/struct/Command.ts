@@ -10,7 +10,7 @@ import {
 } from 'discord-akairo';
 import { Message } from 'discord.js';
 import i18next, { TFunction, TOptions } from 'i18next';
-import { guild } from 'database';
+import { guild } from '@database/index';
 import categories from './categories';
 
 export type TFunction = TFunction;

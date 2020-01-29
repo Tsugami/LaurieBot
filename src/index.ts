@@ -1,6 +1,5 @@
 import 'dotenv/config';
-import 'tsconfig-paths/register';
-
+import './config/alias';
 import Client from '@struct/Client';
 import mongoose from 'mongoose';
 

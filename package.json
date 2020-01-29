@@ -5,8 +5,8 @@
   "author": "Tsugami <yslan3000@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.ts",
-    "lint": "node eslint-run.js",
+    "dev": "nodemon",
+    "start": "node dist/index.js",
     "prebuild": "rimraf dist",
     "build": "sucrase ./src -d ./dist --transforms typescript,imports"
   },
@@ -23,6 +23,7 @@
     "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "module-alias": "^2.2.2",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "sucrase": "^3.12.1",
@@ -39,7 +40,6 @@
     "jimp": "^0.9.3",
     "moment": "^2.24.0",
     "mongoose": "^5.8.9",
-    "nekos.life": "^2.0.4",
-    "tsconfig-paths": "^3.9.0"
+    "nekos.life": "^2.0.4"
   }
 }
