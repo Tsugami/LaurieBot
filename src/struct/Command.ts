@@ -19,7 +19,7 @@ export interface CustomCommandOptions extends CommandOptions {
   category: keyof typeof categories;
 }
 
-export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => any;
+export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => string;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getFixedT(msg: Message) {
@@ -28,9 +28,20 @@ export function getFixedT(msg: Message) {
 }
 
 export function Prompt(fn: string, options?: TOptions): (msg: Message) => string;
-export function Prompt<A = any>(fn: string | PrompFunc<A>, options: TOptions = {}): ArgumentPromptFunction {
-  if (typeof fn === 'string') return msg => getFixedT(msg)(fn, options);
+export function Prompt<A>(fn: PrompFunc<A>): ArgumentPromptFunction;
+export function Prompt<B extends { option: string } | any, C extends string>(
+  fn: string | PrompFunc<B>,
+  options: TOptions = {},
+): ArgumentPromptFunction {
+  if (typeof fn === 'string') return (msg: Message) => getFixedT(msg)(fn, options);
   return (msg, args, tries) => fn(getFixedT(msg), msg, args, tries);
+}
+
+export function PromptOptions<T extends Record<any, string>, A extends { option: keyof T }>(
+  options: T,
+  tOptions: TOptions = {},
+): (msg: Message, args: A) => string {
+  return (msg, args) => getFixedT(msg)(options[args.option], tOptions);
 }
 
 export default abstract class CustomCommand extends Command {
@@ -77,7 +88,6 @@ export function getArgumentAkairo<T extends string>(
 ): ArgumentTypeFunction {
   return (...args) => {
     const x = options.find(o => (Array.isArray(o[0]) && o[0].includes(key)) || o[0] === key);
-    console.log(x, options, defaultR, key);
     if (x) {
       if (typeof x[1] === 'string') return client.commandHandler.resolver.type(x[1])(...args) || null;
     }
@@ -116,7 +126,7 @@ export function optionsArg(
       start: (m, a, t) =>
         `${title(m, a, t)}\n${optionsParsed(m, a)
           .map((o, i) => {
-            return `**${i + 1}**: ${typeof o.message === 'string' ? Prompt(o.message)(m, a, t) : o.message(m, a)}`;
+            return `**${i + 1}**: ${typeof o.message === 'string' ? Prompt(o.message)(m) : o.message(m, a)}`;
           })
           .join('\n')}`,
     },

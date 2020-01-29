@@ -37,11 +37,11 @@ class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
     return this.save();
   }
 
-  updateTicket(data: TicketConfigModule): Promise<T> {
+  updateTicket(data: Partial<TicketConfigModule>): Promise<T> {
     if (this.data.ticket) {
       this.data.ticket = this.updateData(data, this.data.ticket);
     } else {
-      this.data.ticket = data;
+      this.data.ticket = this.updateData(data, this.data.ticket);
     }
     return this.save();
   }

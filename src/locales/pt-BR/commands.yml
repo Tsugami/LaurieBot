@@ -168,3 +168,35 @@ close:
   already_ticket_closed: 'esse ticket já está fechado.'
   you_ticket_closed: 'seu ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'
   ticket_closed: 'ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'
+setchanneltk:
+  args:
+    option:
+      enable: "Ativar Ticket's"
+      disable: "Desativar Ticket's"
+      channel: 'Alterar canal principal.'
+      set_category: 'Setar categoria dos canais.'
+      change_category: 'Alterar categoria dos canais.'
+      set_role: 'Setar o cargo de suporte.'
+      change_role: 'Alterar cargo de suporte'
+    category:
+      start:
+        enable: "Escolha uma categoria que será criada os canais de ticket's"
+        set_categorya: "Escolha uma categoria que será criada os canais de ticket's"
+        change_category: "Escolha uma nova categoria que será criada os canais de ticket's"
+      retry: 'categoria invalida'
+    channel:
+      start: 'digite pra qual canal de texto você quer que seja o principal.'
+      retry: 'digite canal de texto corretamente.'
+    role:
+      start:
+        enable: "digite qual cargo que terá acesso aos ticket's. digite **OFF** pra pular essa etapa."
+        set_role: "Escolha qual será o cargo de suporte dos ticket's"
+        change_role: "Escolha qual será o novo cargo de suporte dos ticket's"
+  already_current_main_channel: "o canal {{ channel }} já é o canal atual de ticket's"
+  already_current_role: "essa já é o atual cargo de suporte dos ticket's"
+  deleting_old_message: "Deletando mensagem antiga"
+  channel: 'Canal atualizado.'
+  already_current_category: " a categoria {{ categoria }} já é atual dos ticket's"
+  change_category: 'categoria atualizadda.'
+  set_category: 'categoria setada.'
+  role: 'cargo atualizado'

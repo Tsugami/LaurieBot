@@ -1,62 +1,111 @@
-import { Command } from 'discord-akairo';
-import { Message, TextChannel, CategoryChannel, Role } from 'discord.js';
-import {
-  activateHandler,
-  deactivateHandler,
-  changeMainChannelHandler,
-  changeCategoryHandler,
-  changeRoleChange,
-} from '@ticket/handlers';
-import { TicketCategory } from '@categories';
+/* eslint-disable @typescript-eslint/camelcase */
+import Command, {
+  TFunction,
+  Prompt,
+  defineOptions,
+  optionsArg,
+  guildDataArg,
+  getArgumentAkairo,
+  PromptOptions,
+} from '@struct/Command';
+import { Message, TextChannel, CategoryChannel, Role, Channel } from 'discord.js';
+import GuildController from 'database/controllers/GuildController';
+import { setupMainChannel } from '@ticket/setupMainChannel';
+import deleteAll from '@ticket/deleteAllHandler';
 
-type Option<K extends string> = {
-  key: K;
-  message: string;
-  aliases: string[];
-};
-const defineOptions = <K extends string>(options: Option<K>[]) => options;
+interface DefaultArgsI {
+  guildData: GuildController;
+}
+
+interface EnableArgsI {
+  option: 'enable';
+  channel: TextChannel;
+  category: CategoryChannel;
+  role: Role | 'off';
+}
+
+interface DisableArgsI {
+  option: 'disable';
+}
+
+interface ChannelArgsI {
+  option: 'channel';
+  channel: TextChannel;
+}
+
+interface CategoryArgsI {
+  option: 'set_category' | 'change_category';
+  category: CategoryChannel;
+}
+
+interface RoleArgsI {
+  option: 'set_role' | 'change_role';
+  role: Role;
+}
+
+type ArgsI = DefaultArgsI & (EnableArgsI | DisableArgsI | ChannelArgsI | CategoryArgsI | RoleArgsI);
 
 const options = defineOptions([
   {
     key: 'enable',
     aliases: ['ativar', 'on'],
-    message: "Ativar Ticket's",
+    message: 'commands:setchanneltk.args.option.enable',
+    parse: (msg, a: ArgsI) =>
+      !a.guildData.data.ticket ||
+      !a.guildData.data.ticket.active ||
+      !msg.guild.channels.has(a.guildData.data.ticket.channelId),
   },
   {
     key: 'disable',
     aliases: ['desativar', 'off'],
-    message: "Desativar Ticket's",
+    message: 'commands:setchanneltk.args.option.disable',
+    parse: (_, a: ArgsI) => !!(a.guildData.data.ticket && a.guildData.data.ticket.active),
   },
   {
     key: 'channel',
     aliases: ['canal', 'alterar channel'],
-    message: 'Alterar canal principal.',
+    message: 'commands:setchanneltk.args.option.channel',
+    parse: (_, a: ArgsI) => !!(a.guildData.data.ticket && a.guildData.data.ticket.active),
   },
   {
-    key: 'category',
+    key: 'set_category',
     aliases: ['categoria'],
-    message: 'Setar/Alterar categoria dos canais.',
+    message: 'commands:setchanneltk.args.option.set_category',
+    parse: (msg, a: ArgsI) => {
+      const { ticket } = a.guildData.data;
+      return !!(ticket && ticket.active && (!ticket.categoryId || !msg.guild.roles.has(ticket.categoryId)));
+    },
   },
   {
-    key: 'role',
-    aliases: ['cargo'],
-    message: 'Setar/Alterar o cargo de suporte.',
+    key: 'change_category',
+    aliases: ['categoria'],
+    message: 'commands:setchanneltk.args.option.set_category',
+    parse: (msg, a: ArgsI) => {
+      const { ticket } = a.guildData.data;
+      return !!(ticket && ticket.active && ticket.categoryId && msg.guild.channels.has(ticket.categoryId));
+    },
   },
   {
-    key: 'cancel',
-    aliases: ['cancelar'],
-    message: 'Cancelar',
+    key: 'set_role',
+    aliases: ['setar cargo'],
+    message: 'commands:setchanneltk.args.option.set_role',
+    parse: (msg, a: ArgsI) => {
+      const { ticket } = a.guildData.data;
+      return !!(ticket && ticket.active && (!ticket.role || !msg.guild.roles.has(ticket.role)));
+    },
+  },
+  {
+    key: 'change_role',
+    aliases: ['alterar cargo'],
+    message: 'commands:setchanneltk.args.option.change_role',
+    parse: (msg, a: ArgsI) => {
+      const { ticket } = a.guildData.data;
+      return !!(ticket && ticket.active && ticket.role && msg.guild.roles.has(ticket.role));
+    },
   },
 ]);
 
-type Keys = typeof options[number]['key'];
-
-interface ArgsI {
-  option: Keys;
-  channel: TextChannel;
-  category: CategoryChannel;
-  role: Role;
-}
+type Options = ArgsI['option'];
 
 class SetChannelTkCommand extends Command {
   constructor() {
@@ -64,67 +113,60 @@ class SetChannelTkCommand extends Command {
       aliases: ['setcanaltk'],
       userPermissions: 'ADMINISTRATOR',
       clientPermissions: 'ADMINISTRATOR',
-      category: TicketCategory,
+      category: 'ticket',
       channelRestriction: 'guild',
       args: [
-        {
-          id: 'option',
-          type: w => {
-            const x = options.find((x, i) => Number(w) === i + 1 || w === x.key || x.aliases.includes(w));
-            if (x) return x.key;
-          },
-          prompt: {
-            start: `\n${options.map((o, i) => `**${i + 1}**: ${o.message}`).join('\n')}`,
-            retry: 'digite uma das opções corretamente.',
-          },
-        },
+        guildDataArg,
+        optionsArg('option', options, Prompt('commons:choose_option')),
         {
           id: 'channel',
-          type: (w, msg, args: ArgsI) => {
-            const textChannel = this.client.commandHandler.resolver.type('textChannel');
-            return args.option === 'channel' || args.option === 'enable' ? textChannel(w, msg, args) : '';
-          },
+          type: (word, msg, args: ArgsI) =>
+            getArgumentAkairo<Options>(this.client, args.option, [[['channel', 'enable'], 'textChannel']])(
+              word,
+              msg,
+              args,
+            ),
           prompt: {
-            start: 'digite pra qual canal de texto você quer que seja o principal.',
-            retry: 'digite canal de texto corretamente.',
+            start: Prompt('commands:setchanneltk.args.channel.start'),
+            retry: Prompt('commands:setchanneltk.args.channel.retry'),
           },
         },
         {
           id: 'category',
-          type: (w, msg, args: ArgsI) => {
-            if (args.option === 'category' || args.option === 'enable') {
-              const categoryChannel = this.client.commandHandler.resolver.type('channel')(w, msg, args);
-              if (categoryChannel instanceof CategoryChannel) {
-                return categoryChannel;
-              }
+          type: (word, msg, args: ArgsI) => {
+            const channel = getArgumentAkairo<Options>(this.client, args.option, [
+              [['change_category', 'enable', 'set_category'], 'channel'],
+            ])(word, msg, args);
+            if (channel instanceof Channel) {
+              if (channel instanceof CategoryChannel) return channel;
               return null;
             }
-            return '';
+            return channel;
           },
           prompt: {
-            start: "digite pra qual categoria você quer que seja criado os ticket's.",
-            retry: 'digite a categoria corretamente.',
+            start: PromptOptions({
+              enable: 'commands:setchanneltk.args.category.start.enable',
+              change_category: 'commands:setchanneltk.args.category.start.change_category',
+              set_category: 'commands:setchanneltk.args.category.start.set_category',
+            }),
+            retry: Prompt('commands:setchanneltk.args.category.retry'),
           },
         },
         {
           id: 'role',
-          type: (w, msg, args: ArgsI) => {
-            const roleHandler = () => this.client.commandHandler.resolver.type('role')(w, msg, args);
-            if (args.option === 'enable') {
-              if (w === 'off') {
-                return '';
-              }
-              return roleHandler();
-            }
-            return args.option === 'role' ? roleHandler() : '';
+          type: (word, msg, args: ArgsI) => {
+            if (args.option === 'enable' && word === 'off') return 'off';
+            return getArgumentAkairo<Options>(this.client, args.option, [
+              [['enable', 'change_role', 'set_role'], 'role'],
+            ])(word, msg, args);
           },
           prompt: {
-            start: (_: any, args: ArgsI) => {
-              if (args.option === 'enable')
-                return "digite qual cargo que terá acesso aos ticket's. digite **OFF** pra pular essa etapa.";
-              return 'digite pra qual cargo você quer alterar/setar.';
-            },
-            retry: 'digite cargo corretamente.',
+            start: PromptOptions({
+              enable: 'commands:setchanneltk.args.enable.start.enable',
+              change_role: 'commands:setchanneltk.args.role.start.change_role',
+              set_role: 'commands:setchanneltk.args.role.start.set_role',
+            }),
+            retry: Prompt('commands:setchanneltk.args.role.retry'),
           },
         },
       ],
@@ -135,21 +177,76 @@ class SetChannelTkCommand extends Command {
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
-    if (args.option === 'cancel') {
-      return msg.reply('comando cancelado.');
+  async run(msg: Message, t: TFunction, args: ArgsI) {
+    const { guildData } = args;
+    if (args.option === 'enable') {
+      await setupMainChannel(
+        msg.guild,
+        args.channel,
+        guildData,
+        args.category,
+        args.role === 'off' ? undefined : args.role,
+      );
+      return msg.reply(t('commands:setchanneltk.enable'));
     }
-    switch (args.option) {
-      case 'enable':
-        return activateHandler(msg, args.channel, args.category, args.role);
-      case 'disable':
-        return deactivateHandler(msg);
-      case 'channel':
-        return changeMainChannelHandler(msg, args.channel);
-      case 'category':
-        return changeCategoryHandler(msg, args.category);
-      case 'role':
-        return changeRoleChange(msg, args.role);
+
+    if (args.option === 'disable') {
+      await deleteAll(guildData, msg.guild);
+      return msg.reply(t('commands:setchanneltk.disable'));
+    }
+
+    if (args.option === 'channel') {
+      if (guildData.data.ticket.channelId === args.channel.id) {
+        return msg.reply(t('commands:setchanneltk.already_current_main_channel', { channel: args.channel }));
+      }
+
+      const deleteOldMessage = async () => {
+        if (guildData.data.ticket.messageId) {
+          const oldChannel = msg.guild.channels.get(guildData.data.ticket.channelId);
+          if (oldChannel && oldChannel instanceof TextChannel) {
+            const sent = await oldChannel.fetchMessage(guildData.data.ticket.messageId).catch(() => null);
+            if (sent) sent.delete();
+          }
+        }
+      };
+
+      deleteOldMessage();
+      await setupMainChannel(msg.guild, args.channel, guildData);
+      return msg.reply(t('commands:setchanneltk.channel'));
+    }
+
+    if (args.option === 'change_category' || args.option === 'set_category') {
+      const { ticket } = guildData.data;
+      if (args.option === 'change_category' && ticket.categoryId === args.category.id) {
+        return msg.reply(t('commands:setchanneltk.already_current_category'));
+      }
+      await guildData.updateTicket({ categoryId: args.category.id });
+      if (ticket.channelId) {
+        const channel = msg.guild.channels.get(ticket.channelId);
+        if (channel) channel.setParent(args.category);
+      }
+      if (ticket && ticket.tickets) {
+        ticket.tickets.forEach(tk => {
+          const channel = msg.guild.channels.get(tk.channelId);
+          if (channel) {
+            channel.setParent(args.category);
+          }
+        });
+      }
+      const text =
+        args.option === 'change_category'
+          ? 'commands:setchanneltk.change_category'
+          : 'commands:setchanneltk.set_category';
+      return msg.reply(text);
+    }
+
+    if (args.option === 'change_role' || args.option === 'set_role') {
+      const { ticket } = guildData.data;
+      if (args.option === 'change_role' && ticket.role === args.role.id) {
+        return msg.reply(t('commands:setchanneltk.already_current_role'));
+      }
+      await guildData.updateTicket({ role: args.role.id });
+      return msg.reply(t('commands:setchanneltk.role'));
     }
   }
 }

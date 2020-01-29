@@ -20,8 +20,8 @@ class CloseTicketCommand extends Command {
           id: 'ticket',
           type: (w, msg, args) => findTicketTypeArg(w, msg, args, this.client.commandHandler.resolver.type, true),
           prompt: {
-            start: Prompt('commands:kick.args.ticket.start'),
-            retry: Prompt('commands:kick.args.ticket.retry'),
+            start: Prompt('commands:close.args.ticket.start'),
+            retry: Prompt('commands:close.args.ticket.retry'),
           },
         },
         {
