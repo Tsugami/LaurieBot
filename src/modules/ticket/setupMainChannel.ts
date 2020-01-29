@@ -2,8 +2,10 @@ import { Guild, TextChannel, ChannelData, Message, Role, CategoryChannel } from 
 import GuildController from '@database/controllers/GuildController';
 import { TICKET_EMOJIS } from '@utils/Constants';
 import Embed from '@utils/Embed';
+import { TFunction } from '@struct/Command';
 
 export async function setupMainChannel(
+  t: TFunction,
   guild: Guild,
   channel: TextChannel,
   guildData: GuildController,
@@ -26,7 +28,7 @@ export async function setupMainChannel(
 
   await channel.edit(channelData);
 
-  const embed = new Embed(guild.client.user).setAuthor("Ticket's").setDescription('Descrição explicativa');
+  const embed = new Embed(guild.client.user).setAuthor("Ticket's").setDescription(t('modules:ticket.main_message'));
   if (guild.iconURL) embed.setThumbnail(guild.iconURL);
 
   const msg = await channel.send(embed);

@@ -65,7 +65,7 @@ class WelcomeCommand extends Command {
             ),
           match: 'text',
           prompt: {
-            start: Prompt((t, _, args: ArgsI) => {
+            start: Prompt<ArgsI>((t, _, args: ArgsI) => {
               if (args.option === 'change_message') return t('commands:welcome.args.message.change_message');
               return t('commands:welcome.args.message.enable');
             }),

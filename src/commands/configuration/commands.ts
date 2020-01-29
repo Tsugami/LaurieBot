@@ -1,55 +1,56 @@
-import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-import { Configuration } from '@categories';
+import Command, { Prompt, TFunction } from '@struct/Command';
 import { guild } from '@database/index';
 
 interface ArgsI {
   option: 'off' | 'on';
-};
+}
 
+const prompt = {
+  onOption: 'ON',
+  offOption: 'OFF',
+};
 
 class CommandsCommand extends Command {
   constructor() {
     super('commands', {
       aliases: ['commands', 'comandos', 'desativar'],
       userPermissions: 'MANAGE_MESSAGES',
-      category: Configuration,
+      category: 'configuration',
       channelRestriction: 'guild',
       args: [
         {
           id: 'option',
           type: ['on', 'off'],
           prompt: {
-            start: `digite **ON** para ativar e **OFF** para desativar os comandos desse canal.`,
-            retry: 'digite uma das opções corretamente.',
+            start: Prompt('commands:commands.args.option.start', prompt),
+            retry: Prompt('commands:commands.args.option.retry'),
           },
         },
       ],
       defaultPrompt: {
         cancelWord: 'cancelar',
-      }
+      },
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    const guildData = await guild(msg.guild.id)
-    switch (args.option) {
-      case 'off': {
-        if (guildData.data.disableChannels.includes(msg.channel.id)) {
-          return msg.reply('os comandos já estão desativados nesse canal.')
-        }
-        await guildData.disableChannel(msg.channel.id)
-        return msg.reply('os comandos foram desativados nesse canal.')
+  async run(msg: Message, t: TFunction, args: ArgsI) {
+    const guildData = await guild(msg.guild.id);
+    if (args.option === 'off') {
+      if (guildData.data.disableChannels.includes(msg.channel.id)) {
+        return msg.reply(t('commands:commands.off_option.already_disabled'));
       }
-      case 'on': {
-        if (!guildData.data.disableChannels.includes(msg.channel.id)) {
-          return msg.reply('os comandos já estão ativados nesse canal.')
-        }
-        await guildData.enableChannel(msg.channel.id)
-        return msg.reply('os comandos foram ativados nesse canal.')
-      }
+      await guildData.disableChannel(msg.channel.id);
+      return msg.reply(t('commands:commands.off_option.disabled'));
     }
+
+    if (!guildData.data.disableChannels.includes(msg.channel.id)) {
+      return msg.reply(t('commands:commands.on_option.already_enabled'));
+    }
+
+    await guildData.enableChannel(msg.channel.id);
+    return msg.reply(t('commands:commands.on_option.enabled'));
   }
 }
 

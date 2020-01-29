@@ -9,3 +9,9 @@ punishment:
 ticket:
   user_already_has_ticket: '{{ author }}, você não pode criar outro ticket com esse aberto.'
   ticket_created: '{{ author }}, ticket criado!\n{{ role }}'
+  main_message: "**CENTRAL DE TICKET's**
+
+Nosso sistema de Tickets permite que o suporte ao cliente seja organizado, focado, eficiente e eficaz.
+
+Selecione a categoria que deseja abrir um ticket. Para selecionar a categoria, você precisa clicar no emoji que ela representa
+."

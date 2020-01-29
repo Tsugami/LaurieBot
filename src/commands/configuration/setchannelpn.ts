@@ -1,14 +1,17 @@
-import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-import { Configuration } from '@categories';
 import { guild } from '@database/index';
+import Command, { Prompt, TFunction } from '@struct/Command';
 
 type optionTypes = 'off' | 'on';
 interface ArgsI {
   option: optionTypes;
-};
+}
 
+const prompt = {
+  onOption: 'ON',
+  offOption: 'OFF',
+};
 
 class SetChannelPnCommand extends Command {
   constructor() {
@@ -16,41 +19,38 @@ class SetChannelPnCommand extends Command {
       aliases: ['setchannelpn', 'setcanalpn'],
       userPermissions: 'MANAGE_GUILD',
       channelRestriction: 'guild',
-      category: Configuration,
+      category: 'configuration',
       args: [
         {
           id: 'option',
           type: ['on', 'off'],
           prompt: {
-            start: `digite **ON** para ativar e **OFF** para desativar as mensagens de punições nesse canal.`,
-            retry: 'digite uma das opções corretamente.',
+            start: Prompt('commands:setchannelpn.args.option.start', prompt),
+            retry: Prompt('commands:setchannelpn.args.option.retry'),
           },
         },
       ],
       defaultPrompt: {
-        cancelWord: 'cancelar'
-      }
+        cancelWord: 'cancelar',
+      },
     });
   }
 
-  async exec (msg: Message, args: ArgsI) {
-    const guildData = await guild(msg.guild.id)
-    switch (args.option) {
-      case 'off': {
-        if (guildData.data.penaltyChannels.includes(msg.channel.id)) {
-          return msg.reply('as mensagens de punições já estão desativados nesse canal.')
-        }
-        await guildData.removePenaltyChannel(msg.channel.id)
-        return msg.reply('as mensagens de punições foram desativados nesse canal.')
+  async run(msg: Message, t: TFunction, args: ArgsI) {
+    const guildData = await guild(msg.guild.id);
+
+    if (args.option === 'off') {
+      if (guildData.data.penaltyChannels.includes(msg.channel.id)) {
+        return msg.reply(t('commands:commands.off_option.already_disabled'));
       }
-      case 'on': {
-        if (!guildData.data.penaltyChannels.includes(msg.channel.id)) {
-          return msg.reply('as mensagens de punições já estão ativados nesse canal.')
-        }
-        await guildData.addPenaltyChannel(msg.channel.id)
-        return msg.reply('as mensagens de punições foram ativados nesse canal.')
-      }
+      await guildData.removePenaltyChannel(msg.channel.id);
+      return msg.reply(t('commands:commands.off_option.disabled'));
     }
+    if (!guildData.data.penaltyChannels.includes(msg.channel.id)) {
+      return msg.reply(t('commands:commands.on_option.already_enabled'));
+    }
+    await guildData.addPenaltyChannel(msg.channel.id);
+    return msg.reply(t('commands:commands.on_option.enabled'));
   }
 }
 

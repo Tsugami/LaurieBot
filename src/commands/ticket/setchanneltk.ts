@@ -181,6 +181,7 @@ class SetChannelTkCommand extends Command {
     const { guildData } = args;
     if (args.option === 'enable') {
       await setupMainChannel(
+        t,
         msg.guild,
         args.channel,
         guildData,
@@ -211,7 +212,7 @@ class SetChannelTkCommand extends Command {
       };
 
       deleteOldMessage();
-      await setupMainChannel(msg.guild, args.channel, guildData);
+      await setupMainChannel(t, msg.guild, args.channel, guildData);
       return msg.reply(t('commands:setchanneltk.channel'));
     }
 
