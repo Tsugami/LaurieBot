@@ -23,13 +23,13 @@
     "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "module-alias": "^2.2.2",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "sucrase": "^3.12.1",
     "typescript": "^3.7.5"
   },
   "dependencies": {
+    "module-alias": "^2.2.2",
     "axios": "^0.19.2",
     "discord-akairo": "^7.5.6",
     "discord.js": "^11.5.1",
