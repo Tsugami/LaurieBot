@@ -18,7 +18,7 @@ export const roundNumber = (num: number, scale = 0) => {
 
 export async function maskImage(image: string, resize?: number) {
   const p1 = await Jimp.read(image);
-  const p2 = await Jimp.read('src/assets/mask.png');
+  const p2 = await Jimp.read('assets/mask.png');
   if (resize) p1.resize(resize, Jimp.AUTO);
   if (resize) p2.resize(resize, Jimp.AUTO);
   return p1.mask(p2, 0, 0);
