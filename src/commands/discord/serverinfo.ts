@@ -26,6 +26,7 @@ class ServerinfoCommand extends Command {
     }
 
     text.addTitle(Emojis.FOLDER, t('commands:serverinfo.server_info'));
+    text.addField(Emojis.WALLET, t('commons:name'), guild.name);
     text.addField(Emojis.COMPUTER, t('commons:id'), guild.id);
     text.addField(Emojis.CROWN, t('commands:serverinfo.owner'), guild.owner.user.username);
     text.addField(Emojis.EARTH, t('commands:serverinfo.region'), getCountryInPortuguese(guild.region));
@@ -40,7 +41,7 @@ class ServerinfoCommand extends Command {
     text.addField(Emojis.STATUS_BUSY, t('commons:status.dnd'), getMemberSizeByStatus('dnd'));
     text.addField(Emojis.STATUS_AWAY, t('commons:status.idle'), getMemberSizeByStatus('idle'));
 
-    const embed = new Embed(author).setAuthor(guild.name, guild.iconURL).setDescription(text);
+    const embed = new Embed(author).setDescription(text);
     if (guild.iconURL) embed.setThumbnail(`${guild.iconURL}?size=2048`);
     msg.reply(embed);
   }
