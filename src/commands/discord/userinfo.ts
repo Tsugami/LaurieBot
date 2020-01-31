@@ -1,17 +1,16 @@
 import Command, { TFunction } from '@struct/Command';
 import { Message, GuildMember } from 'discord.js';
 
-import { Discord } from '@categories';
 import Embed from '@utils/Embed';
 import Text from '@utils/Text';
-import { Emojis, STATUS_EMOJIS, PLAYING_EMOJIS } from '@utils/Constants';
+import { Emojis, STATUS_EMOJIS, CUSTOM_STATUS } from '@utils/Constants';
 import { getDate } from '@utils/Date';
 
 class UserinfoCommand extends Command {
   constructor() {
     super('userinfo', {
       aliases: ['userinfo'],
-      category: Discord,
+      category: 'discord',
       channelRestriction: 'guild',
       args: [
         {
@@ -31,11 +30,6 @@ class UserinfoCommand extends Command {
     const status = t(`commons:status:${presence.status}`);
     const statusEmoji = STATUS_EMOJIS[presence.status];
 
-    const gameName = presence.game ? presence.game.name : t('commons:nothing');
-    const playing = presence.game ? presence.game.type : 0;
-    const playingName = t(`commons:playing.${playing}`);
-    const playingEmoji = PLAYING_EMOJIS[playing];
-
     const roles = member.roles
       .filter(role => role.id !== guild.id)
       .map(role => role.toString())
@@ -49,7 +43,6 @@ class UserinfoCommand extends Command {
     text.addField(statusEmoji, t('commons:status_e'), status);
     text.addField(Emojis.CALENDER, t('commons:created_on'), getDate(user.createdAt));
     text.addField(Emojis.INBOX, t('commons:joined_on'), getDate(member.joinedAt));
-    text.addField(playingEmoji, playingName, gameName);
     text.addField(Emojis.BRIEFCASE, t('commons:roles'), roleMessage);
 
     const embed = new Embed(author)

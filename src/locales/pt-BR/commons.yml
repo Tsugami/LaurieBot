@@ -20,8 +20,3 @@ status:
   offline: 'Offline'
   idle: 'Ausente'
   dnd: 'Ocupado'
-playing:
-  - 'Jogando'
-  - 'Streamando'
-  - 'Ouvindo'
-  - 'Assistindo'
