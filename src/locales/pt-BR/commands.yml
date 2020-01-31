@@ -39,17 +39,21 @@ welcome:
   already_current_channel: "esse já é o atual canal de boas vindas"
   channel_changed: 'canal de boas vindas atualizado.'
 avatar:
+  description: 'Mostra o avatar do usuário mencionado.'
   embed_description: Clique [aqui]({{- avatarUrl }}) para baixar.
 botinfo:
+  description: 'Mostra as informações da Laurie Bot.'
   bot_info: 'INFORMAÇÕES DO BOT'
   guilds: 'Servidores'
   creator: 'Criador'
   developer: 'Desenvolvedor'
 gif:
+  description: 'Busca um GIF sobre oque você digitar ao lado.'
   searching: 'pesquisando... {{ emoji }}'
   failed_to_fetch: 'não consegui pesquisar um gif, tente mais tarde.'
   not_found: 'não achei nenhum gif com essa palavra.'
 serverinfo:
+  description: 'Mostra as informações do servidor.'
   server_info: 'INFORMAÇÕES DO SERVIDOR'
   owner: 'Dono'
   region: 'Região'
@@ -57,6 +61,7 @@ serverinfo:
   bots: 'Rôbos'
   members: 'Membros'
 userinfo:
+  description: 'Mostra as informações do usuário mencionado.'
   user_info: 'INFORMAÇÕES DO(A) {{ username }}'
 corno:
   message: 'você é {{ num }}% corno. {{ emoji }}'
@@ -200,3 +205,13 @@ setchanneltk:
   change_category: 'categoria atualizadda.'
   set_category: 'categoria setada.'
   role: 'cargo atualizado'
+ping:
+  description: 'Mostra a velocidade da conexão com o servidor.'
+help:
+  message: "
+    Olá {{ author }}, tudo bem? Espero que sim!
+    Você está procurando saber quais comandos eu sei realizar?
+    Certo! Vamos lá...
+
+    Selecione a categoria que deseja receber as informações. Para selecionar a categoria, você precisa clicar no emoji que ela representa
+  "

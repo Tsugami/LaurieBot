@@ -1,4 +1,5 @@
-import { PresenceStatusData, prense } from 'discord.js';
+import { PresenceStatusData } from 'discord.js';
+import Categories from '@struct/categories';
 
 export const EMBED_DEFAULT_COLOR = '#ff8c08';
 export const MUTE_ROLE_NAME = 'Mutado';
@@ -40,6 +41,9 @@ export enum Emojis {
   CARD_INDEX = '📇',
   SPEECH_BALLON = '💬',
   RED_TICKET = '🎟️',
+  WARN = '⚠️',
+  GEAR = '⚙️',
+  POLICE_OFFICER = '👮',
   ANUNCIAR = '<a:anunciar:671077734566461440>',
   STATUS_ONLINE = '<:online:669594447251636226>',
   STATUS_OFFLINE = '<:offline:669594447138258964>',
@@ -48,6 +52,10 @@ export enum Emojis {
   WALLET = '<:identidade:669615608622481441>',
   JAVA = '<:java:669685001205448716>',
   PLACA_MINECRAFT = '<:info:669682580693712907>',
+  MINECRAFT = '<a:minecraft:671813949729275924>',
+  RINDO_DOIDO = '<a:interatividade:671813965239549997>',
+  CONFIGURAR = '<:configurar:671814632255651851>',
+  DISCORD = '<:discord:671813977961005067>',
 }
 
 export const TICKET_EMOJIS = {

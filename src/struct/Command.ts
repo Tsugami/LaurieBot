@@ -1,23 +1,20 @@
 import {
   Command,
-  CommandOptions,
   ArgumentPromptFunction,
   ArgumentOptions,
   ArgumentTypeFunction,
   ArgumentPromptOptions,
   AkairoClient,
   ArgumentType,
+  Argument,
 } from 'discord-akairo';
 import { Message } from 'discord.js';
 import i18next, { TFunction, TOptions } from 'i18next';
 import { guild } from '@database/index';
+import { CustomCommandOptions } from './interfaces';
 import categories from './categories';
 
 export type TFunction = TFunction;
-
-export interface CustomCommandOptions extends CommandOptions {
-  category: keyof typeof categories;
-}
 
 export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => string;
 
@@ -47,6 +44,7 @@ export function PromptOptions<T extends Record<any, string>, A extends { option:
 export default abstract class CustomCommand extends Command {
   constructor(id: string, options: CustomCommandOptions) {
     super(id, { ...options });
+    categories[options.category].set(this.id, this);
   }
 
   abstract run(msg: Message, t: TFunction, args: any, edited: boolean): any | Promise<any>;
@@ -54,6 +52,26 @@ export default abstract class CustomCommand extends Command {
   exec(msg: Message, args: any, edited: boolean) {
     const t = getFixedT(msg);
     return this.run(msg, t, args, edited);
+  }
+
+  toTitle(t: TFunction) {
+    const args: string[] = [];
+
+    const exists = (id: string) => i18next.exists(`args:${id}`);
+    const addArg = (id: any, option = false) => {
+      if (typeof id === 'string') {
+        const transt = `\`${t(`args:${id}`)}\``;
+        if (option) args.push(`<${transt}>`);
+        else args.push(`[${transt}]`);
+      }
+    };
+
+    this.args.forEach(a => {
+      if (exists(a.id)) addArg(a.id, !!a.default);
+      else if (typeof a.type === 'string' && exists(a.type)) addArg(a.id, !!a.default);
+    });
+
+    return `**${this.id}** ${args.join(' ')}`;
   }
 }
 // guild data argument

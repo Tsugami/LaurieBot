@@ -1,7 +1,6 @@
 import Command, { TFunction } from '@struct/Command';
 import { Message, GuildMember } from 'discord.js';
 
-import { Discord } from '@categories';
 import Embed from '@utils/Embed';
 import Text from '@utils/Text';
 import { Emojis, STATUS_EMOJIS, PLAYING_EMOJIS } from '@utils/Constants';
@@ -11,7 +10,7 @@ class UserinfoCommand extends Command {
   constructor() {
     super('userinfo', {
       aliases: ['userinfo'],
-      category: Discord,
+      category: 'discord',
       channelRestriction: 'guild',
       args: [
         {
