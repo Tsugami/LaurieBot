@@ -55,23 +55,13 @@ export default abstract class CustomCommand extends Command {
   }
 
   toTitle(t: TFunction) {
-    const args: string[] = [];
-
-    const exists = (id: string) => i18next.exists(`args:${id}`);
-    const addArg = (id: any, option = false) => {
-      if (typeof id === 'string') {
-        const transt = `\`${t(`args:${id}`)}\``;
-        if (option) args.push(`<${transt}>`);
-        else args.push(`[${transt}]`);
-      }
-    };
-
-    this.args.forEach(a => {
-      if (exists(a.id)) addArg(a.id, !!a.default);
-      else if (typeof a.type === 'string' && exists(a.type)) addArg(a.id, !!a.default);
-    });
-
-    return `**${this.id}** ${args.join(' ')}`;
+    const args = i18next.exists(`commands:${this.id}.usage`)
+      ? t(`commands:${this.id}.usage`)
+          .replace(/(\[|<)/g, x => `${x}\``)
+          .replace(/(\]|>)/g, x => `\`${x}`)
+          .replace('|', '`|`')
+      : '';
+    return `**${this.id}** ${args}`;
   }
 }
 // guild data argument
