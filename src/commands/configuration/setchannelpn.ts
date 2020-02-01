@@ -41,16 +41,16 @@ class SetChannelPnCommand extends Command {
 
     if (args.option === 'off') {
       if (guildData.data.penaltyChannels.includes(msg.channel.id)) {
-        return msg.reply(t('commands:commands.off_option.already_disabled'));
+        return msg.reply(t('commands:setchannelpn.off_option.already_disabled'));
       }
       await guildData.removePenaltyChannel(msg.channel.id);
-      return msg.reply(t('commands:commands.off_option.disabled'));
+      return msg.reply(t('commands:setchannelpn.off_option.disabled'));
     }
     if (!guildData.data.penaltyChannels.includes(msg.channel.id)) {
-      return msg.reply(t('commands:commands.on_option.already_enabled'));
+      return msg.reply(t('commands:setchannelpn.on_option.already_enabled'));
     }
     await guildData.addPenaltyChannel(msg.channel.id);
-    return msg.reply(t('commands:commands.on_option.enabled'));
+    return msg.reply(t('commands:setchannelpn.on_option.enabled'));
   }
 }
 
