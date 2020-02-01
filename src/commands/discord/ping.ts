@@ -1,5 +1,8 @@
 import { Message } from 'discord.js';
 import Command from '@struct/Command';
+import Embed from '@utils/Embed';
+import Text from '@utils/Text';
+import { Emojis } from '@utils/Constants';
 
 class PingCommand extends Command {
   constructor() {
@@ -9,13 +12,16 @@ class PingCommand extends Command {
     });
   }
 
-  async run(message: Message) {
-    const sent = await message.channel.send('Pong!');
+  async run(msg: Message) {
+    const sent = await msg.channel.send('Pong!');
     if (Array.isArray(sent)) return;
 
-    const timeDiff = Number(sent.editedAt || sent.createdAt) - Number(message.editedAt || message.createdAt);
-    const text = `🔂\u2000**RTT**: ${timeDiff} ms\n💟\u2000**Heartbeat**: ${Math.round(this.client.ping)} ms`;
-    sent.edit(`Pong!\n${text}`);
+    const timeDiff = Number(sent.editedAt || sent.createdAt) - Number(msg.editedAt || msg.createdAt);
+
+    const text = new Text()
+      .addField(Emojis.RTT, 'RTT', `${timeDiff} ms`)
+      .addField(Emojis.HEARTBEAT, 'Heartbeat', `${Math.round(this.client.ping)} ms`);
+    sent.edit(`${Emojis.PING_PONG} Pong!`, new Embed(msg.author).setDescription(text));
   }
 }
 
