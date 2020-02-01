@@ -1,16 +1,17 @@
 import {
   Command,
-  CommandOptions,
   ArgumentPromptFunction,
   ArgumentOptions,
   ArgumentTypeFunction,
   ArgumentPromptOptions,
   AkairoClient,
   ArgumentType,
+  Argument,
 } from 'discord-akairo';
 import { Message } from 'discord.js';
 import i18next, { TFunctionResult, TFunctionKeys, StringMap, TOptions } from 'i18next';
 import { guild } from '@database/index';
+import { CustomCommandOptions } from './interfaces';
 import Embed from '@utils/Embed';
 import categories from './categories';
 
@@ -34,10 +35,6 @@ export interface TFunction {
     defaultValue?: string,
     options?: TOptions<TInterpolationMap> | string,
   ): TResult;
-}
-
-export interface CustomCommandOptions extends CommandOptions {
-  category: keyof typeof categories;
 }
 
 export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => string;
@@ -67,17 +64,26 @@ export function PromptOptions<T extends Record<any, string>, A extends { option:
 
 export default abstract class CustomCommand extends Command {
   constructor(id: string, options: CustomCommandOptions) {
-    super(
-      id,
-      (msg: Message, args: any, edited: boolean) => {
-        const t = getFixedT(msg);
-        return this.run(msg, t, args, edited);
-      },
-      { ...options },
-    );
+    super(id, { ...options });
+    categories[options.category].set(this.id, this);
   }
 
   abstract run(msg: Message, t: TFunction, args: any, edited: boolean): any | Promise<any>;
+
+  exec(msg: Message, args: any, edited: boolean) {
+    const t = getFixedT(msg);
+    return this.run(msg, t, args, edited);
+  }
+
+  toTitle(t: TFunction) {
+    const args = i18next.exists(`commands:${this.id}.usage`)
+      ? t(`commands:${this.id}.usage`)
+          .replace(/(\[|<)/g, x => `${x}\``)
+          .replace(/(\]|>)/g, x => `\`${x}`)
+          .replace('|', '`|`')
+      : '';
+    return `**${this.id}** ${args}`;
+  }
 }
 // guild data argument
 export const guildDataArg: ArgumentOptions = {

@@ -1,16 +1,22 @@
 import { Category } from 'discord-akairo';
+import { Emojis } from '@utils/Constants';
 
-class CustomCategory extends Category<any, any> {
-  constructor(id: string) {
+import Command from './Command';
+
+export class CustomCategory extends Category<string, Command> {
+  emoji: Emojis;
+
+  constructor(id: string, emoji: Emojis) {
     super(id, []);
+    this.emoji = emoji;
   }
 }
 
 export default {
-  discord: new CustomCategory('discord'),
-  interactivity: new CustomCategory('interactivity'),
-  minecraft: new CustomCategory('minecraft'),
-  moderator: new CustomCategory('moderator'),
-  configuration: new CustomCategory('configuration'),
-  ticket: new CustomCategory('ticket'),
+  discord: new CustomCategory('discord', Emojis.DISCORD),
+  bot: new CustomCategory('bot', Emojis.ROBOT),
+  interactivity: new CustomCategory('interactivity', Emojis.RINDO_DOIDO),
+  minecraft: new CustomCategory('minecraft', Emojis.MINECRAFT),
+  moderator: new CustomCategory('moderator', Emojis.POLICE_OFFICER),
+  configuration: new CustomCategory('configuration', Emojis.GEAR),
 };

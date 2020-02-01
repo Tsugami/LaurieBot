@@ -13,7 +13,7 @@ class CloseTicketCommand extends Command {
   constructor() {
     super('close', {
       aliases: ['close', 'fecharticket', 'fechar'],
-      category: 'ticket',
+      category: 'discord',
       channelRestriction: 'guild',
       args: [
         {

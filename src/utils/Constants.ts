@@ -1,4 +1,5 @@
 import { PresenceStatusData } from 'discord.js';
+import Categories from '@struct/categories';
 
 export const CUSTOM_STATUS = 'Custom Status';
 export const EMBED_DEFAULT_COLOR = '#ff8c08';
@@ -41,6 +42,9 @@ export enum Emojis {
   CARD_INDEX = '📇',
   SPEECH_BALLON = '💬',
   RED_TICKET = '🎟️',
+  WARN = '⚠️',
+  GEAR = '⚙️',
+  POLICE_OFFICER = '👮',
   RTT = '🔂',
   HEARTBEAT = '💟',
   PING_PONG = '🏓',
@@ -52,6 +56,10 @@ export enum Emojis {
   WALLET = '<:identidade:669615608622481441>',
   JAVA = '<:java:669685001205448716>',
   PLACA_MINECRAFT = '<:info:669682580693712907>',
+  MINECRAFT = '<a:minecraft:671813949729275924>',
+  RINDO_DOIDO = '<a:interatividade:671813965239549997>',
+  CONFIGURAR = '<:configurar:671814632255651851>',
+  DISCORD = '<:discord:671813977961005067>',
 }
 
 export const TICKET_EMOJIS = {

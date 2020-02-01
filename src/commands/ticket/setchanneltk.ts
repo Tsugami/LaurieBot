@@ -49,7 +49,7 @@ const options = defineOptions([
   {
     key: 'enable',
     aliases: ['ativar', 'on'],
-    message: 'commands:setchanneltk.args.option.enable',
+    message: 'commands:tkconfig.args.option.enable',
     parse: (msg, a: ArgsI) =>
       !a.guildData.data.ticket ||
       !a.guildData.data.ticket.active ||
@@ -70,7 +70,7 @@ const options = defineOptions([
   {
     key: 'set_category',
     aliases: ['categoria'],
-    message: 'commands:setchanneltk.args.option.set_category',
+    message: 'commands:tkconfig.args.option.set_category',
     parse: (msg, a: ArgsI) => {
       const { ticket } = a.guildData.data;
       return !!(ticket && ticket.active && (!ticket.categoryId || !msg.guild.roles.has(ticket.categoryId)));
@@ -79,7 +79,7 @@ const options = defineOptions([
   {
     key: 'change_category',
     aliases: ['categoria'],
-    message: 'commands:setchanneltk.args.option.set_category',
+    message: 'commands:tkconfig.args.option.set_category',
     parse: (msg, a: ArgsI) => {
       const { ticket } = a.guildData.data;
       return !!(ticket && ticket.active && ticket.categoryId && msg.guild.channels.has(ticket.categoryId));
@@ -88,7 +88,7 @@ const options = defineOptions([
   {
     key: 'set_role',
     aliases: ['setar cargo'],
-    message: 'commands:setchanneltk.args.option.set_role',
+    message: 'commands:tkconfig.args.option.set_role',
     parse: (msg, a: ArgsI) => {
       const { ticket } = a.guildData.data;
       return !!(ticket && ticket.active && (!ticket.role || !msg.guild.roles.has(ticket.role)));
@@ -97,7 +97,7 @@ const options = defineOptions([
   {
     key: 'change_role',
     aliases: ['alterar cargo'],
-    message: 'commands:setchanneltk.args.option.change_role',
+    message: 'commands:tkconfig.args.option.change_role',
     parse: (msg, a: ArgsI) => {
       const { ticket } = a.guildData.data;
       return !!(ticket && ticket.active && ticket.role && msg.guild.roles.has(ticket.role));
@@ -113,7 +113,7 @@ class SetChannelTkCommand extends Command {
       aliases: ['setcanaltk', 'configurartk'],
       userPermissions: 'ADMINISTRATOR',
       clientPermissions: 'ADMINISTRATOR',
-      category: 'ticket',
+      category: 'configuration',
       channelRestriction: 'guild',
       args: [
         guildDataArg,
@@ -127,8 +127,8 @@ class SetChannelTkCommand extends Command {
               args,
             ),
           prompt: {
-            start: Prompt('commands:setchanneltk.args.channel.start'),
-            retry: Prompt('commands:setchanneltk.args.channel.retry'),
+            start: Prompt('commands:tkconfig.args.channel.start'),
+            retry: Prompt('commands:tkconfig.args.channel.retry'),
           },
         },
         {
@@ -145,11 +145,11 @@ class SetChannelTkCommand extends Command {
           },
           prompt: {
             start: PromptOptions({
-              enable: 'commands:setchanneltk.args.category.start.enable',
-              change_category: 'commands:setchanneltk.args.category.start.change_category',
-              set_category: 'commands:setchanneltk.args.category.start.set_category',
+              enable: 'commands:tkconfig.args.category.start.enable',
+              change_category: 'commands:tkconfig.args.category.start.change_category',
+              set_category: 'commands:tkconfig.args.category.start.set_category',
             }),
-            retry: Prompt('commands:setchanneltk.args.category.retry'),
+            retry: Prompt('commands:tkconfig.args.category.retry'),
           },
         },
         {
@@ -166,7 +166,7 @@ class SetChannelTkCommand extends Command {
               change_role: 'commands:setchanneltk.args.role.start.change_role',
               set_role: 'commands:setchanneltk.args.role.start.set_role',
             }),
-            retry: Prompt('commands:setchanneltk.args.role.retry'),
+            retry: Prompt('commands:tkconfig.args.role.retry'),
           },
         },
       ],
@@ -184,17 +184,17 @@ class SetChannelTkCommand extends Command {
         args.category,
         args.role === 'off' ? undefined : args.role,
       );
-      return msg.reply(t('commands:setchanneltk.enable'));
+      return msg.reply(t('commands:tkconfig.enable'));
     }
 
     if (args.option === 'disable') {
       await deleteAll(guildData, msg.guild);
-      return msg.reply(t('commands:setchanneltk.disable'));
+      return msg.reply(t('commands:tkconfig.disable'));
     }
 
     if (args.option === 'channel') {
       if (guildData.data.ticket.channelId === args.channel.id) {
-        return msg.reply(t('commands:setchanneltk.already_current_main_channel', { channel: args.channel }));
+        return msg.reply(t('commands:tkconfig.already_current_main_channel', { channel: args.channel }));
       }
 
       const deleteOldMessage = async () => {
@@ -209,13 +209,13 @@ class SetChannelTkCommand extends Command {
 
       deleteOldMessage();
       await setupMainChannel(t, msg.guild, args.channel, guildData);
-      return msg.reply(t('commands:setchanneltk.channel'));
+      return msg.reply(t('commands:tkconfig.channel'));
     }
 
     if (args.option === 'change_category' || args.option === 'set_category') {
       const { ticket } = guildData.data;
       if (args.option === 'change_category' && ticket.categoryId === args.category.id) {
-        return msg.reply(t('commands:setchanneltk.already_current_category'));
+        return msg.reply(t('commands:tkconfig.already_current_category'));
       }
       await guildData.updateTicket({ categoryId: args.category.id });
       if (ticket.channelId) {
@@ -231,19 +231,17 @@ class SetChannelTkCommand extends Command {
         });
       }
       const text =
-        args.option === 'change_category'
-          ? 'commands:setchanneltk.change_category'
-          : 'commands:setchanneltk.set_category';
+        args.option === 'change_category' ? 'commands:tkconfig.change_category' : 'commands:tkconfig.set_category';
       return msg.reply(text);
     }
 
     if (args.option === 'change_role' || args.option === 'set_role') {
       const { ticket } = guildData.data;
       if (args.option === 'change_role' && ticket.role === args.role.id) {
-        return msg.reply(t('commands:setchanneltk.already_current_role'));
+        return msg.reply(t('commands:tkconfig.already_current_role'));
       }
       await guildData.updateTicket({ role: args.role.id });
-      return msg.reply(t('commands:setchanneltk.role'));
+      return msg.reply(t('commands:tkconfig.role'));
     }
   }
 }
