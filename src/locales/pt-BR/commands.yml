@@ -1,4 +1,5 @@
 commands:
+  description: "Ativa/Desativa os comandos no canal onde for aplicado o comando."
   args:
     option:
       start: 'digite **{{ onOption }}** para ativar e **{{ offOption }}** para desativar os comandos desse canal.'
@@ -10,6 +11,7 @@ commands:
     already_enabled: 'os comandos já estão ativados nesse canal.'
     enabled: 'os comandos foram ativados nesse canal.'
 setchannelpn:
+  description: "Ativa/Desativa ou altera o canal das mensagens de punições."
   args:
     option:
       start: 'digite **{{ onOption }}** para ativar e **{{ offOption }}** para desativar as mensagens de punições nesse canal.'
@@ -21,6 +23,7 @@ setchannelpn:
     already_enabled: 'as mensagens de punições já estão ativadas nesse canal.'
     enabled: 'as mensagens de punições foram ativadas nesse canal.'
 welcome:
+  description: 'Ativa/Desativa ou altera as mensagens de boas vindas.'
   args:
     option:
       change_message: 'Alterar mensagem de boas vindas.'
@@ -64,38 +67,51 @@ userinfo:
   description: 'Mostra as informações do usuário mencionado.'
   user_info: 'INFORMAÇÕES DO(A) {{ username }}'
 corno:
+  description: "Calcula a porcentagem do seu chifre."
   message: 'você é {{ num }}% corno. {{ emoji }}'
 penis:
+  description: "Calcula o tamanho do seu pau."
   message: 'seu pau tem {{ num }} centímetros. {{ emoji }}'
 hug:
+  description: 'Dá um abraço no usuário mencionado.'
   message: '{{ user1 }} abraçou {{ user2 }}.'
 slap:
+  description: 'Dá um tapa no usuário mencionado.'
   message: '{{ user1 }} bateu em {{ user2 }}.'
+ship:
+  description: "Calcula a compatibilidade amorosa entre os dois usuários mencionados."
 kiss:
+  description: 'Dá um beijo no usuário mencionado.'
   message: '{{ user1 }} beijou {{ user2 }}.'
 mcconquista:
+  description: "Gera uma conquista com oque foi escrito após o comando."
   message: 'Conquista desbloqueada!'
 mcserver:
+  description: "Mostra as informações do servidor de minecraft digitado após o comando."
   not_found: 'esse servidor não existe ou não esta online.'
   server_info: 'INFORMAÇÕES DO SERVIDOR'
   address: 'Address'
   players: 'Jogadores'
   minecraft_version: 'Versão do Minecraft'
 mcskin:
+  description: "Mostra a skin do minecraft do nick digitado após o comando."
   not_found: 'Não achei nenhum jogador com esse nome!'
 alertar:
+  description: "Manda uma mensagem/texto no privado de todos os usuários que estão no servidor."
   args:
     text:
       start: 'digite uma mensagem de alerta.'
       retry: 'mensagem invalida.'
   message: 'mensagem enviada para todas as pessoas possiveis!'
 anunciar:
+  description: "Faz um anúncio no canal onde for aplicado o comando."
   args:
     text:
       start: 'digite uma mensagem para anunciar.'
       retry: 'mensagem invalida.'
   embed_title: '{{ emoji }} ANÚNCIO'
 ban:
+  description: "Bane o usuário mencionado."
   args:
     member:
       start: 'qual usuário(a) você gostaria de banir?'
@@ -109,6 +125,7 @@ ban:
   user_banned: 'usuário(a) banido(a) com sucesso!'
   user_ban_failed: 'não consegui banir esse usuário.'
 clear:
+  description: "Limpa até 100 mensagens de uma só vez no canal onde for aplicado o comando."
   args:
     amount:
       start: 'quantas mensagens você gostaria de deletar?'
@@ -116,6 +133,7 @@ clear:
   messages_deleted: '{{ amount }} mensagens foram deletadas.'
   failed: 'não consegui deleta as mensagens'
 kick:
+  description: "Expulsa o usuário mencionado."
   args:
     member:
       start: 'qual usuário(a) você gostaria de expulsar?'
@@ -129,6 +147,7 @@ kick:
   user_kicked: 'usuário(a) expulso(a) com sucesso!'
   failed: 'não consegui expulsar esse usuário.'
 mute:
+  description: "Muta o usuário mencionado."
   args:
     member:
       start: 'qual usuário(a) você gostaria de mutar?'
@@ -144,6 +163,7 @@ mute:
   failed: 'não consegui mutar esse usuário.'
   warn: '[AVISO] não foi possivel alterar o cargo de mutar nos seguintes canais: {{ channels }}'
 unmute:
+  description: "Desmuta o usuário mencionado."
   args:
     member:
       start: 'qual usuário(a) você gostaria de desmutar?'
@@ -157,6 +177,7 @@ unmute:
   user_muted: 'usuário(a) desmutado(a) com sucesso!'
   failed: 'não consegui desmutar esse usuário.'
 close:
+  description: "Fecha um Ticket."
   args:
     ticket:
       start: 'digite o nome do dono do ticket ou o canal do ticket para fechar.'
@@ -173,7 +194,8 @@ close:
   already_ticket_closed: 'esse ticket já está fechado.'
   you_ticket_closed: 'seu ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'
   ticket_closed: 'ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'
-setchanneltk:
+tkconfig:
+  description: "Ativa/Desativa ou altera o canal do módulo de Ticket."
   args:
     option:
       enable: "Ativar Ticket's"
