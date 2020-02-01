@@ -113,7 +113,7 @@ class SetChannelTkCommand extends Command {
       aliases: ['tkconfig'],
       userPermissions: 'ADMINISTRATOR',
       clientPermissions: 'ADMINISTRATOR',
-      category: 'ticket',
+      category: 'configuration',
       channelRestriction: 'guild',
       args: [
         guildDataArg,

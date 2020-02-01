@@ -19,5 +19,4 @@ export default {
   minecraft: new CustomCategory('minecraft', Emojis.MINECRAFT),
   moderator: new CustomCategory('moderator', Emojis.POLICE_OFFICER),
   configuration: new CustomCategory('configuration', Emojis.GEAR),
-  ticket: new CustomCategory('ticket', Emojis.TICKET),
 };
