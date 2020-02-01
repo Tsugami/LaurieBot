@@ -1,6 +1,7 @@
 import { PresenceStatusData } from 'discord.js';
 import Categories from '@struct/categories';
 
+export const CUSTOM_STATUS = 'Custom Status';
 export const EMBED_DEFAULT_COLOR = '#ff8c08';
 export const MUTE_ROLE_NAME = 'Mutado';
 export const ASSET_BASE_PATH = 'https://storage.googleapis.com/data-sunlight-146313.appspot.com';
@@ -44,6 +45,9 @@ export enum Emojis {
   WARN = '⚠️',
   GEAR = '⚙️',
   POLICE_OFFICER = '👮',
+  RTT = '🔂',
+  HEARTBEAT = '💟',
+  PING_PONG = '🏓',
   ANUNCIAR = '<a:anunciar:671077734566461440>',
   STATUS_ONLINE = '<:online:669594447251636226>',
   STATUS_OFFLINE = '<:offline:669594447138258964>',
@@ -70,5 +74,3 @@ export const STATUS_EMOJIS: Record<PresenceStatusData, Emojis> = {
   dnd: Emojis.STATUS_BUSY,
   idle: Emojis.STATUS_AWAY,
 };
-
-export const PLAYING_EMOJIS: Emojis[] = [Emojis.VIDEO_GAME, Emojis.VIDEO_CAMERA, Emojis.HEADPHONES, Emojis.TV];

@@ -109,15 +109,15 @@ type Options = ArgsI['option'];
 
 class SetChannelTkCommand extends Command {
   constructor() {
-    super('tkconfig', {
-      aliases: ['tkconfig'],
+    super('setcanaltk', {
+      aliases: ['setcanaltk', 'configurartk'],
       userPermissions: 'ADMINISTRATOR',
       clientPermissions: 'ADMINISTRATOR',
       category: 'configuration',
       channelRestriction: 'guild',
       args: [
         guildDataArg,
-        optionsArg('option', options, Prompt('commons:choose_option')),
+        optionsArg('option', options, 'commands:ticket.title'),
         {
           id: 'channel',
           type: (word, msg, args: ArgsI) =>
@@ -162,18 +162,14 @@ class SetChannelTkCommand extends Command {
           },
           prompt: {
             start: PromptOptions({
-              enable: 'commands:tkconfig.args.enable.start.enable',
-              change_role: 'commands:tkconfig.args.role.start.change_role',
-              set_role: 'commands:tkconfig.args.role.start.set_role',
+              enable: 'commands:setchanneltk.args.role.start.enable',
+              change_role: 'commands:setchanneltk.args.role.start.change_role',
+              set_role: 'commands:setchanneltk.args.role.start.set_role',
             }),
             retry: Prompt('commands:tkconfig.args.role.retry'),
           },
         },
       ],
-      defaultPrompt: {
-        cancelWord: 'cancelar',
-        cancel: Prompt('commons:cancel'),
-      },
     });
   }
 

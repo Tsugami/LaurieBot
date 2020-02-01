@@ -48,13 +48,13 @@ interface ArgsI {
 class WelcomeCommand extends Command {
   constructor() {
     super('welcome', {
-      aliases: ['welcome'],
+      aliases: ['welcome', 'configurarbv'],
       category: 'configuration',
       channelRestriction: 'guild',
       userPermissions: 'MANAGE_CHANNELS',
       args: [
         guildDataArg,
-        optionsArg('option', options, Prompt('commons:choose_option')),
+        optionsArg('option', options, 'commands:welcome.title'),
         {
           id: 'message',
           type: (word, msg, args: ArgsI) =>
@@ -81,9 +81,6 @@ class WelcomeCommand extends Command {
           },
         },
       ],
-      defaultPrompt: {
-        cancelWord: 'cancel',
-      },
     });
   }
 

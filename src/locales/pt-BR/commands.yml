@@ -26,6 +26,7 @@ setchannelpn:
     enabled: 'as mensagens de punições foram ativadas nesse canal.'
 welcome:
   description: 'Ativa/Desativa ou altera as mensagens de boas vindas.'
+  title: 'CONFIGURAÇÕES DE BOAS VINDAS'
   args:
     option:
       change_message: 'Alterar mensagem de boas vindas.'
@@ -216,6 +217,7 @@ close:
   ticket_closed: 'ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'
 tkconfig:
   description: "Ativa/Desativa ou altera o canal do módulo de Ticket."
+  title: "CONFIGURAÇÕES DE TICKET's"
   args:
     option:
       enable: "Ativar Ticket's"
@@ -239,6 +241,7 @@ tkconfig:
         enable: "digite qual cargo que terá acesso aos ticket's. digite **OFF** pra pular essa etapa."
         set_role: "Escolha qual será o cargo de suporte dos ticket's"
         change_role: "Escolha qual será o novo cargo de suporte dos ticket's"
+    reply: 'Digite um cargo valido.'
   already_current_main_channel: "o canal {{ channel }} já é o canal atual de ticket's"
   already_current_role: "essa já é o atual cargo de suporte dos ticket's"
   deleting_old_message: "Deletando mensagem antiga"
@@ -247,6 +250,8 @@ tkconfig:
   change_category: 'categoria atualizadda.'
   set_category: 'categoria setada.'
   role: 'cargo atualizado'
+  disable: 'modulo desativado.'
+  enable: "O modulo de ticket's ativado."
 ping:
   description: 'Mostra a velocidade da conexão com o servidor.'
 help:
