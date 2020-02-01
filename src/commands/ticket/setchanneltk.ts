@@ -162,7 +162,7 @@ class SetChannelTkCommand extends Command {
           },
           prompt: {
             start: PromptOptions({
-              enable: 'commands:setchanneltk.args.enable.start.enable',
+              enable: 'commands:setchanneltk.args.role.start.enable',
               change_role: 'commands:setchanneltk.args.role.start.change_role',
               set_role: 'commands:setchanneltk.args.role.start.set_role',
             }),

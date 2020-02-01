@@ -194,6 +194,7 @@ setchanneltk:
         enable: "digite qual cargo que terá acesso aos ticket's. digite **OFF** pra pular essa etapa."
         set_role: "Escolha qual será o cargo de suporte dos ticket's"
         change_role: "Escolha qual será o novo cargo de suporte dos ticket's"
+    reply: 'Digite um cargo valido.'
   already_current_main_channel: "o canal {{ channel }} já é o canal atual de ticket's"
   already_current_role: "essa já é o atual cargo de suporte dos ticket's"
   deleting_old_message: "Deletando mensagem antiga"
@@ -202,3 +203,5 @@ setchanneltk:
   change_category: 'categoria atualizadda.'
   set_category: 'categoria setada.'
   role: 'cargo atualizado'
+  disable: 'modulo desativado.'
+  enable: "O modulo de ticket's ativado."
