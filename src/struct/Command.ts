@@ -9,11 +9,32 @@ import {
   ArgumentType,
 } from 'discord-akairo';
 import { Message } from 'discord.js';
-import i18next, { TFunction, TOptions } from 'i18next';
+import i18next, { TFunctionResult, TFunctionKeys, StringMap, TOptions } from 'i18next';
 import { guild } from '@database/index';
+import Embed from '@utils/Embed';
 import categories from './categories';
 
-export type TFunction = TFunction;
+export interface TFunction {
+  // basic usage
+  <
+    TResult extends TFunctionResult = string,
+    TKeys extends TFunctionKeys = string,
+    TInterpolationMap extends object = StringMap
+  >(
+    key: TKeys | TKeys[],
+    options?: TOptions<TInterpolationMap> | string,
+  ): TResult;
+  // overloaded usage
+  <
+    TResult extends TFunctionResult = string,
+    TKeys extends TFunctionKeys = string,
+    TInterpolationMap extends object = StringMap
+  >(
+    key: TKeys | TKeys[],
+    defaultValue?: string,
+    options?: TOptions<TInterpolationMap> | string,
+  ): TResult;
+}
 
 export interface CustomCommandOptions extends CommandOptions {
   category: keyof typeof categories;
@@ -72,13 +93,7 @@ type Option = {
   parse?: OptionFunc;
 };
 
-const cancelOption: Option = {
-  key: 'cancel',
-  aliases: ['cancelar'],
-  message: 'commons:cancel',
-};
-
-export const defineOptions = (options: Option[]) => [...options, cancelOption];
+export const defineOptions = (options: Option[]) => options;
 export type Keys<options extends Option[]> = options[number]['key'];
 
 export type optionType<T> = [T | T[], ArgumentType];
@@ -100,7 +115,7 @@ export function getArgumentAkairo<T extends string>(
 export function optionsArg(
   id: string,
   options: Option[],
-  title: ArgumentPromptFunction,
+  title: string,
   promptOptions: ArgumentPromptOptions = {},
 ): ArgumentOptions {
   const optionsParsed = (m: Message, a: any): Option[] => options.filter(o => !o.parse || o.parse(m, a));
@@ -125,12 +140,20 @@ export function optionsArg(
     },
     prompt: {
       ...promptOptions,
-      start: (m, a, t) =>
-        `${title(m, a, t)}\n${optionsParsed(m, a)
-          .map((o, i) => {
-            return `**${i + 1}**: ${typeof o.message === 'string' ? Prompt(o.message)(m) : o.message(m, a)}`;
-          })
-          .join('\n')}`,
+      start: (m, a) => {
+        const t = getFixedT(m);
+        return {
+          embed: new Embed(m.author).setDescription(
+            `**${t(title).toUpperCase()}**\n\n${t('commons:choose_option', {
+              author: m.author,
+            })}\n\n${optionsParsed(m, a)
+              .map((o, i) => {
+                return `**${i + 1}**: ${typeof o.message === 'string' ? Prompt(o.message)(m) : o.message(m, a)}`;
+              })
+              .join('\n')}\n\n${t('commons:cancel_message')}`,
+          ),
+        };
+      },
     },
   };
 }

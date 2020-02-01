@@ -117,7 +117,7 @@ class SetChannelTkCommand extends Command {
       channelRestriction: 'guild',
       args: [
         guildDataArg,
-        optionsArg('option', options, Prompt('commons:choose_option')),
+        optionsArg('option', options, 'commands:ticket.title'),
         {
           id: 'channel',
           type: (word, msg, args: ArgsI) =>
@@ -170,10 +170,6 @@ class SetChannelTkCommand extends Command {
           },
         },
       ],
-      defaultPrompt: {
-        cancelWord: 'cancelar',
-        cancel: Prompt('commons:cancel'),
-      },
     });
   }
 

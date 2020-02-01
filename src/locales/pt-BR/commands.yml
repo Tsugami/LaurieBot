@@ -21,6 +21,7 @@ setchannelpn:
     already_enabled: 'as mensagens de punições já estão ativadas nesse canal.'
     enabled: 'as mensagens de punições foram ativadas nesse canal.'
 welcome:
+  title: 'CONFIGURAÇÕES DE BOAS VINDAS'
   args:
     option:
       change_message: 'Alterar mensagem de boas vindas.'
@@ -169,6 +170,7 @@ close:
   you_ticket_closed: 'seu ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'
   ticket_closed: 'ticket foi fechado, para obter detalhe do ticket use {{ cmdinfo }}'
 setchanneltk:
+  title: "CONFIGURAÇÕES DE TICKET's"
   args:
     option:
       enable: "Ativar Ticket's"
