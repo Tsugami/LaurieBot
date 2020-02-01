@@ -48,7 +48,7 @@ interface ArgsI {
 class WelcomeCommand extends Command {
   constructor() {
     super('welcome', {
-      aliases: ['welcome'],
+      aliases: ['welcome', 'configurarbv'],
       category: 'configuration',
       channelRestriction: 'guild',
       userPermissions: 'MANAGE_CHANNELS',

@@ -110,7 +110,7 @@ type Options = ArgsI['option'];
 class SetChannelTkCommand extends Command {
   constructor() {
     super('setcanaltk', {
-      aliases: ['setcanaltk'],
+      aliases: ['setcanaltk', 'configurartk'],
       userPermissions: 'ADMINISTRATOR',
       clientPermissions: 'ADMINISTRATOR',
       category: 'ticket',

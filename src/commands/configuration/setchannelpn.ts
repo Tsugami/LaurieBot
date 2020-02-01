@@ -16,7 +16,7 @@ const prompt = {
 class SetChannelPnCommand extends Command {
   constructor() {
     super('setchannelpn', {
-      aliases: ['setchannelpn', 'setcanalpn'],
+      aliases: ['setchannelpn', 'setcanalpn', 'configurarpn'],
       userPermissions: 'MANAGE_GUILD',
       channelRestriction: 'guild',
       category: 'configuration',
