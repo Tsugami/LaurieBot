@@ -257,3 +257,7 @@ help:
 
     Selecione a categoria que deseja receber as informações. Para selecionar a categoria, você precisa clicar no emoji que ela representa
   "
+  warn_message: "enviei para você no privado, veja suas mensagens diretas! :blush:"
+  failed_message: "tentei enviar para você no privado, mas provavelmente você desabilitou as mensagens diretas de membros do servidor, então vá até suas __Configurações de Privacidade e Segurança__ e habilite a opção: **Permitir mensagens diretas de membros do servidor**.
+
+Pronto, agora só realizar o comando novamente! "
