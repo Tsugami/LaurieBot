@@ -46,15 +46,17 @@ export function PromptOptions<T extends Record<any, string>, A extends { option:
 
 export default abstract class CustomCommand extends Command {
   constructor(id: string, options: CustomCommandOptions) {
-    super(id, { ...options });
+    super(
+      id,
+      (msg: Message, args: any, edited: boolean) => {
+        const t = getFixedT(msg);
+        return this.run(msg, t, args, edited);
+      },
+      { ...options },
+    );
   }
 
   abstract run(msg: Message, t: TFunction, args: any, edited: boolean): any | Promise<any>;
-
-  exec(msg: Message, args: any, edited: boolean) {
-    const t = getFixedT(msg);
-    return this.run(msg, t, args, edited);
-  }
 }
 // guild data argument
 export const guildDataArg: ArgumentOptions = {

@@ -32,7 +32,7 @@ class ShipCommand extends Command {
     });
   }
 
-  async run(msg: Message, t, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     const { buffer } = await ship2(args.user1, args.user2);
     const attch = new Attachment(buffer, 'ship.png');
     return msg.reply(attch);

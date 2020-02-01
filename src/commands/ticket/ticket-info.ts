@@ -1,6 +1,6 @@
-import { Command } from 'discord-akairo';
+import Command, { TFunction } from '@struct/Command';
+
 import { Message, User } from 'discord.js';
-import { TicketCategory } from '@categories';
 import { Ticket } from '@database/models/Guild';
 import GuildController from 'database/controllers/GuildController';
 import { findTicketTypeArg, getEmojiByCategory } from '@ticket/TicketUtil';
@@ -19,7 +19,7 @@ class TicketInfoCommand extends Command {
   constructor() {
     super('ticket-info', {
       aliases: ['ticket-info'],
-      category: TicketCategory,
+      category: 'ticket',
       channelRestriction: 'guild',
       args: [
         {
@@ -38,7 +38,7 @@ class TicketInfoCommand extends Command {
     });
   }
 
-  async exec(msg: Message, args: ArgsI) {
+  async run(msg: Message, t: TFunction, args: ArgsI) {
     if (args.ticket === 'desabilidado') {
       return msg.reply("esse comando só está disponivel com os ticket's ativo.");
     }
