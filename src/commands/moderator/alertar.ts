@@ -10,6 +10,7 @@ class AlertarCommand extends Command {
   constructor() {
     super('alertar', {
       aliases: ['alertar'],
+      help: 'alertar',
       category: 'moderator',
       channelRestriction: 'guild',
       userPermissions: 'ADMINISTRATOR',

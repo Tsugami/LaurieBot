@@ -14,6 +14,7 @@ class CloseTicketCommand extends Command {
     super('close', {
       aliases: ['close', 'fecharticket', 'fechar'],
       category: 'discord',
+      help: 'fecharticket',
       channelRestriction: 'guild',
       args: [
         {

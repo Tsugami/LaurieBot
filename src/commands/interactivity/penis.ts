@@ -9,6 +9,7 @@ class PenisCommand extends Command {
   constructor() {
     super('penis', {
       aliases: ['penis', 'pau'],
+      help: 'pau',
       category: 'interactivity',
     });
   }

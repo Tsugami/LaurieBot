@@ -15,6 +15,7 @@ class McServerCommand extends Command {
     super('mcserver', {
       aliases: ['mcserver'],
       category: 'minecraft',
+      help: 'mcserver',
       args: [
         {
           id: 'server',

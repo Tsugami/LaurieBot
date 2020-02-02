@@ -11,6 +11,7 @@ class KickCommand extends Command {
     super('kick', {
       aliases: ['kick', 'expulsar'],
       category: 'moderator',
+      help: 'expulsar',
       channelRestriction: 'guild',
       userPermissions: 'KICK_MEMBERS',
       clientPermissions: 'KICK_MEMBERS',

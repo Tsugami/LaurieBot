@@ -14,6 +14,7 @@ class UnmuteCommand extends Command {
       aliases: ['unmute', 'desmutar'],
       category: 'moderator',
       channelRestriction: 'guild',
+      help: 'desmutar',
       userPermissions: 'MUTE_MEMBERS',
       clientPermissions: 'MUTE_MEMBERS',
       args: [

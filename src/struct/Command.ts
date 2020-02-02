@@ -63,6 +63,8 @@ export function PromptOptions<T extends Record<any, string>, A extends { option:
 }
 
 export default abstract class CustomCommand extends Command {
+  help: string;
+
   constructor(id: string, options: CustomCommandOptions) {
     super(
       id,
@@ -72,6 +74,7 @@ export default abstract class CustomCommand extends Command {
       },
       options,
     );
+    this.help = options.help;
     categories[options.category].set(this.id, this);
   }
 

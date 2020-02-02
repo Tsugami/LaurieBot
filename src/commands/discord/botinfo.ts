@@ -19,6 +19,7 @@ class BotinfoCommand extends Command {
     super('botinfo', {
       aliases: ['botinfo', 'infobot'],
       category: 'discord',
+      help: 'infobot',
     });
   }
 

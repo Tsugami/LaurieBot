@@ -13,6 +13,7 @@ class ShipCommand extends Command {
     super('ship', {
       aliases: ['ship', 'shippar'],
       category: 'interactivity',
+      help: 'shippar',
       args: [
         {
           type: 'user',

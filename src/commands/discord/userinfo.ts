@@ -3,7 +3,7 @@ import { Message, GuildMember } from 'discord.js';
 
 import Embed from '@utils/Embed';
 import Text from '@utils/Text';
-import { Emojis, STATUS_EMOJIS, CUSTOM_STATUS } from '@utils/Constants';
+import { Emojis, STATUS_EMOJIS } from '@utils/Constants';
 import { getDate } from '@utils/Date';
 
 class UserinfoCommand extends Command {
@@ -11,6 +11,7 @@ class UserinfoCommand extends Command {
     super('userinfo', {
       aliases: ['userinfo'],
       category: 'discord',
+      help: 'userinfo',
       channelRestriction: 'guild',
       args: [
         {

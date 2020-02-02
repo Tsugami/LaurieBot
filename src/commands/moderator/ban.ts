@@ -12,6 +12,7 @@ class BanCommand extends Command {
     super('ban', {
       aliases: ['ban', 'banir'],
       category: 'moderator',
+      help: 'banir',
       channelRestriction: 'guild',
       userPermissions: 'BAN_MEMBERS',
       clientPermissions: 'BAN_MEMBERS',

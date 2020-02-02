@@ -13,6 +13,7 @@ class MuteCommand extends Command {
       aliases: ['mute', 'mutar'],
       category: 'moderator',
       channelRestriction: 'guild',
+      help: 'mutar',
       userPermissions: 'MUTE_MEMBERS',
       clientPermissions: 'MANAGE_ROLES',
       args: [

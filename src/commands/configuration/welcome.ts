@@ -49,6 +49,7 @@ class WelcomeCommand extends Command {
   constructor() {
     super('welcome', {
       aliases: ['welcome', 'configurarbv'],
+      help: 'configurarbv',
       category: 'configuration',
       channelRestriction: 'guild',
       userPermissions: 'MANAGE_CHANNELS',

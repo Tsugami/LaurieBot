@@ -12,6 +12,7 @@ class McSkinCommand extends Command {
   constructor() {
     super('mcskin', {
       aliases: ['mcskin'],
+      help: 'mcskin',
       category: 'minecraft',
       args: [
         {

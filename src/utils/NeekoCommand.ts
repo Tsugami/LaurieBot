@@ -10,10 +10,11 @@ class NeekoCommand extends Command {
 
   private urlFunc: urlFuncT;
 
-  constructor(commandName: string, aliases: string[], text: string, urlFunc: urlFuncT) {
+  constructor(commandName: string, aliases: string[], text: string, urlFunc: urlFuncT, help: string) {
     super(commandName, {
       aliases: [commandName, ...aliases],
       category: 'interactivity',
+      help,
       args: [
         {
           id: 'user',

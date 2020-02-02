@@ -109,10 +109,11 @@ type Options = ArgsI['option'];
 
 class SetChannelTkCommand extends Command {
   constructor() {
-    super('setcanaltk', {
-      aliases: ['setcanaltk', 'configurartk'],
+    super('tkconfig', {
+      aliases: ['tkconfig', 'configurartk'],
       userPermissions: 'ADMINISTRATOR',
       clientPermissions: 'ADMINISTRATOR',
+      help: 'configurartk',
       category: 'configuration',
       channelRestriction: 'guild',
       args: [

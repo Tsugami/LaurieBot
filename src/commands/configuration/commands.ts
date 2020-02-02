@@ -18,6 +18,7 @@ class CommandsCommand extends Command {
       aliases: ['commands', 'comandos', 'desativar'],
       userPermissions: 'MANAGE_MESSAGES',
       category: 'configuration',
+      help: 'comandos',
       channelRestriction: 'guild',
       args: [
         {

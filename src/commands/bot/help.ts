@@ -8,6 +8,7 @@ class HelpCommand extends Command {
   constructor() {
     super('help', {
       category: 'bot',
+      help: 'ajuda',
       aliases: ['help', 'ajuda'],
     });
   }

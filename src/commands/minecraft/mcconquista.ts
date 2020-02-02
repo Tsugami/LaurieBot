@@ -12,6 +12,7 @@ class McConquistaCommand extends Command {
     super('mcconquista', {
       aliases: ['mcconquista'],
       category: 'minecraft',
+      help: 'mcconquista',
       args: [
         {
           id: 'text',

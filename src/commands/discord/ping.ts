@@ -9,6 +9,7 @@ class PingCommand extends Command {
     super('ping', {
       aliases: ['ping'],
       category: 'discord',
+      help: 'ping',
     });
   }
 

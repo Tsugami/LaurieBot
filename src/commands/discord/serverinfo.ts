@@ -12,6 +12,7 @@ class ServerinfoCommand extends Command {
     super('serverinfo', {
       aliases: ['serverinfo'],
       category: 'discord',
+      help: 'serverinfo',
       channelRestriction: 'guild',
     });
   }

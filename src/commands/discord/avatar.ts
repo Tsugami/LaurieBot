@@ -13,6 +13,7 @@ class AvatarCommand extends Command {
     super('avatar', {
       aliases: ['avatar'],
       category: 'discord',
+      help: 'avatar',
       args: [
         {
           id: 'user',

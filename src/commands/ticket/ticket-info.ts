@@ -20,6 +20,7 @@ class TicketInfoCommand extends Command {
     super('ticket-info', {
       aliases: ['ticket-info'],
       category: 'discord',
+      help: 'ticket-info',
       channelRestriction: 'guild',
       args: [
         {

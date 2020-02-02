@@ -10,6 +10,7 @@ class ClearCommand extends Command {
     super('clear', {
       aliases: ['clear', 'prune', 'limpar'],
       category: 'moderator',
+      help: 'limpar',
       channelRestriction: 'guild',
       userPermissions: 'MANAGE_MESSAGES',
       clientPermissions: 'MANAGE_MESSAGES',
