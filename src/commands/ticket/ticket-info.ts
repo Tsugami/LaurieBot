@@ -19,7 +19,7 @@ class TicketInfoCommand extends Command {
   constructor() {
     super('ticket-info', {
       aliases: ['ticket-info'],
-      category: 'ticket',
+      category: 'discord',
       channelRestriction: 'guild',
       args: [
         {
