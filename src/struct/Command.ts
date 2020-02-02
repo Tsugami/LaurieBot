@@ -6,7 +6,6 @@ import {
   ArgumentPromptOptions,
   AkairoClient,
   ArgumentType,
-  Argument,
 } from 'discord-akairo';
 import { Message } from 'discord.js';
 import i18next, { TFunctionResult, TFunctionKeys, StringMap, TOptions } from 'i18next';
@@ -87,7 +86,7 @@ export default abstract class CustomCommand extends Command {
           .replace(/(\]|>)/g, x => `\`${x}`)
           .replace('|', '`|`')
       : '';
-    return `**${this.id}** ${args}`;
+    return `**${this.help}** ${args}`;
   }
 }
 // guild data argument

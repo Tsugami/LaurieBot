@@ -12,7 +12,7 @@ class GifCommand extends Command {
     super('gif', {
       aliases: ['gif'],
       category: 'discord',
-      help: 'gif'
+      help: 'gif',
       args: [
         {
           id: 'query',
