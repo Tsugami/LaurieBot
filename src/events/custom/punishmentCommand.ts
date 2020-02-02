@@ -20,7 +20,7 @@ export default class PunishmentCommandListener extends Listener {
     if (guildData) {
       const channels = guildData.data.penaltyChannels;
       const t = getFixedT(msg);
-
+      console.log(channels);
       channels.forEach(channelId => {
         const channel = msg.guild.channels.get(channelId);
 
