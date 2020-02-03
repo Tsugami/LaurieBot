@@ -131,7 +131,7 @@ ban:
   args:
     member:
       start: 'quem você gostaria de banir?'
-      retry: 'isso não é um usuário valido!'
+      retry: 'usuário invalido.'
     reason:
       default: 'Motivo não declarado'
   user_is_owner: 'você não pode banir o dono do servidor.'
@@ -155,7 +155,7 @@ kick:
   args:
     member:
       start: 'quem você gostaria de expulsar?'
-      retry: 'isso não é um usuário valido!'
+      retry: 'usuário invalido.'
     reason:
       default: 'Motivo não declarado'
   user_is_owner: 'você não pode expulsar o dono do servidor.'
@@ -170,7 +170,7 @@ mute:
   args:
     member:
       start: 'quem você gostaria de mutar?'
-      retry: 'isso não é um usuário valido!'
+      retry: 'usuário invalido.'
     reason:
       default: 'Motivo não declarado'
   user_is_owner: 'você não pode mutar o dono do servidor.'
@@ -187,7 +187,7 @@ unmute:
   args:
     member:
       start: 'quem você gostaria de desmutar?'
-      retry: 'isso não é um usuário valido!'
+      retry: 'usuário invalido.'
     reason:
       default: 'Motivo não declarado'
   not:
