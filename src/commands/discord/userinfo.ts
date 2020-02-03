@@ -46,10 +46,7 @@ class UserinfoCommand extends Command {
     text.addField(Emojis.INBOX, t('commons:joined_on'), getDate(member.joinedAt));
     text.addField(Emojis.BRIEFCASE, t('commons:roles'), roleMessage);
 
-    const embed = new Embed(author)
-      .setAuthor(user.username, user.displayAvatarURL)
-      .setDescription(text)
-      .setThumbnail(user.displayAvatarURL);
+    const embed = new Embed(author).setDescription(text).setThumbnail(user.displayAvatarURL);
     msg.reply(embed);
   }
 }
