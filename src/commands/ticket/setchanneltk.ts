@@ -156,7 +156,7 @@ class SetChannelTkCommand extends Command {
         {
           id: 'role',
           type: (word, msg, args: ArgsI) => {
-            if (args.option === 'enable' && word === 'off') return 'off';
+            if (args.option === 'enable' && word.toLowerCase() === 'off') return 'off';
             return getArgumentAkairo<Options>(this.client, args.option, [
               [['enable', 'change_role', 'set_role'], 'role'],
             ])(word, msg, args);
