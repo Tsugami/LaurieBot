@@ -3,7 +3,7 @@ invalid_option: 'digite uma opção válida.'
 cancel: 'Comando cancelado.'
 unknown: 'Desconhecido(a)'
 name: 'Nome'
-created_on: 'Criando em'
+created_on: 'Criado em'
 joined_on: 'Entrou em'
 prompt_options_default:
   retry: 'Digite uma opção correta.'
