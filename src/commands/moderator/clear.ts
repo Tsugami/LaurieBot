@@ -36,7 +36,7 @@ class ClearCommand extends Command {
     try {
       await msg.delete();
       await msg.channel.bulkDelete(amount);
-      return msg.reply(t('commads:clear.messages_deleted', { amount }));
+      return msg.reply(t('commands:clear.messages_deleted', { amount }));
     } catch (error) {
       console.error(error);
       return msg.reply(t('commands:clear.failed'));
