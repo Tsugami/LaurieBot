@@ -218,7 +218,7 @@ class SetChannelTkCommand extends Command {
       if (args.option === 'change_category' && ticket.categoryId === args.category.id) {
         return msg.reply(t('commands:tkconfig.already_current_category'));
       }
-      await guildData.updateTicket({ categoryId: args.category.id });
+      await guildData.updateTicket({ channelId: ticket.channelId, categoryId: args.category.id });
       if (ticket.channelId) {
         const channel = msg.guild.channels.get(ticket.channelId);
         if (channel) channel.setParent(args.category);
@@ -241,7 +241,7 @@ class SetChannelTkCommand extends Command {
       if (args.option === 'change_role' && ticket.role === args.role.id) {
         return msg.reply(t('commands:tkconfig.already_current_role'));
       }
-      await guildData.updateTicket({ role: args.role.id });
+      await guildData.updateTicket({ channelId: ticket.channelId, role: args.role.id });
       return msg.reply(t('commands:tkconfig.role'));
     }
   }
