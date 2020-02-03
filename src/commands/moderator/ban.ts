@@ -54,7 +54,7 @@ class BanCommand extends Command {
     }
 
     try {
-      await member.kick(args.reason);
+      await member.ban(args.reason);
       this.client.emit('punishmentCommand', msg, this, member, args.reason);
       return msg.reply(t('commands:ban.user_banned'));
     } catch (error) {
