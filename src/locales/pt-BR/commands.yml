@@ -179,6 +179,7 @@ mute:
     bot_has_role_highest: 'eu não tenho cargo suficiente pra mutar esse membro.'
   user_muted: 'usuário(a) mutado(a) com sucesso!'
   create_mute_role_failed: 'eu não consegui criar o cargo de mutar.'
+  already_is_muted: "esse usuário já esta mutado."
   failed: 'não consegui mutar esse usuário.'
   warn: '[AVISO] não foi possivel alterar o cargo de mutar nos seguintes canais: {{ channels }}'
 unmute:

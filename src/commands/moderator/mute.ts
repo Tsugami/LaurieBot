@@ -41,19 +41,37 @@ class MuteCommand extends Command {
     const bot = msg.guild.me;
 
     if (ownerId === member.user.id) {
-      return msg.reply(t('commands:kick.user_is_owner'));
+      return msg.reply(t('commands:mute.user_is_owner'));
     }
 
     if (ownerId !== author.user.id && member.highestRole.position >= author.highestRole.position) {
-      return msg.reply(t('commands:kick.not.author_has_role_highest'));
+      return msg.reply(t('commands:mute.not.author_has_role_highest'));
     }
 
     if (member.highestRole.position >= bot.highestRole.position) {
-      return msg.reply(t('commands:kick.not.bot_has_role_highest'));
+      return msg.reply(t('commands:mute.not.bot_has_role_highest'));
     }
 
-    let role: Role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME);
+    const role: Role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME);
+    if (role && member.roles.has(role.id)) {
+      return msg.reply(t('commands:mute.already_is_muted'));
+    }
 
+    const result = await this.createMuteRole(msg, bot, t);
+    if (result instanceof Role) {
+      try {
+        await member.addRole(role);
+        this.client.emit('punishmentCommand', msg, this, member, args.reason);
+        return msg.reply(t('commands:mute.user_muted'));
+      } catch (error) {
+        console.error(error);
+        return msg.reply(t('commands:mute.failed'));
+      }
+    }
+  }
+
+  async createMuteRole(msg: Message, bot: GuildMember, t: TFunction) {
+    let role: Role;
     try {
       role = await msg.guild.createRole({
         name: MUTE_ROLE_NAME,
@@ -63,9 +81,8 @@ class MuteCommand extends Command {
       });
     } catch (error) {
       console.error(error);
-      return msg.reply(t('commands:kick.not.create_mute_role_failed'));
+      return msg.reply(t('commands:mute.not.create_mute_role_failed'));
     }
-
     const channelsFailed: Array<TextChannel | VoiceChannel> = [];
     msg.guild.channels.forEach(async channel => {
       if (channel instanceof TextChannel) {
@@ -84,14 +101,7 @@ class MuteCommand extends Command {
       msg.reply(t('commands:mute.warn', { channels }));
     }
 
-    try {
-      await member.addRole(role);
-      this.client.emit('punishmentCommand', msg, this, member, args.reason);
-      return msg.reply(t('commands:mute.user_muted'));
-    } catch (error) {
-      console.error(error);
-      return msg.reply(t('commands:mute.failed'));
-    }
+    return role;
   }
 }
 
