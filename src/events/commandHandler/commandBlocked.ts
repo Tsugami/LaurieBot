@@ -34,17 +34,17 @@ export default class CommandBlockedListener extends Listener {
 
     if (reason === 'userPermissions') {
       const permissions = getPerm(command.userPermissions);
-      if (permissions) return msg.reply(t('errors:userPermissions', { permissions }));
+      if (permissions) return msg.reply(t('errors:user_permissions', { permissions }));
     }
 
     if (reason === 'clientPermissions') {
       const permissions = getPerm(command.clientPermissions);
-      if (permissions) return msg.reply(t('errors:userPermissions', { permissions }));
+      if (permissions) return msg.reply(t('errors:client_permissions', { permissions }));
     }
 
     if (reason === 'disableCommands' && !userIsCooldown(msg.author.id)) {
       addUserCooldown(msg.author.id);
-      return msg.reply(t('errors:disableCommands'));
+      return msg.reply(t('errors:disable_commands'));
     }
 
     if (reason === 'guild') {
