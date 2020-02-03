@@ -32,7 +32,7 @@ class AnunciarCommand extends Command {
 
   async run(msg: Message, t: TFunction, args: ArgsI) {
     const title = t('commands:anunciar.embed_title', { emoji: Emojis.ANUNCIAR });
-    return msg.channel.send(new Embed(msg.author).setAuthor(title).setDescription(args.text));
+    return msg.channel.send(new Embed(msg.author).setTitle(title).setDescription(args.text));
   }
 }
 
