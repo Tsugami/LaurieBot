@@ -1,4 +1,4 @@
 user_permissions: 'você não possui permissão de {{ permissions}} pra executar esse comando.'
 client_permissions: 'eu não possui permissão de {{ permissions}} pra executar esse comando.'
-disable_commands: 'os comandos não estão desativados nesse canal.'
+disable_commands: 'os comandos estão desativados nesse canal.'
 guild: 'essse comando está disponivel apenas em servidores.'
