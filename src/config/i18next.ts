@@ -24,6 +24,7 @@ export async function buildi18n() {
     error => {
       if (error) {
         console.error(error);
+        process.exit(0);
       }
     },
   );
