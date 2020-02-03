@@ -58,13 +58,13 @@ const options = defineOptions([
   {
     key: 'disable',
     aliases: ['desativar', 'off'],
-    message: 'commands:setchanneltk.args.option.disable',
+    message: 'commands:tkconfig.args.option.disable',
     parse: (_, a: ArgsI) => !!(a.guildData.data.ticket && a.guildData.data.ticket.active),
   },
   {
     key: 'channel',
     aliases: ['canal', 'alterar channel'],
-    message: 'commands:setchanneltk.args.option.channel',
+    message: 'commands:tkconfig.args.option.channel',
     parse: (_, a: ArgsI) => !!(a.guildData.data.ticket && a.guildData.data.ticket.active),
   },
   {
@@ -163,9 +163,9 @@ class SetChannelTkCommand extends Command {
           },
           prompt: {
             start: PromptOptions({
-              enable: 'commands:setchanneltk.args.role.start.enable',
-              change_role: 'commands:setchanneltk.args.role.start.change_role',
-              set_role: 'commands:setchanneltk.args.role.start.set_role',
+              enable: 'commands:tkconfig.args.role.start.enable',
+              change_role: 'commands:tkconfig.args.role.start.change_role',
+              set_role: 'commands:tkconfig.args.role.start.set_role',
             }),
             retry: Prompt('commands:tkconfig.args.role.retry'),
           },
