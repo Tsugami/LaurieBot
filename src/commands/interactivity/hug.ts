@@ -9,5 +9,5 @@ export default new NeekoCommand(
     const res = await Neeko.sfw.hug();
     return res.url;
   },
-  'abrançar',
+  'abraçar',
 );

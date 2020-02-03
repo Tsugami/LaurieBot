@@ -118,7 +118,7 @@ class SetChannelTkCommand extends Command {
       channelRestriction: 'guild',
       args: [
         guildDataArg,
-        optionsArg('option', options, 'commands:ticket.title'),
+        optionsArg('option', options, 'commands:tkconfig.title'),
         {
           id: 'channel',
           type: (word, msg, args: ArgsI) =>

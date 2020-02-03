@@ -9,7 +9,7 @@ prompt_options_default:
   retry: 'Digite uma opção correta.'
   cancel: 'Comando cancelado.'
   timeout: 'Comando cancelado por tempo limite.'
-  ended: 'Comando cancelado por máximo de tentativas atingidas'
+  ended: 'você excedeu o limite máximo de tentativas para realizar o comando.'
 id: 'ID'
 nothing: 'Nada'
 none: 'Nenhum'

@@ -79,18 +79,18 @@ penis:
   description: "Calcula o tamanho do seu pau."
   message: 'seu pau tem {{ num }} centímetros. {{ emoji }}'
 hug:
-  usage: '<@usuário> [@usuário]'
+  usage: '<@usuário>'
   description: 'Dá um abraço no usuário mencionado.'
   message: '{{ user1 }} abraçou {{ user2 }}.'
 slap:
-  usage: '<@usuário> [@usuário]'
+  usage: '<@usuário>'
   description: 'Dá um tapa no usuário mencionado.'
   message: '{{ user1 }} bateu em {{ user2 }}.'
 ship:
   usage: '<@usuário> [@usuário]'
   description: "Calcula a compatibilidade amorosa entre os dois usuários mencionados."
 kiss:
-  usage: '<@usuário> [@usuário]'
+  usage: '<@usuário>'
   description: 'Dá um beijo no usuário mencionado.'
   message: '{{ user1 }} beijou {{ user2 }}.'
 mcconquista:
@@ -130,7 +130,7 @@ ban:
   description: "Bane o usuário mencionado."
   args:
     member:
-      start: 'qual usuário(a) você gostaria de banir?'
+      start: 'quem você gostaria de banir?'
       retry: 'isso não é um usuário valido!'
     reason:
       default: 'Motivo não declarado'
@@ -147,14 +147,14 @@ clear:
     amount:
       start: 'quantas mensagens você gostaria de deletar?'
       retry: 'isso não é um número valido!'
-  messages_deleted: '{{ amount }} mensagens foram deletadas.'
+  messages_deleted: '{{ amount }} mensagens foram apagadas.'
   failed: 'não consegui deleta as mensagens'
 kick:
   usage: '<@usuário> [motivo]'
   description: "Expulsa o usuário mencionado."
   args:
     member:
-      start: 'qual usuário(a) você gostaria de expulsar?'
+      start: 'quem você gostaria de expulsar?'
       retry: 'isso não é um usuário valido!'
     reason:
       default: 'Motivo não declarado'
@@ -169,7 +169,7 @@ mute:
   description: "Muta o usuário mencionado."
   args:
     member:
-      start: 'qual usuário(a) você gostaria de mutar?'
+      start: 'quem você gostaria de mutar?'
       retry: 'isso não é um usuário valido!'
     reason:
       default: 'Motivo não declarado'
@@ -186,7 +186,7 @@ unmute:
   description: "Desmuta o usuário mencionado."
   args:
     member:
-      start: 'qual usuário(a) você gostaria de desmutar?'
+      start: 'quem você gostaria de desmutar?'
       retry: 'isso não é um usuário valido!'
     reason:
       default: 'Motivo não declarado'
