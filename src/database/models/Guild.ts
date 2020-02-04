@@ -64,20 +64,16 @@ export interface Ticket {
 }
 
 export interface TicketConfigModule {
-  active?: boolean;
-  message?: string;
-  channelId: string;
-  categoryId?: string;
+  active: boolean;
   role?: string;
-  messageId?: string;
-  tickets?: Ticket[];
+  tickets: Ticket[];
 }
 
 export interface GuildDocument extends Document {
   guildId: string;
   disableChannels: string[];
   penaltyChannels: string[];
-  ticket: TicketConfigModule;
+  ticket?: TicketConfigModule;
   welcome: WelcomeModule | null;
 }
 

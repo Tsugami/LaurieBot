@@ -9,6 +9,11 @@ class BaseController<Doc extends Document> {
     this.data = data;
   }
 
+  async save() {
+    await this.data.save();
+    return this.data;
+  }
+
   updateData<C, O extends C>(update: C, old: O) {
     return Object.assign(old, update);
   }
