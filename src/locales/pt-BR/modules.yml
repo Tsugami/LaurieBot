@@ -7,6 +7,8 @@ punishment:
   text_channel: 'Canal'
   user_info: 'INFORMAÇÕES DO USUÁRIO'
 ticket:
+  already_has_ticket_open: 'você já tem um ticket aberto.'
+  this_is_the_current_ticket_role: 'esse já é o atual cargo dos tickets.'
   user_already_has_ticket: '{{ author }}, você não pode criar outro ticket com esse aberto.'
   ticket_created: '{{ author }}, ticket criado!\n{{ role }}'
   main_message: "**CENTRAL DE TICKET's**

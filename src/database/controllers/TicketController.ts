@@ -42,7 +42,7 @@ class TicketController extends Base<GuildDocument> {
   changeRole(role: Role) {
     if (this.ticket) {
       if (role.id === this.ticket.role) {
-        throw new ControllerError('this_is_the_current_ticket_role');
+        throw new ControllerError('module:ticket.this_is_the_current_ticket_role');
       }
 
       this.ticket.role = role.id;
@@ -55,7 +55,7 @@ class TicketController extends Base<GuildDocument> {
     if (!this.tickets) this.tickets = [];
 
     if (this.tickets.find(x => x.authorId === user.id && x.channelId === channel.id && x.closed)) {
-      throw new ControllerError('already_has_ticket_open');
+      throw new ControllerError('module:ticket.already_has_ticket_open');
     }
 
     this.tickets.push({
