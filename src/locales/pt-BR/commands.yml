@@ -289,9 +289,12 @@ setcategoria_tk:
   description: 'Altera a categoria que os canais de ticket são criados.'
   message: 'categoria de ticket atualizada.'
 abrir_tk:
+  description: "Abre um ticket."
+  title: "INFORMAÇÕES DO TICKET"
+  ticket_created: 'seu ticket foi criado com sucesso no canal {{ channel }}. {{ emoji }}'
   already_has_ticket_opened: 'você já tem um ticket aberto em {{ channel }}.'
-  message: "**CENTRAL DE TICKET's**\n\n
+  message: "**CENTRAL DE TICKET's**\n
 
-Nosso sistema de Tickets permite que o suporte ao cliente seja organizado, focado, eficiente e eficaz.\n\n
+Nosso sistema de Tickets permite que o suporte ao cliente seja organizado, focado, eficiente e eficaz.\n
 
 Selecione a categoria que deseja abrir um ticket. Para selecionar a categoria, Você precisa clicar no emoji que ela represente"

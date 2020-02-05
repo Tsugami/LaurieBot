@@ -23,7 +23,7 @@ class TicketController extends Base<GuildDocument> {
   async disable() {
     if (this.ticket) {
       const oldData = this.ticket;
-      this.ticket = {
+      this.data.ticket = {
         active: false,
         role: '',
         categoryId: '',
@@ -60,7 +60,7 @@ class TicketController extends Base<GuildDocument> {
   }
 
   getTicket(user: User, guild: Guild) {
-    if (!this.tickets) return null;
+    if (!this.tickets || !this.tickets.length) return null;
     return this.tickets.find(
       ticket => ticket.authorId === user.id && !ticket.closed && guild.channels.has(ticket.channelId),
     );

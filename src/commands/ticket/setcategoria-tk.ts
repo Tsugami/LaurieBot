@@ -27,7 +27,7 @@ export default class AtivarTicket extends Command {
     const guildData = await guild(msg.guild.id);
     await guildData.ticket.changeCategory(args.category);
 
-    msg.reply(t('commands:setcategoria_tk.messasge'));
+    msg.reply(t('commands:setcategoria_tk.message'));
 
     if (!guildData.data.ticket) return;
 

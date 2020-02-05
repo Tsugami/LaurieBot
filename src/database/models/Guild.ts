@@ -24,12 +24,9 @@ const ticketSchema = new Schema(
 
 const ticketConfigSchema = new Schema(
   {
-    message: String,
     active: Boolean,
-    channelId: { type: String, required: true }, // main channel
     categoryId: String,
     role: String,
-    messageId: String,
     tickets: [ticketSchema],
   },
   { id: false },

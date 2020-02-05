@@ -21,7 +21,7 @@ export default class AtivarTicket extends Command {
     msg.reply(
       new Embed(msg.author)
         .setDescription(t('commands:ativar_tk.message', { prefix: this.getPrefix(msg) }))
-        .setTitle('commands:ativar_tk.title')
+        .setTitle(t('commands:ativar_tk.title'))
         .addField('desativar-tk', t('commands:desativar_tk.description'))
         .addField('abrir-tk', t('commands:abrir_tk.description'))
         .addField('fechar-tk', t('commands:fechar_tk.description'))

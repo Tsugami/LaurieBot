@@ -18,6 +18,7 @@ export default class Client extends AkairoClient {
           cancel: Prompt(`commons:prompt_options_default.cancel`),
           start: Prompt(`commons:prompt_options_default.start`),
           retry: Prompt(`commons:prompt_options_default.retry`),
+          ended: Prompt('commons:prompt_options_default.ended'),
           timeout: Prompt(`commons:prompt_options_default.timeout`),
           cancelWord: 'cancel',
         },

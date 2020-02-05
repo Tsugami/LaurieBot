@@ -21,8 +21,8 @@ export default class AtivarTicket extends Command {
 
   async run(msg: Message, t: TFunction) {
     const guildData = await guild(msg.guild.id);
-    const ticketOpened = guildData.ticket.getTicket(msg.author, msg.guild);
 
+    const ticketOpened = guildData.ticket.getTicket(msg.author, msg.guild);
     if (ticketOpened) {
       const channel = msg.guild.channels.get(ticketOpened.channelId);
       return msg.reply(t('commands:abrir_tk.already_has_ticket_opened', { channel }));
@@ -30,7 +30,7 @@ export default class AtivarTicket extends Command {
 
     const sent = await msg.reply(
       new Embed(msg.author).setDescription(
-        `${t('commands:abrir_tk.message')}\n${TICKET_EMOJIS.QUESTION} **${t('modules:ticket.question_ticket')}**\n${
+        `${t('commands:abrir_tk.message')}\n\n${TICKET_EMOJIS.QUESTION} **${t('modules:ticket.question_ticket')}**\n${
           TICKET_EMOJIS.REPORT
         } **${t('modules:ticket.report_ticket')}**\n${TICKET_EMOJIS.REVIEW} **${t('modules:ticket.review_ticket')}**\n`,
       ),
@@ -57,6 +57,7 @@ export default class AtivarTicket extends Command {
         const category = getCategoryByEmoji(e.emoji.toString()) || 'question';
 
         if (channel instanceof TextChannel) {
+          await guildData.ticket.openTicket(channel, msg.author, category);
           channel.send(msg.author.toString(), {
             embed: new Embed(msg.author).setDescription(
               new Text()
@@ -66,14 +67,13 @@ export default class AtivarTicket extends Command {
                   t('commons:category'),
                   `${t(`modules:ticket.${category}_ticket`)}`,
                 )
-                .addField(Emojis.PERSON, t('commands:created_by'), msg.author.toString()),
+                .addField(Emojis.PERSON, t('commons:created_by'), msg.author.toString()),
             ),
           });
         }
 
-        sent.edit(
-          t('commands:abrir_tk.ticket_created', { channel, emoji: e.emoji.toString(), author: msg.author.toString() }),
-        );
+        await sent.delete();
+        msg.reply(t('commands:abrir_tk.ticket_created', { channel, emoji: e.emoji.toString() }));
       });
     }
   }

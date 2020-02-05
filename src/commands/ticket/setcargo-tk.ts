@@ -27,7 +27,7 @@ export default class AtivarTicket extends Command {
     const guildData = await guild(msg.guild.id);
     await guildData.ticket.changeRole(args.role);
 
-    msg.reply(t('commands:setcargo_tk.messasge'));
+    msg.reply(t('commands:setcargo_tk.message'));
 
     if (!guildData.data.ticket) return;
 

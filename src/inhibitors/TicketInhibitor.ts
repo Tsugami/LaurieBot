@@ -11,12 +11,12 @@ export default class TicketInhibitor extends Inhibitor {
   }
 
   async exec(msg: Message, command: Command) {
-    if (command.category.id !== 'ticket') return;
+    if (command.category.id !== 'ticket') return Promise.resolve();
 
     const guildData = await guild(msg.guild.id);
-    const active = !guildData.data.ticket || guildData.data.ticket.active;
+    const active = guildData.data.ticket && guildData.data.ticket.active;
 
     if (command.id === 'ativar-tk' && active) return Promise.reject();
-    if (!active) return Promise.reject();
+    if (command.id !== 'ativar-tk' && !active) return Promise.reject();
   }
 }

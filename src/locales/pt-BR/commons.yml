@@ -12,6 +12,7 @@ prompt_options_default:
   timeout: 'Comando cancelado por tempo limite.'
   ended: 'você excedeu o limite máximo de tentativas para realizar o comando.'
 id: 'ID'
+category: 'Categoria'
 nothing: 'Nada'
 none: 'Nenhum'
 roles: 'Cargos'
