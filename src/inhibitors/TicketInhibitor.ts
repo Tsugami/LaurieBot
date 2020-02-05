@@ -11,7 +11,7 @@ export default class TicketInhibitor extends Inhibitor {
   }
 
   async exec(msg: Message, command: Command) {
-    if (command.category.id !== 'ticket') return Promise.resolve();
+    if (command.id === 'ticket' || command.category.id !== 'ticket') return Promise.resolve();
 
     const guildData = await guild(msg.guild.id);
     const active = guildData.data.ticket && guildData.data.ticket.active;
