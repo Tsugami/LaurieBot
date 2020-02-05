@@ -1,0 +1,36 @@
+import Command, { TFunction } from '@struct/Command';
+import { Message, GuildMember, TextChannel } from 'discord.js';
+import { guild } from '@database/index';
+import { TicketConfigModule, Ticket } from '@database/models/Guild';
+
+export default class AtivarTicket extends Command {
+  constructor() {
+    super('fechar-tk', {
+      aliases: ['fechar-ticket', 'fechar-tk', 'close-tk'],
+      help: 'fechar-tk',
+      category: 'ticket',
+    });
+  }
+
+  async run(msg: Message, t: TFunction) {
+    if (!(msg.channel instanceof TextChannel)) return;
+
+    const guildData = await guild(msg.guild.id);
+
+    if (!guildData.data.ticket) return;
+
+    const ticket = guildData.data.ticket.tickets.find(tk => tk.channelId === msg.channel.id);
+    if (!ticket) return msg.reply(t('commands:fechar_tk.is_not_ticket_channel'));
+    if (!this.hasTicketPermission(guildData.data.ticket, ticket, msg.member)) {
+      return msg.reply(t('commands:fechar_tk.have_no_power'));
+    }
+
+    if (await guildData.ticket.closeTicket(msg.channel, msg.author)) {
+      msg.channel.delete();
+    }
+  }
+
+  hasTicketPermission(config: TicketConfigModule, ticket: Ticket, user: GuildMember) {
+    return user.permissions.has('ADMINISTRATOR') || user.roles.has(String(config.role)) || ticket.authorId === user.id;
+  }
+}

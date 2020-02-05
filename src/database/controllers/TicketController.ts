@@ -77,6 +77,23 @@ class TicketController extends Base<GuildDocument> {
 
     return this.save();
   }
+
+  async closeTicket(query: TextChannel | User, closedBy: User, date = new Date()) {
+    if (this.tickets) {
+      let index = -1;
+      if (query instanceof TextChannel) index = this.tickets.findIndex(t => t.channelId === query.id);
+      if (query instanceof User) index = this.tickets.findIndex(t => t.authorId === query.id && !t.closed);
+
+      if (index >= 0) {
+        this.tickets[index].closed = true;
+        this.tickets[index].closedBy = closedBy.id;
+        this.tickets[index].closedAt = date;
+
+        await this.save();
+        return this.tickets[index].channelId;
+      }
+    }
+  }
 }
 
 export default TicketController;

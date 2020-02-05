@@ -298,3 +298,8 @@ abrir_tk:
 Nosso sistema de Tickets permite que o suporte ao cliente seja organizado, focado, eficiente e eficaz.\n
 
 Selecione a categoria que deseja abrir um ticket. Para selecionar a categoria, Você precisa clicar no emoji que ela represente"
+fechar_tk:
+  description: 'Fecha um ticket.'
+  is_not_ticket_channel: 'execute esse comando no canal do ticket!'
+  have_no_power: 'você não pode fechar esse ticket.'
+
