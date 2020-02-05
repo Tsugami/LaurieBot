@@ -1,5 +1,5 @@
 import { GuildDocument, CategoryTypes } from '@database/models/Guild';
-import { TextChannel, User, Role } from 'discord.js';
+import { TextChannel, User, Role, CategoryChannel } from 'discord.js';
 import Base from './Base';
 
 class TicketController extends Base<GuildDocument> {
@@ -42,6 +42,18 @@ class TicketController extends Base<GuildDocument> {
       }
 
       this.ticket.role = role.id;
+
+      return this.save();
+    }
+  }
+
+  changeCategory(category: CategoryChannel) {
+    if (this.ticket) {
+      if (category.id === this.ticket.categoryId) {
+        return this.data;
+      }
+
+      this.ticket.categoryId = category.id;
 
       return this.save();
     }

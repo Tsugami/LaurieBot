@@ -280,4 +280,11 @@ setcargo_tk:
       start: 'qual cargo você quer que seja o cargo de suporte dos ticket? digite `cancel` pra cancelar.'
       retry: 'cargo invalido.'
   description: 'Altera o cargo de suporte dos ticket.'
-  message: 'cargo dos ticket alterado.'
+  message: 'cargo dos ticket atualizada.'
+setcategoria_tk:
+  args:
+    category:
+      start: 'qual categoria você quer que seja criado os canais de tickets? digite `cancel` pra cancelar.'
+      retry: 'categoria invalido.'
+  description: 'Altera a categoria que os canais de ticket são criados.'
+  message: 'categoria de ticket atualizada.'
