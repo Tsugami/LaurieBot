@@ -7,6 +7,11 @@ punishment:
   text_channel: 'Canal'
   user_info: 'INFORMAÇÕES DO USUÁRIO'
 ticket:
+  about: "**MÓDULO DE TICKET's**\n\n
+**O que é o Módulo de Tickets?**\n
+O módulo de tickets vem junto com um sistema responsável pela organização do suporte dos jogadores, basicamente disponibiliza um comando para que os membros do servidor tirem dúvidas, reportem bugs ou revisem punições.\n\n
+**Como funciona o Sistema de Tickets?**\n
+Os membros possuem um comando chamado `{{ prefix }}open-ticket`, ao realizar o comando é gerado uma lista de informações perguntando sobre o que o membro quer conversar com o suporte, ao escolher a categoria um canal ser a criado para o atendimento."
   already_has_ticket_open: 'você já tem um ticket aberto.'
   this_is_the_current_ticket_role: 'esse já é o atual cargo dos tickets.'
   user_already_has_ticket: '{{ author }}, você não pode criar outro ticket com esse aberto.'

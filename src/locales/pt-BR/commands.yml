@@ -267,3 +267,6 @@ help:
   failed_message: "tentei enviar para você no privado, mas provavelmente você desabilitou as mensagens diretas de membros do servidor, então vá até suas __Configurações de Privacidade e Segurança__ e habilite a opção: **Permitir mensagens diretas de membros do servidor**.
 
 Pronto, agora só realizar o comando novamente! "
+desativar_tk:
+  description: 'Desativa o modulo de tickets'
+  message: 'O modulo foi desativado e todos os dados apagados.'

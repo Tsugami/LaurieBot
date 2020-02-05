@@ -66,6 +66,7 @@ export interface Ticket {
 export interface TicketConfigModule {
   active: boolean;
   role?: string;
+  categoryId?: string;
   tickets: Ticket[];
 }
 

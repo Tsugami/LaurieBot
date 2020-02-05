@@ -1,5 +1,6 @@
 import { buildi18n } from '@config/i18next';
 import { AkairoClient } from 'discord-akairo';
+import { CategoryChannel } from 'discord.js';
 import path from 'path';
 import { Prompt } from '@struct/Command';
 
@@ -28,5 +29,19 @@ export default class Client extends AkairoClient {
   async login(token: string) {
     await buildi18n();
     return super.login(token);
+  }
+
+  build() {
+    super.build();
+    this.addTypes();
+    return this;
+  }
+
+  addTypes() {
+    this.commandHandler.resolver.addType('categoryChannel', (w, m, a) => {
+      const channel = this.commandHandler.resolver.type('channel')(w, m, a);
+      if (channel instanceof CategoryChannel) return channel;
+      return null;
+    });
   }
 }
