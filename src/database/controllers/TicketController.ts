@@ -1,5 +1,5 @@
 import { GuildDocument, CategoryTypes } from '@database/models/Guild';
-import { TextChannel, User, Role, CategoryChannel } from 'discord.js';
+import { TextChannel, User, Role, CategoryChannel, Guild } from 'discord.js';
 import Base from './Base';
 
 class TicketController extends Base<GuildDocument> {
@@ -57,6 +57,13 @@ class TicketController extends Base<GuildDocument> {
 
       return this.save();
     }
+  }
+
+  getTicket(user: User, guild: Guild) {
+    if (!this.tickets) return null;
+    return this.tickets.find(
+      ticket => ticket.authorId === user.id && !ticket.closed && guild.channels.has(ticket.channelId),
+    );
   }
 
   openTicket(channel: TextChannel, user: User, category: CategoryTypes) {

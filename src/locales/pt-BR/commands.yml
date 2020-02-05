@@ -288,3 +288,10 @@ setcategoria_tk:
       retry: 'categoria invalido.'
   description: 'Altera a categoria que os canais de ticket são criados.'
   message: 'categoria de ticket atualizada.'
+abrir_tk:
+  already_has_ticket_opened: 'você já tem um ticket aberto em {{ channel }}.'
+  message: "**CENTRAL DE TICKET's**\n\n
+
+Nosso sistema de Tickets permite que o suporte ao cliente seja organizado, focado, eficiente e eficaz.\n\n
+
+Selecione a categoria que deseja abrir um ticket. Para selecionar a categoria, Você precisa clicar no emoji que ela represente"

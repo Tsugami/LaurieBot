@@ -7,6 +7,9 @@ punishment:
   text_channel: 'Canal'
   user_info: 'INFORMAÇÕES DO USUÁRIO'
 ticket:
+  question_ticket: "Esclarecer Dúvidas"
+  report_ticket: "Revisar Punição"
+  review_ticket: "Relatar Bugs"
   about: "**MÓDULO DE TICKET's**\n\n
 **O que é o Módulo de Tickets?**\n
 O módulo de tickets vem junto com um sistema responsável pela organização do suporte dos jogadores, basicamente disponibiliza um comando para que os membros do servidor tirem dúvidas, reportem bugs ou revisem punições.\n\n
