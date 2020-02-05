@@ -37,6 +37,10 @@ class TicketController extends Base<GuildDocument> {
 
   changeRole(role: Role) {
     if (this.ticket) {
+      if (role.id === this.ticket.role) {
+        return this.data;
+      }
+
       this.ticket.role = role.id;
 
       return this.save();

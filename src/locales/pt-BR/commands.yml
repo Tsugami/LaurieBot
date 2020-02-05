@@ -267,6 +267,17 @@ help:
   failed_message: "tentei enviar para você no privado, mas provavelmente você desabilitou as mensagens diretas de membros do servidor, então vá até suas __Configurações de Privacidade e Segurança__ e habilite a opção: **Permitir mensagens diretas de membros do servidor**.
 
 Pronto, agora só realizar o comando novamente! "
+ativar_tk:
+  description: 'Ativa o modulo de tickets'
+  message: 'Novos comandos estão disponivel agora que vc ativou o ticket, veja abaixo.'
+  title: "TICKETS ATIVADOS"
 desativar_tk:
   description: 'Desativa o modulo de tickets'
   message: 'O modulo foi desativado e todos os dados apagados.'
+setcargo_tk:
+  args:
+    role:
+      start: 'qual cargo você quer que seja o cargo de suporte dos ticket? digite `cancel` pra cancelar.'
+      retry: 'cargo invalido.'
+  description: 'Altera o cargo de suporte dos ticket.'
+  message: 'cargo dos ticket alterado.'
