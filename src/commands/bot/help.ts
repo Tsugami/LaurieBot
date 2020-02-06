@@ -5,6 +5,8 @@ import Categories from '@struct/categories';
 import Embed from '@utils/Embed';
 
 class HelpCommand extends Command {
+  notShow = ['bot', 'ticket'];
+
   constructor() {
     super('help', {
       category: 'bot',
@@ -24,7 +26,7 @@ class HelpCommand extends Command {
     }
     if (msg.channel.type !== 'dm') await msg.reply(t('commands:help.warn_message'));
 
-    const categories = Object.values(Categories).filter(x => x.id !== 'bot');
+    const categories = Object.values(Categories).filter(x => !this.notShow.includes(x.id));
     const categoriesMainMessage = categories.map(c => `${c.emoji} ${t(`categories:${c.id}.description`)}`).join('\n');
 
     const embed = new Embed(msg.author);

@@ -88,6 +88,10 @@ export default abstract class CustomCommand extends Command {
       : '';
     return `**${this.help}** ${args}`;
   }
+
+  getPrefix(msg: Message) {
+    return this.client.commandHandler.prefix(msg);
+  }
 }
 // guild data argument
 export const guildDataArg: ArgumentOptions = {

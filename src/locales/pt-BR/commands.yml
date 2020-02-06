@@ -267,3 +267,72 @@ help:
   failed_message: "tentei enviar para você no privado, mas provavelmente você desabilitou as mensagens diretas de membros do servidor, então vá até suas __Configurações de Privacidade e Segurança__ e habilite a opção: **Permitir mensagens diretas de membros do servidor**.
 
 Pronto, agora só realizar o comando novamente! "
+ticket:
+  description: "Explica como funciona o modulo de Ticket's."
+  warn: 'Aviso'
+  warn_message: "Apenas o comando `{{prefix}}ativar_tk` está disponivel quando o modulo está desativado."
+  title: "MÓDULO DE TICKET's"
+  what: 'O que é o Módulo de Tickets?'
+  what_message: "O módulo de tickets vem junto com um sistema responsável pela organização do suporte dos jogadores, basicamente disponibiliza um comando para que os membros do servidor tirem dúvidas, reportem bugs ou revisem punições."
+  how: "Como funciona o Sistema de Tickets?"
+  how_message: "Os membros possuem um comando chamado `{{ prefix }}abrir-tk`, ao realizar o comando é gerado uma lista de informações perguntando sobre o que o membro quer conversar com o suporte, ao escolher a categoria um canal ser a criado para o atendimento."
+ativar_tk:
+  description: 'Ativa o modulo de tickets'
+  message: 'Novos comandos estão disponivel agora que vc ativou o ticket, veja abaixo.'
+  title: "TICKETS ATIVADOS"
+desativar_tk:
+  description: 'Desativa o modulo de tickets'
+  message: 'O modulo foi desativado e todos os dados apagados.'
+setcargo_tk:
+  args:
+    role:
+      start: 'qual cargo você quer que seja o cargo de suporte dos ticket? digite `cancel` pra cancelar.'
+      retry: 'cargo invalido.'
+  description: 'Altera o cargo de suporte dos ticket.'
+  message: 'cargo dos ticket atualizada.'
+setcategoria_tk:
+  args:
+    category:
+      start: 'qual categoria você quer que seja criado os canais de tickets? digite `cancel` pra cancelar.'
+      retry: 'categoria invalido.'
+  description: 'Altera a categoria que os canais de ticket são criados.'
+  message: 'categoria de ticket atualizada.'
+abrir_tk:
+  description: "Abre um ticket."
+  title: "INFORMAÇÕES DO TICKET"
+  ticket_created: 'seu ticket foi criado com sucesso no canal {{ channel }}. {{ emoji }}'
+  already_has_ticket_opened: 'você já tem um ticket aberto em {{ channel }}.'
+  message: "**CENTRAL DE TICKET's**\n
+
+Nosso sistema de Tickets permite que o suporte ao cliente seja organizado, focado, eficiente e eficaz.\n
+
+Selecione a categoria que deseja abrir um ticket. Para selecionar a categoria, Você precisa clicar no emoji que ela represente"
+fechar_tk:
+  description: 'Fecha um ticket.'
+  is_not_ticket_channel: 'execute esse comando no canal do ticket!'
+  have_no_power: 'você não pode fechar esse ticket.'
+  request_rate: 'O ticket que você criou no **{{guildName}}** foi fechado! para da sua avaliação sobre o atendimento use `{{command}}`.'
+avaliar_tk:
+  description: 'Avalia um ticket.'
+  is_not_id: 'isso não é um id valido.'
+  not_exists: 'não existe um ticket com esse id.'
+  already_was_rating: 'você já avaliou esse ticket.'
+  not_owner: 'você não é dono desse ticket para avaliar.'
+  message: 'seu ticket foi avaliado com sucesso!'
+  title: "Você gostou do atendimento?"
+  embed: 'Reaja com os seguintes emojis de acordoc om seu nivel de satisfação'
+  good: 'Gostei do atendimento.'
+  normal: 'Poderia ser melhor.'
+  bad: 'Não gostei do atendimento.'
+status_tk:
+  description: 'mostra as estatísticas dos tickets.'
+  not_parent: 'Nenhum'
+  not_role: 'Nenhum'
+  not_tickets: 'Nenhum ticket criado.'
+  tickets_not_rate: '{{ tickets }}% dos tickets que estão fechados não foram avaliados.'
+  status_info: 'estatísticas dos tickets'
+  parent: 'Categoria'
+  role: 'Cargo de Suporte'
+  tickets: "Ticket's"
+  ticket_categories: "Categorias"
+  ticket_rating: 'Avaliações'

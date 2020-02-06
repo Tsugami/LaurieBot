@@ -1,11 +1,9 @@
-import { GuildDocument, WelcomeModule, TicketConfigModule, Ticket } from '@database/models/Guild';
-import Base, { findFn } from './Base';
+import { GuildDocument, WelcomeModule } from '@database/models/Guild';
+import Base from './Base';
+import TicketController from './TicketController';
 
 class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
-  private async save(): Promise<T> {
-    await this.data.save();
-    return this.data;
-  }
+  public ticket = new TicketController(this.data);
 
   updateWelcome(data: WelcomeModule): Promise<T> {
     this.data.welcome = data;
@@ -34,30 +32,6 @@ class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
 
   removePenaltyChannel(channelId: string): Promise<T> {
     this.data.penaltyChannels = this.removeArrayData(channelId, this.data.penaltyChannels);
-    return this.save();
-  }
-
-  updateTicket(data: TicketConfigModule): Promise<T> {
-    if (this.data.ticket) {
-      this.data.ticket = this.updateData(data, this.data.ticket);
-    } else {
-      this.data.ticket = data;
-    }
-    return this.save();
-  }
-
-  updateTickets(data: Ticket): Promise<T> | T {
-    if (this.data.ticket) {
-      const dataObj = this.data.toObject();
-      const fn: findFn<Ticket> = x => x.authorId === data.authorId && !x.closed && x.channelId === data.channelId;
-      this.data.ticket.tickets = this.updateDataInArray(data, dataObj.ticket.tickets || [], fn);
-      return this.data.save();
-    }
-    return this.data;
-  }
-
-  deleteTicketModule(): Promise<T> {
-    this.data.ticket = { channelId: '' };
     return this.save();
   }
 }
