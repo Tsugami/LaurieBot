@@ -88,11 +88,8 @@ class TicketController extends Base<GuildDocument> {
 
       if (index >= 0) {
         this.tickets[index].closed = true;
-        this.tickets[index].closedBy = closedBy.id;
-        this.tickets[index].closedAt = date;
-
         await this.save();
-        return this.tickets[index].channelId;
+        return this.tickets[index];
       }
     }
   }

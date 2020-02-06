@@ -12,12 +12,8 @@ const ticketSchema = new Schema(
   {
     authorId: { required: true, type: String },
     channelId: { required: true, type: String },
-    users: [String],
-    rating: { type: Number, max: 10, min: 0 },
     closed: Boolean,
     category: { required: true, type: String, enum: ['question', 'report', 'review'] },
-    closedAt: Date,
-    closedBy: String,
   },
   { timestamps: true },
 );
@@ -52,10 +48,6 @@ export interface Ticket {
   authorId: string;
   channelId: string;
   category: CategoryTypes;
-  users?: string[];
-  rating?: number;
-  closedAt?: Date;
-  closedBy?: string;
   closed?: boolean;
   createdAt?: Date;
 }
