@@ -1,5 +1,6 @@
-import { GuildDocument, CategoryTypes } from '@database/models/Guild';
+import { GuildDocument, CategoryTypes, RateTypes } from '@database/models/Guild';
 import { TextChannel, User, Role, CategoryChannel, Guild } from 'discord.js';
+import { Types } from 'mongoose';
 import Base from './Base';
 
 class TicketController extends Base<GuildDocument> {
@@ -90,6 +91,17 @@ class TicketController extends Base<GuildDocument> {
         this.tickets[index].closed = true;
         await this.save();
         return this.tickets[index];
+      }
+    }
+  }
+
+  ratingTicket(ticketId: Types.ObjectId, rate: RateTypes) {
+    if (this.tickets) {
+      // eslint-disable-next-line no-underscore-dangle
+      const index = this.tickets.findIndex(tk => tk._id && tk._id.equals(ticketId));
+      if (index >= 0) {
+        this.tickets[index].rate = rate;
+        return this.save();
       }
     }
   }

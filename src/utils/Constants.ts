@@ -1,5 +1,5 @@
 import { PresenceStatusData } from 'discord.js';
-import Categories from '@struct/categories';
+import { RateTypes } from '@database/models/Guild';
 
 export const CUSTOM_STATUS = 'Custom Status';
 export const EMBED_DEFAULT_COLOR = '#ff8c08';
@@ -48,6 +48,9 @@ export enum Emojis {
   RTT = '🔂',
   HEARTBEAT = '💟',
   PING_PONG = '🏓',
+  GOOD_FACE = '😁',
+  OH_FACE = '😐',
+  BAD_FACE = '☹️',
   ANUNCIAR = '<a:anunciar:671077734566461440>',
   STATUS_ONLINE = '<:online:669594447251636226>',
   STATUS_OFFLINE = '<:offline:669594447138258964>',
@@ -73,4 +76,10 @@ export const STATUS_EMOJIS: Record<PresenceStatusData, Emojis> = {
   online: Emojis.STATUS_ONLINE,
   dnd: Emojis.STATUS_BUSY,
   idle: Emojis.STATUS_AWAY,
+};
+
+export const RATE_EMOJIS: Record<RateTypes, Emojis> = {
+  good: Emojis.GOOD_FACE,
+  bad: Emojis.BAD_FACE,
+  normal: Emojis.OH_FACE,
 };

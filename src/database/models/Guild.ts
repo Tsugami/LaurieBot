@@ -42,6 +42,7 @@ export interface WelcomeModule {
 }
 
 export type CategoryTypes = 'question' | 'report' | 'review';
+export type RateTypes = 'good' | 'bad' | 'normal';
 
 export interface Ticket {
   _id?: Types.ObjectId;
@@ -49,7 +50,7 @@ export interface Ticket {
   channelId: string;
   category: CategoryTypes;
   closed?: boolean;
-  createdAt?: Date;
+  rate?: RateTypes;
 }
 
 export interface TicketConfigModule {

@@ -312,4 +312,15 @@ fechar_tk:
   is_not_ticket_channel: 'execute esse comando no canal do ticket!'
   have_no_power: 'você não pode fechar esse ticket.'
   request_rate: 'O ticket que você criou no **{{guildName}}** foi fechado! para da sua avaliação sobre o atendimento use `{{command}}`.'
-
+avaliar_tk:
+  description: 'Avalia um ticket.'
+  is_not_id: 'isso não é um id valido.'
+  not_exists: 'não existe um ticket com esse id.'
+  already_was_rating: 'você já avaliou esse ticket.'
+  not_owner: 'você não é dono desse ticket para avaliar.'
+  message: 'seu ticket foi avaliado com sucesso!'
+  title: "Você gostou do atendimento?"
+  embed: 'Reaja com os seguintes emojis de acordoc om seu nivel de satisfação'
+  good: 'Gostei do atendimento.'
+  normal: 'Poderia ser melhor.'
+  bad: 'Não gostei do atendimento.'

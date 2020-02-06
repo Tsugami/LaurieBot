@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type findFn<V> = (v: V, i: number, arr: V[]) => boolean;
 
@@ -12,6 +12,10 @@ class BaseController<Doc extends Document> {
   async save() {
     await this.data.save();
     return this.data;
+  }
+
+  isId(id: string): boolean {
+    return Types.ObjectId.isValid(id);
   }
 
   updateData<C, O extends C>(update: C, old: O) {
