@@ -2,6 +2,7 @@ import Command, { TFunction } from '@struct/Command';
 import { Message } from 'discord.js';
 import { guild } from '@database/index';
 import Embed from '@utils/Embed';
+import categories from '@struct/categories';
 
 export default class AtivarTicket extends Command {
   constructor() {
@@ -22,12 +23,11 @@ export default class AtivarTicket extends Command {
       new Embed(msg.author)
         .setDescription(t('commands:ativar_tk.message', { prefix: this.getPrefix(msg) }))
         .setTitle(t('commands:ativar_tk.title'))
-        .addField('desativar-tk', t('commands:desativar_tk.description'))
-        .addField('abrir-tk', t('commands:abrir_tk.description'))
-        .addField('fechar-tk', t('commands:fechar_tk.description'))
-        .addField('status-tk', t('commands:status_tk.description'))
-        .addField('setcategoria-tk', t('commands:setcategoria_tk.description'))
-        .addField('setcargo-tk', t('commands:setcategoria_tk.description')),
+        .addFields(
+          categories.ticket
+            .filter(c => c.id !== this.id)
+            .map(c => [c.id, t(`commands:${c.id.replace('-', '_')}.description`)]),
+        ),
     );
   }
 }

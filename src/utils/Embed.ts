@@ -8,4 +8,9 @@ export default class Embed extends RichEmbed {
     this.setColor(EMBED_DEFAULT_COLOR);
     this.setTimestamp();
   }
+
+  addFields(fields: Array<[string, string, boolean?]>) {
+    fields.forEach(f => this.addField(f[0], f[1], f[2]));
+    return this;
+  }
 }
