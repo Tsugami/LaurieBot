@@ -9,13 +9,13 @@ class TicketController extends Base<GuildDocument> {
   private tickets = this.data.ticket && this.data.ticket.tickets;
 
   enable() {
-    if (!this.ticket) {
-      this.ticket = {
+    if (!this.data.ticket) {
+      this.data.ticket = {
         active: true,
         tickets: [],
       };
     } else {
-      this.ticket.active = true;
+      this.data.ticket.active = true;
     }
 
     return this.save();
