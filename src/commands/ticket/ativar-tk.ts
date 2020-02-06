@@ -17,7 +17,7 @@ export default class AtivarTicket extends Command {
 
   async run(msg: Message, t: TFunction) {
     const guildData = await guild(msg.guild.id);
-    await guildData.ticket.enable();
+    console.debug(await guildData.ticket.enable());
 
     msg.reply(
       new Embed(msg.author)

@@ -324,3 +324,15 @@ avaliar_tk:
   good: 'Gostei do atendimento.'
   normal: 'Poderia ser melhor.'
   bad: 'Não gostei do atendimento.'
+status_tk:
+  description: 'mostra as estatísticas dos tickets.'
+  not_parent: 'Nenhum'
+  not_role: 'Nenhum'
+  not_tickets: 'Nenhum ticket criado.'
+  tickets_not_rate: '{{ tickets }}% dos tickets que estão fechados não foram avaliados.'
+  status_info: 'estatísticas dos tickets'
+  parent: 'Categoria'
+  role: 'Cargo de Suporte'
+  tickets: "Ticket's"
+  ticket_categories: "Categorias"
+  ticket_rating: 'Avaliações'

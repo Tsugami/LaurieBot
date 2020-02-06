@@ -14,6 +14,7 @@ const ticketSchema = new Schema(
     channelId: { required: true, type: String },
     closed: Boolean,
     category: { required: true, type: String, enum: ['question', 'report', 'review'] },
+    rate: String,
   },
   { timestamps: true },
 );
