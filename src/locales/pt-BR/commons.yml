@@ -13,6 +13,7 @@ prompt_options_default:
   ended: 'você excedeu o limite máximo de tentativas para realizar o comando.'
 id: 'ID'
 category: 'Categoria'
+commands: 'Comandos'
 nothing: 'Nada'
 none: 'Nenhum'
 roles: 'Cargos'

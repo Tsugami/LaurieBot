@@ -1,4 +1,5 @@
 import Command, { TFunction } from '@struct/Command';
+import Categories from '@struct/categories';
 import { Message } from 'discord.js';
 import Embed from '@utils/Embed';
 
@@ -12,12 +13,19 @@ class TicketCommand extends Command {
   }
 
   run(msg: Message, t: TFunction) {
+    const prefix = this.getPrefix(msg);
     return msg.reply(
-      new Embed(msg.author).setDescription(
-        t('modules:ticket.about', {
-          prefix: this.getPrefix(msg),
-        }),
-      ),
+      new Embed(msg.author)
+        .setAuthor(t('commands:ticket.title'))
+        .addField(t('commands:ticket.what'), t('commands:ticket.what_message'))
+        .addField(t('commands:ticket.how'), t('commands:ticket.how_message'))
+        .addField(
+          t('commons:commands'),
+          Categories.ticket
+            .map(x => `\`${prefix + x.help}\` ${t(`commands:${x.id.replace('-', '_')}.description`)}`)
+            .join('\n'),
+        )
+        .addField(t('commands:ticket.warn'), t('commands:ticket.warn_message', { prefix })),
     );
   }
 }

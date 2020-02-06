@@ -57,7 +57,7 @@ export default class AtivarTicket extends Command {
         const category = getCategoryByEmoji(e.emoji.toString()) || 'question';
 
         if (channel instanceof TextChannel) {
-          await guildData.ticket.openTicket(channel, msg.author, category);
+          const ticket = await guildData.ticket.openTicket(channel, msg.author, category);
           channel.send(msg.author.toString(), {
             embed: new Embed(msg.author).setDescription(
               new Text()
@@ -67,7 +67,9 @@ export default class AtivarTicket extends Command {
                   t('commons:category'),
                   `${t(`modules:ticket.${category}_ticket`)}`,
                 )
-                .addField(Emojis.PERSON, t('commons:created_by'), msg.author.toString()),
+                .addField(Emojis.PERSON, t('commons:created_by'), msg.author.toString())
+                // eslint-disable-next-line no-underscore-dangle
+                .addField(Emojis.COMPUTER, t('commons:id'), `${ticket && ticket._id}`),
             ),
           });
         }

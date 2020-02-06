@@ -66,7 +66,7 @@ class TicketController extends Base<GuildDocument> {
     );
   }
 
-  openTicket(channel: TextChannel, user: User, category: CategoryTypes) {
+  async openTicket(channel: TextChannel, user: User, category: CategoryTypes) {
     if (!this.tickets) this.tickets = [];
 
     this.tickets.push({
@@ -75,7 +75,9 @@ class TicketController extends Base<GuildDocument> {
       category,
     });
 
-    return this.save();
+    await this.save();
+
+    return this.tickets.find(t => t.channelId === channel.id);
   }
 
   async closeTicket(query: TextChannel | User, closedBy: User, date = new Date()) {

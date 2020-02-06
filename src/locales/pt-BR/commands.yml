@@ -267,6 +267,15 @@ help:
   failed_message: "tentei enviar para você no privado, mas provavelmente você desabilitou as mensagens diretas de membros do servidor, então vá até suas __Configurações de Privacidade e Segurança__ e habilite a opção: **Permitir mensagens diretas de membros do servidor**.
 
 Pronto, agora só realizar o comando novamente! "
+ticket:
+  description: "Explica como funcionar o modulo de Ticket's."
+  warn: 'Aviso'
+  warn_message: "Apenas o comando `{{prefix}}ativar_tk` está disponivel quando o modulo está desativado."
+  title: "MÓDULO DE TICKET's"
+  what: 'O que é o Módulo de Tickets?'
+  what_message: "O módulo de tickets vem junto com um sistema responsável pela organização do suporte dos jogadores, basicamente disponibiliza um comando para que os membros do servidor tirem dúvidas, reportem bugs ou revisem punições."
+  how: "Como funciona o Sistema de Tickets?"
+  how_message: "Os membros possuem um comando chamado `{{ prefix }}abrir-tk`, ao realizar o comando é gerado uma lista de informações perguntando sobre o que o membro quer conversar com o suporte, ao escolher a categoria um canal ser a criado para o atendimento."
 ativar_tk:
   description: 'Ativa o modulo de tickets'
   message: 'Novos comandos estão disponivel agora que vc ativou o ticket, veja abaixo.'
