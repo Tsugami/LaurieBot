@@ -1,5 +1,5 @@
 import Command, { TFunction } from '@struct/Command';
-import { Message, MessageReaction, User, Guild, ChannelCreationOverwrites, TextChannel } from 'discord.js';
+import { Message, MessageReaction, User, Guild, ChannelCreationOverwrites, TextChannel, ChannelData } from 'discord.js';
 import { guild } from '@database/index';
 import Embed from '@utils/Embed';
 import Text from '@utils/Text';
@@ -48,11 +48,10 @@ export default class AtivarTicket extends Command {
         const roleId = guildData.data.ticket && guildData.data.ticket.role;
         const permissionOverwrites = this.TicketChannelPermissionOverwrites(msg.author, msg.guild, roleId);
 
-        const channel = await msg.guild.createChannel(this.TicketChannelName(msg.guild), {
-          type: 'text',
-          parent,
-          permissionOverwrites,
-        });
+        const options: ChannelData = { permissionOverwrites, type: 'text' };
+        if (parent) options.parent = parent;
+
+        const channel = await msg.guild.createChannel(this.TicketChannelName(msg.guild), options);
 
         const category = getCategoryByEmoji(e.emoji.toString()) || 'question';
 

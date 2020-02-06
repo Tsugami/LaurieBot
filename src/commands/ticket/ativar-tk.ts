@@ -25,7 +25,7 @@ export default class AtivarTicket extends Command {
         .addField('desativar-tk', t('commands:desativar_tk.description'))
         .addField('abrir-tk', t('commands:abrir_tk.description'))
         .addField('fechar-tk', t('commands:fechar_tk.description'))
-        .addField('info-tk', t('commands:info_tk.description'))
+        .addField('status-tk', t('commands:status_tk.description'))
         .addField('setcategoria-tk', t('commands:setcategoria_tk.description'))
         .addField('setcargo-tk', t('commands:setcategoria_tk.description')),
     );

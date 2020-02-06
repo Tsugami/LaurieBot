@@ -311,4 +311,5 @@ fechar_tk:
   description: 'Fecha um ticket.'
   is_not_ticket_channel: 'execute esse comando no canal do ticket!'
   have_no_power: 'você não pode fechar esse ticket.'
+  request_rate: 'O ticket que você criou no **{{guildName}}** foi fechado! para da sua avaliação sobre o atendimento use `{{command}}`.'
 

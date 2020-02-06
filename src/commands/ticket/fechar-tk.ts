@@ -19,14 +19,28 @@ export default class AtivarTicket extends Command {
 
     if (!guildData.data.ticket) return;
 
-    const ticket = guildData.data.ticket.tickets.find(tk => tk.channelId === msg.channel.id);
+    let ticket = guildData.data.ticket.tickets.find(tk => tk.channelId === msg.channel.id);
     if (!ticket) return msg.reply(t('commands:fechar_tk.is_not_ticket_channel'));
     if (!this.hasTicketPermission(guildData.data.ticket, ticket, msg.member)) {
       return msg.reply(t('commands:fechar_tk.have_no_power'));
     }
 
-    if (await guildData.ticket.closeTicket(msg.channel, msg.author)) {
+    ticket = await guildData.ticket.closeTicket(msg.channel, msg.author);
+    if (ticket) {
       msg.channel.delete();
+
+      // request rate
+      const user = msg.client.users.get(ticket.authorId);
+      const dm = user && (await user.createDM().catch(() => null));
+
+      if (dm)
+        dm.send(
+          t('commands:fechar_tk.request_rate', {
+            guildName: msg.guild.name,
+            // eslint-disable-next-line no-underscore-dangle
+            command: `${this.getPrefix(msg)}rate-tk ${ticket._id}`,
+          }),
+        );
     }
   }
 
