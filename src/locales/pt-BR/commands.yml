@@ -268,7 +268,7 @@ help:
 
 Pronto, agora só realizar o comando novamente! "
 ticket:
-  description: "Explica como funcionar o modulo de Ticket's."
+  description: "Explica como funciona o modulo de Ticket's."
   warn: 'Aviso'
   warn_message: "Apenas o comando `{{prefix}}ativar_tk` está disponivel quando o modulo está desativado."
   title: "MÓDULO DE TICKET's"
