@@ -83,3 +83,5 @@ export const RATE_EMOJIS: Record<RateTypes, Emojis> = {
   bad: Emojis.BAD_FACE,
   normal: Emojis.OH_FACE,
 };
+
+export const ERROR_CHANNEL_ID = '675412206988427284';

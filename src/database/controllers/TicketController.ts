@@ -8,6 +8,12 @@ class TicketController extends Base<GuildDocument> {
 
   private tickets = this.data.ticket && this.data.ticket.tickets;
 
+  throwTicket() {
+    if (!this.data.ticket) {
+      throw new Error('MODULO DESATIVADO');
+    }
+  }
+
   enable() {
     if (!this.data.ticket) {
       this.data.ticket = {
@@ -22,21 +28,22 @@ class TicketController extends Base<GuildDocument> {
   }
 
   async disable() {
-    if (this.ticket) {
-      const oldData = this.ticket;
-      this.data.ticket = {
-        active: false,
-        role: '',
-        categoryId: '',
-        tickets: [],
-      };
+    this.throwTicket();
 
-      await this.save();
-      return oldData;
-    }
+    const oldData = this.ticket;
+    this.data.ticket = {
+      active: false,
+      role: '',
+      categoryId: '',
+      tickets: [],
+    };
+
+    await this.save();
+    return oldData;
   }
 
   changeRole(role: Role) {
+    this.throwTicket();
     if (this.ticket) {
       if (role.id === this.ticket.role) {
         return this.data;
@@ -49,6 +56,7 @@ class TicketController extends Base<GuildDocument> {
   }
 
   changeCategory(category: CategoryChannel) {
+    this.throwTicket();
     if (this.ticket) {
       if (category.id === this.ticket.categoryId) {
         return this.data;
@@ -61,6 +69,8 @@ class TicketController extends Base<GuildDocument> {
   }
 
   getTicket(user: User, guild: Guild) {
+    this.throwTicket();
+
     if (!this.tickets || !this.tickets.length) return null;
     return this.tickets.find(
       ticket => ticket.authorId === user.id && !ticket.closed && guild.channels.has(ticket.channelId),
@@ -68,6 +78,8 @@ class TicketController extends Base<GuildDocument> {
   }
 
   async openTicket(channel: TextChannel, user: User, category: CategoryTypes) {
+    this.throwTicket();
+
     if (!this.tickets) this.tickets = [];
 
     this.tickets.push({
@@ -81,7 +93,9 @@ class TicketController extends Base<GuildDocument> {
     return this.tickets.find(t => t.channelId === channel.id);
   }
 
-  async closeTicket(query: TextChannel | User, closedBy: User, date = new Date()) {
+  async closeTicket(query: TextChannel | User) {
+    this.throwTicket();
+
     if (this.tickets) {
       let index = -1;
       if (query instanceof TextChannel) index = this.tickets.findIndex(t => t.channelId === query.id);
@@ -92,6 +106,7 @@ class TicketController extends Base<GuildDocument> {
         await this.save();
         return this.tickets[index];
       }
+      throw new Error('ticket não existe');
     }
   }
 
