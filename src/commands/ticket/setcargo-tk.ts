@@ -2,7 +2,7 @@ import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message, Role, TextChannel } from 'discord.js';
 import { guild } from '@database/index';
 
-export default class AtivarTicket extends Command {
+export default class SetCargoTicket extends Command {
   constructor() {
     super('setcargo-tk', {
       aliases: ['setcargo-ticket', 'setcargo-tk', 'setrole-tk'],

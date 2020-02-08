@@ -299,6 +299,7 @@ setcategoria_tk:
   message: 'categoria de ticket atualizada.'
 abrir_tk:
   description: "Abre um ticket."
+  failed: 'Não foi possivel abrir um ticket.'
   title: "INFORMAÇÕES DO TICKET"
   ticket_created: 'seu ticket foi criado com sucesso no canal {{ channel }}. {{ emoji }}'
   already_has_ticket_opened: 'você já tem um ticket aberto em {{ channel }}.'

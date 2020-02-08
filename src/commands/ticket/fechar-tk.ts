@@ -3,12 +3,13 @@ import { Message, GuildMember, TextChannel } from 'discord.js';
 import { guild } from '@database/index';
 import { TicketConfigModule, Ticket } from '@database/models/Guild';
 
-export default class AtivarTicket extends Command {
+export default class FecharTicket extends Command {
   constructor() {
     super('fechar-tk', {
       aliases: ['fechar-ticket', 'fechar-tk', 'close-tk'],
       help: 'fechar-tk',
       category: 'ticket',
+      clientPermissions: 'MANAGE_CHANNELS',
     });
   }
 
@@ -25,7 +26,7 @@ export default class AtivarTicket extends Command {
       return msg.reply(t('commands:fechar_tk.have_no_power'));
     }
 
-    ticket = await guildData.ticket.closeTicket(msg.channel, msg.author);
+    ticket = await guildData.ticket.closeTicket(msg.channel);
     if (ticket) {
       msg.channel.delete();
 

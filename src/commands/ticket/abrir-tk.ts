@@ -6,7 +6,7 @@ import Text from '@utils/Text';
 import { getCategoryByEmoji, getEmojiByCategory } from '@utils/TicketUtil';
 import { TICKET_EMOJIS, Emojis } from '@utils/Constants';
 
-export default class AtivarTicket extends Command {
+export default class AbrirTicket extends Command {
   readonly TICKET_NAME_REGEX = /ticket-([0-9])/;
 
   constructor() {
@@ -14,8 +14,7 @@ export default class AtivarTicket extends Command {
       aliases: ['abrir-ticket', 'abrir-tk', 'abrirtk'],
       help: 'abrir-tk',
       category: 'ticket',
-      clientPermissions: 'ADMINISTRATOR',
-      userPermissions: 'ADMINISTRATOR',
+      clientPermissions: ['MANAGE_CHANNELS', 'ADD_REACTIONS'],
     });
   }
 
@@ -57,6 +56,14 @@ export default class AtivarTicket extends Command {
 
         if (channel instanceof TextChannel) {
           const ticket = await guildData.ticket.openTicket(channel, msg.author, category);
+          // eslint-disable-next-line no-underscore-dangle
+          if (!ticket || !ticket._id) {
+            channel.delete();
+            await sent.delete();
+            msg.reply('commands:abrir_tk.failed');
+            return;
+          }
+
           channel.send(msg.author.toString(), {
             embed: new Embed(msg.author).setDescription(
               new Text()
@@ -71,10 +78,9 @@ export default class AtivarTicket extends Command {
                 .addField(Emojis.COMPUTER, t('commons:id'), `${ticket && ticket._id}`),
             ),
           });
+          await sent.delete();
+          msg.reply(t('commands:abrir_tk.ticket_created', { channel, emoji: e.emoji.toString() }));
         }
-
-        await sent.delete();
-        msg.reply(t('commands:abrir_tk.ticket_created', { channel, emoji: e.emoji.toString() }));
       });
     }
   }

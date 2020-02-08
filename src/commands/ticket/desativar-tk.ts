@@ -2,7 +2,7 @@ import Command, { TFunction } from '@struct/Command';
 import { Message } from 'discord.js';
 import { guild } from '@database/index';
 
-export default class AtivarTicket extends Command {
+export default class DesativarTicket extends Command {
   constructor() {
     super('desativar-tk', {
       aliases: ['desativar-ticket', 'desativar-tk'],
