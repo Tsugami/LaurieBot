@@ -1,10 +1,10 @@
-import Command, { TFunction } from '@struct/Command';
+import Command, { TFunction, Prompt } from '@struct/Command';
 
 import { Message, Attachment } from 'discord.js';
 import { getAwardImage } from '@services/minecraft';
 
 interface ArgsI {
-  text: string;
+  message: string;
 }
 
 class McConquistaCommand extends Command {
@@ -15,15 +15,20 @@ class McConquistaCommand extends Command {
       help: 'mcconquista',
       args: [
         {
-          id: 'text',
+          id: 'message',
+          match: 'text',
           type: 'string',
+          prompt: {
+            start: Prompt('commands:mcconquista.args.message.start'),
+            retry: Prompt('commands:mcconquista.args.message.retry'),
+          },
         },
       ],
     });
   }
 
   async run(msg: Message, t: TFunction, args: ArgsI) {
-    const image = getAwardImage(t('commands:mcconquista.message'), args.text);
+    const image = getAwardImage(t('commands:mcconquista.message'), args.message);
     msg.reply(new Attachment(image, 'image.png'));
   }
 }

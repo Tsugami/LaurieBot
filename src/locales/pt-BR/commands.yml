@@ -97,6 +97,10 @@ mcconquista:
   usage: '<mensagem>'
   description: "Gera uma conquista com oque foi escrito após o comando."
   message: 'Conquista desbloqueada!'
+  args:
+    message:
+      start: "digite alguma mensagem."
+      retry: "mensagem invalida."
 mcserver:
   usage: '<IP>'
   description: "Mostra as informações do servidor de minecraft digitado após o comando."
