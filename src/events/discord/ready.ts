@@ -30,14 +30,9 @@ export default class ReadyListener extends Listener {
     ];
     const STREAMING_URL = 'https://www.twitch.tv/rellowtf2';
 
-    let currentStatus = 0;
-
     const updateStatus = () => {
-      const status = statusTypes[currentStatus];
-      console.log(status);
+      const status = statusTypes[Math.floor(Math.random() * statusTypes.length)];
       user.setActivity(status[0], { type: status[1], url: status[1] === 'STREAMING' ? STREAMING_URL : undefined });
-      if (currentStatus === statusTypes.length - 1) currentStatus = 0;
-      else currentStatus += 1;
     };
 
     updateStatus();
