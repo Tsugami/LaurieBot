@@ -1,5 +1,6 @@
 import { Listener } from 'discord-akairo';
 import { ActivityType } from 'discord.js';
+import { Emojis } from '@utils/Constants';
 
 export default class ReadyListener extends Listener {
   constructor() {
@@ -26,7 +27,7 @@ export default class ReadyListener extends Listener {
 
     const statusTypes: Array<[string, ActivityType]> = [
       ['Amor', 'STREAMING'],
-      [`${prefix}help`, 'PLAYING'],
+      [`${Emojis.HEART} Use: ${prefix}ajuda ${Emojis.HEART}`, 'PLAYING'],
     ];
     const STREAMING_URL = 'https://www.twitch.tv/rellowtf2';
 

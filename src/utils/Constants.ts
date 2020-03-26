@@ -46,6 +46,7 @@ export enum Emojis {
   GEAR = '⚙️',
   POLICE_OFFICER = '👮',
   RTT = '🔂',
+  HEART = '❤️',
   HEARTBEAT = '💟',
   PING_PONG = '🏓',
   GOOD_FACE = '😁',
