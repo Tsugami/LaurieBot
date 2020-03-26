@@ -35,9 +35,15 @@ const options = defineOptions([
     message: 'commands:welcome.args.option.disable',
     parse: (_, args: ArgsI) => !!args.guildData.data.welcome,
   },
+  {
+    key: 'test',
+    aliases: ['test', 'testar'],
+    message: 'commands:welcome.args.option.test',
+    parse: (_, args: ArgsI) => !!args.guildData.data.welcome,
+  },
 ]);
 
-type Options = 'enable' | 'disable' | 'change_message' | 'change_channel' | 'cancel';
+type Options = 'enable' | 'disable' | 'change_message' | 'change_channel' | 'test' | 'cancel';
 interface ArgsI {
   guildData: GuildController;
   option: Options;
@@ -122,6 +128,9 @@ class WelcomeCommand extends Command {
           channelId: args.channel.id,
         });
         return msg.reply(t('commands:welcome.channel_changed'));
+      }
+      case 'test': {
+        this.client.emit('guildMemberAdd', msg.member);
       }
     }
   }
