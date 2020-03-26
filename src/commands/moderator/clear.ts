@@ -35,8 +35,22 @@ class ClearCommand extends Command {
 
     try {
       await msg.delete();
-      await msg.channel.bulkDelete(amount, true);
-      return msg.reply(t('commands:clear.messages_deleted', { amount }));
+      const messagesDeleted = await msg.channel.bulkDelete(amount, true);
+      let count = amount - messagesDeleted.size;
+
+      if (count !== amount) {
+        const messages = await msg.channel.fetchMessages({ limit: count });
+        // eslint-disable-next-line no-restricted-syntax
+        for (const m of messages.array()) {
+          try {
+            // eslint-disable-next-line no-await-in-loop
+            await m.delete();
+            count += 1;
+            // eslint-disable-next-line no-empty
+          } catch {}
+        }
+      }
+      return msg.reply(t('commands:clear.messages_deleted', { amount: count }));
     } catch (error) {
       console.error(error);
       return msg.reply(t('commands:clear.failed'));
