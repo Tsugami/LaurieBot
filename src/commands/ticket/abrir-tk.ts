@@ -36,9 +36,13 @@ export default class AbrirTicket extends Command {
     );
 
     if (sent instanceof Message) {
-      sent.react(TICKET_EMOJIS.QUESTION);
-      sent.react(TICKET_EMOJIS.REPORT);
-      sent.react(TICKET_EMOJIS.REVIEW);
+      const sendEmojis = async () => {
+        await sent.react(TICKET_EMOJIS.QUESTION);
+        await sent.react(TICKET_EMOJIS.REPORT);
+        await sent.react(TICKET_EMOJIS.REVIEW);
+      };
+
+      sendEmojis();
 
       const collector = sent.createReactionCollector((r: MessageReaction, u: User) => r.me && msg.author.id === u.id);
 
@@ -60,7 +64,7 @@ export default class AbrirTicket extends Command {
           if (!ticket || !ticket._id) {
             channel.delete();
             await sent.delete();
-            msg.reply('commands:abrir_tk.failed');
+            msg.reply(t('commands:abrir_tk.failed'));
             return;
           }
 
