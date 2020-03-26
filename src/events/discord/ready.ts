@@ -34,7 +34,8 @@ export default class ReadyListener extends Listener {
 
     const updateStatus = () => {
       const status = statusTypes[currentStatus];
-      user.setActivity(status[0], { type: status[1], url: status[1] === 'STREAMING' ? STREAMING_URL : '' });
+      console.log(status);
+      user.setActivity(status[0], { type: status[1], url: status[1] === 'STREAMING' ? STREAMING_URL : undefined });
       if (currentStatus === statusTypes.length - 1) currentStatus = 0;
       else currentStatus += 1;
     };
