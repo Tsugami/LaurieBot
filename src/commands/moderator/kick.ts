@@ -57,7 +57,7 @@ class KickCommand extends Command {
       this.client.emit('punishmentCommand', msg, this, member, args.reason);
       return msg.reply(t('commands:kick.user_kicked'));
     } catch (error) {
-      console.error(error);
+      this.printError(error, msg);
       return msg.reply(t('commands:kick.failed'));
     }
   }

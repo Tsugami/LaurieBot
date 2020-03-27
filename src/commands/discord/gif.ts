@@ -2,6 +2,7 @@ import { Message } from 'discord.js';
 import GifSearch from '@services/giphy';
 import { Emojis } from '@utils/Constants';
 import Command, { TFunction } from '@struct/Command';
+import { printError } from '@utils/Utils';
 
 interface ArgsI {
   query: string;
@@ -38,7 +39,7 @@ class GifCommand extends Command {
       sent = await msg.reply(t('commands:gif.searching', { emoji: Emojis.COMPUTER }));
       res = await GifSearch.random(args.query);
     } catch (error) {
-      console.error('Falha ao procurar uma gif', error);
+      printError(error, this);
       await deleteMsg();
       msg.reply(t('commands:gif.failed_to_fetch'));
     }

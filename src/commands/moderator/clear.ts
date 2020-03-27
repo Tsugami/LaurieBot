@@ -1,6 +1,5 @@
 import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message } from 'discord.js';
-import { printError } from '@utils/Utils';
 
 interface ArgsI {
   amount: number;
@@ -55,7 +54,7 @@ class ClearCommand extends Command {
       }
       return msg.reply(t('commands:clear.messages_deleted', { amount: count }));
     } catch (error) {
-      printError(error, this.client);
+      this.printError(error, msg);
       return msg.reply(t('commands:clear.failed'));
     }
   }

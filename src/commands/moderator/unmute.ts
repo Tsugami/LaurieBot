@@ -59,7 +59,7 @@ class UnmuteCommand extends Command {
       this.client.emit('punishmentCommand', msg, this, member, args.reason);
       return msg.reply(t('commands:unmute.user_muted'));
     } catch (error) {
-      console.error(error);
+      this.printError(error, msg);
       return msg.reply(t('commands:unmute.failed'));
     }
   }

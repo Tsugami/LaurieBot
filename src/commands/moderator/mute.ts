@@ -64,7 +64,7 @@ class MuteCommand extends Command {
         this.client.emit('punishmentCommand', msg, this, member, args.reason);
         return msg.reply(t('commands:mute.user_muted'));
       } catch (error) {
-        console.error(error);
+        this.printError(error, msg);
         return msg.reply(t('commands:mute.failed'));
       }
     }
@@ -80,7 +80,7 @@ class MuteCommand extends Command {
         permissions: 0,
       });
     } catch (error) {
-      console.error(error);
+      this.printError(error, msg);
       return msg.reply(t('commands:mute.not.create_mute_role_failed'));
     }
     const channelsFailed: Array<TextChannel | VoiceChannel> = [];

@@ -30,7 +30,7 @@ class McServerCommand extends Command {
     try {
       res = await getServer(args.server);
     } catch (error) {
-      console.error('Falha ao procurar server de Minecraft', error);
+      this.printError(error, msg);
       return msg.reply(t('commands:mcserver.not_found'));
     }
 

@@ -11,6 +11,7 @@ import { Message } from 'discord.js';
 import i18next, { TFunctionResult, TFunctionKeys, StringMap, TOptions } from 'i18next';
 import { guild } from '@database/index';
 import Embed from '@utils/Embed';
+import { printError } from '@utils/Utils';
 import { CustomCommandOptions } from './interfaces';
 import categories from './categories';
 
@@ -91,6 +92,10 @@ export default abstract class CustomCommand extends Command {
 
   getPrefix(msg: Message) {
     return this.client.commandHandler.prefix(msg);
+  }
+
+  printError(error: Error, message: Message) {
+    return printError(error, this.client, message, this);
   }
 }
 // guild data argument

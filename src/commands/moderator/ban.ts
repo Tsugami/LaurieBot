@@ -58,7 +58,7 @@ class BanCommand extends Command {
       this.client.emit('punishmentCommand', msg, this, member, args.reason);
       return msg.reply(t('commands:ban.user_banned'));
     } catch (error) {
-      console.error('Falha ao expulsar membro', error);
+      this.printError(error, msg);
       return msg.reply(t('commands:ban.user_ban_failed'));
     }
   }
