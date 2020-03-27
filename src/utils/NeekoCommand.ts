@@ -1,4 +1,4 @@
-import Command, { TFunction } from '@struct/Command';
+import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message, User } from 'discord.js';
 
 import Embed from './Embed';
@@ -20,7 +20,8 @@ class NeekoCommand extends Command {
           id: 'user',
           type: 'user',
           prompt: {
-            retry: 'Mencione um usuário valido.',
+            start: Prompt(`commands:${commandName}.args.user.start`),
+            retry: Prompt(`commands:${commandName}.args.user.retry`),
           },
         },
       ],

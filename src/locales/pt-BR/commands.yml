@@ -83,10 +83,18 @@ hug:
   usage: '<@usuário>'
   description: 'Dá um abraço no usuário mencionado.'
   message: '{{ user1 }} abraçou {{ user2 }}.'
+  args:
+    user:
+      start: 'Mencione quem você quer abraçar!'
+      retry: 'Usuário invalido!'
 slap:
   usage: '<@usuário>'
   description: 'Dá um tapa no usuário mencionado.'
   message: '{{ user1 }} bateu em {{ user2 }}.'
+  args:
+    user:
+      start: 'Mencione quem você quer beijar!'
+      retry: 'Usuário invalido!'
 ship:
   usage: '<@usuário> [@usuário]'
   description: "Calcula a compatibilidade amorosa entre os dois usuários mencionados."
@@ -94,6 +102,10 @@ kiss:
   usage: '<@usuário>'
   description: 'Dá um beijo no usuário mencionado.'
   message: '{{ user1 }} beijou {{ user2 }}.'
+  args:
+    user:
+      start: 'Mencione quem você quer beijar!'
+      retry: 'Usuário invalido!'
 mcconquista:
   usage: '<mensagem>'
   description: "Gera uma conquista com oque foi escrito após o comando."
