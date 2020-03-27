@@ -1,7 +1,7 @@
 import { Listener } from 'discord-akairo';
-import { TextChannel, RichEmbed, Message } from 'discord.js';
-import { ERROR_CHANNEL_ID } from '@utils/Constants';
+import { Message } from 'discord.js';
 import CustomCommand from '@struct/Command';
+import { printError } from '@utils/Utils';
 
 export default class CommandHandlerErrorListener extends Listener {
   constructor() {
@@ -12,17 +12,6 @@ export default class CommandHandlerErrorListener extends Listener {
   }
 
   exec(error: Error, message: Message, command: CustomCommand) {
-    console.error(error);
-    const errorChannel = this.client.channels.get(ERROR_CHANNEL_ID);
-    if (errorChannel instanceof TextChannel) {
-      errorChannel.send(
-        new RichEmbed()
-          .setColor('RED')
-          .setAuthor('COMMAND_HANDLER ERROR:')
-          .addField('MESSAGE:', message.cleanContent)
-          .addField('COMMAND ID:', command.id)
-          .setDescription(`\`\`\`\n${error.stack}\n\`\`\``),
-      );
-    }
+    printError(error, this.client, message, command);
   }
 }

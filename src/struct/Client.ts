@@ -6,7 +6,7 @@ import { Prompt } from '@struct/Command';
 
 const mainFolder = __filename.endsWith('ts') ? 'src' : 'dist';
 
-export default class Client extends AkairoClient {
+export default class LaurieClient extends AkairoClient {
   constructor() {
     super(
       {
