@@ -22,7 +22,7 @@ export default class GuildMemberAddListener extends Listener {
     if (welcome && welcome.message) {
       const channel = member.guild.channels.get(welcome.channelId);
       if (channel instanceof TextChannel) {
-        channel.send(parseWelcome(welcome.message, member.user.username, member.guild.name));
+        channel.send(parseWelcome(welcome.message, member.user.toString(), member.guild.name));
       }
     }
   }
