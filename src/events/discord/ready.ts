@@ -26,7 +26,7 @@ export default class ReadyListener extends Listener {
     });
 
     const statusTypes: Array<[string, ActivityType]> = [
-      ['Amor', 'STREAMING'],
+      [`Amor para ${users.size} membros.`, 'STREAMING'],
       [`${Emojis.HEART} Use: ${prefix}ajuda ${Emojis.HEART}`, 'PLAYING'],
     ];
     const STREAMING_URL = 'https://www.twitch.tv/rellowtf2';
