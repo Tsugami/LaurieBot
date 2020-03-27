@@ -47,7 +47,7 @@ export function getFixedT(msg: Message) {
 
 export function Prompt(fn: string, options?: TOptions): (msg: Message) => string;
 export function Prompt<A>(fn: PrompFunc<A>): ArgumentPromptFunction;
-export function Prompt<B extends { option: string } | any, C extends string>(
+export function Prompt<B extends { option: string } | any>(
   fn: string | PrompFunc<B>,
   options: TOptions = {},
 ): ArgumentPromptFunction {

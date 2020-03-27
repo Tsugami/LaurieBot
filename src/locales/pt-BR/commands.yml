@@ -85,7 +85,7 @@ hug:
   message: '{{ user1 }} abraçou {{ user2 }}.'
   args:
     user:
-      start: 'Mencione quem você quer abraçar!'
+      start: 'mencione quem você quer abraçar!'
       retry: 'Usuário invalido!'
 slap:
   usage: '<@usuário>'
@@ -93,7 +93,7 @@ slap:
   message: '{{ user1 }} bateu em {{ user2 }}.'
   args:
     user:
-      start: 'Mencione quem você quer beijar!'
+      start: 'mencione quem você quer beijar!'
       retry: 'Usuário invalido!'
 ship:
   usage: '<@usuário> [@usuário]'
@@ -104,7 +104,7 @@ kiss:
   message: '{{ user1 }} beijou {{ user2 }}.'
   args:
     user:
-      start: 'Mencione quem você quer beijar!'
+      start: 'mencione quem você quer beijar!'
       retry: 'Usuário invalido!'
 mcconquista:
   usage: '<mensagem>'

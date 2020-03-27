@@ -20,7 +20,7 @@ class NeekoCommand extends Command {
           id: 'user',
           type: 'user',
           prompt: {
-            start: Prompt(`commands:${commandName}.args.user.start`),
+            start: Prompt((t, m) => `${m.author.toString()}, ${t(`commands:${commandName}.args.user.start`)}`),
             retry: Prompt(`commands:${commandName}.args.user.retry`),
           },
         },
