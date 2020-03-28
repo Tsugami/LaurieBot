@@ -1,7 +1,7 @@
 import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message, User } from 'discord.js';
 
-import Embed from './Embed';
+import Embed from '../utils/Embed';
 
 type urlFuncT = () => Promise<string>;
 

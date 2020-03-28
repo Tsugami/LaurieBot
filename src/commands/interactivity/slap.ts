@@ -1,4 +1,4 @@
-import NeekoCommand from '@utils/NeekoCommand';
+import NeekoCommand from '@struct/NeekoCommand';
 import Neeko from '@services/neko';
 
 export default new NeekoCommand(
