@@ -6,7 +6,7 @@ import Command, {
   defineOptions,
   guildDataArg,
   TFunction,
-  getArgumentAkairo,
+  getAkairoArgument,
 } from '@struct/Command';
 import GuildController from '@database/controllers/GuildController';
 
@@ -65,7 +65,7 @@ class WelcomeCommand extends Command {
         {
           id: 'message',
           type: (word, msg, args: ArgsI) =>
-            getArgumentAkairo<Options>(this.client, args.option, [[['change_message', 'enable'], 'string']])(
+            getAkairoArgument<Options>(this.client, args.option, [[['change_message', 'enable'], 'string']])(
               word,
               msg,
               args,
@@ -81,7 +81,7 @@ class WelcomeCommand extends Command {
         {
           id: 'channel',
           type: (word, msg, args: ArgsI) =>
-            getArgumentAkairo<Options>(this.client, args.option, [['change_channel', 'textChannel']])(word, msg, args),
+            getAkairoArgument<Options>(this.client, args.option, [['change_channel', 'textChannel']])(word, msg, args),
           match: 'text',
           prompt: {
             start: Prompt('commands:welcome.args.channel.change_channel'),

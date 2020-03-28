@@ -7,7 +7,7 @@ import {
   AkairoClient,
   ArgumentType,
 } from 'discord-akairo';
-import { Message } from 'discord.js';
+import { Message, MessageOptions } from 'discord.js';
 import i18next, { TFunctionResult, TFunctionKeys, StringMap, TOptions } from 'i18next';
 import { guild } from '@database/index';
 import Embed from '@utils/Embed';
@@ -37,7 +37,7 @@ export interface TFunction {
   ): TResult;
 }
 
-export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => string;
+export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => string | MessageOptions;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getFixedT(msg: Message) {
@@ -116,7 +116,7 @@ export const defineOptions = (options: Option[]) => options;
 export type Keys<options extends Option[]> = options[number]['key'];
 
 export type optionType<T> = [T | T[], ArgumentType];
-export function getArgumentAkairo<T extends string>(
+export function getAkairoArgument<T extends string>(
   client: AkairoClient,
   key: T,
   options: optionType<T>[],
