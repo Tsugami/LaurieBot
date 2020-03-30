@@ -1,7 +1,7 @@
 punishment:
   punishment_info: 'INFORMAÇÕES DE PUNIÇÃO'
   type: 'Pena'
-  julge: 'Juiz'
+  judge: 'Juiz'
   reason: 'Motivo'
   user: 'Culpado'
   text_channel: 'Canal'

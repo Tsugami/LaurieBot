@@ -51,6 +51,7 @@ export enum Emojis {
   PING_PONG = '🏓',
   GOOD_FACE = '😁',
   OH_FACE = '😐',
+  WINK = '😉',
   BAD_FACE = '☹️',
   ANUNCIAR = '<a:anunciar:671077734566461440>',
   STATUS_ONLINE = '<:online:669594447251636226>',
