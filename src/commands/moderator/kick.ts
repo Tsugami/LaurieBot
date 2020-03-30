@@ -1,5 +1,6 @@
 import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message, GuildMember } from 'discord.js';
+import { sendPunaltyMessage } from '@utils/ModuleUtils';
 
 interface ArgsI {
   member: GuildMember;
@@ -34,9 +35,8 @@ class KickCommand extends Command {
     });
   }
 
-  async run(msg: Message, t: TFunction, args: ArgsI) {
+  async run(msg: Message, t: TFunction, { member, reason }: ArgsI) {
     const author = msg.member;
-    const { member } = args;
     const ownerId = msg.guild.ownerID;
     const bot = msg.guild.me;
 
@@ -53,8 +53,8 @@ class KickCommand extends Command {
     }
 
     try {
-      await member.kick(args.reason);
-      this.client.emit('punishmentCommand', msg, this, member, args.reason);
+      await member.kick(reason);
+      sendPunaltyMessage(msg, member, this, reason);
       return msg.reply(t('commands:kick.user_kicked'));
     } catch (error) {
       this.printError(error, msg);

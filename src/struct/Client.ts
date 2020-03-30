@@ -1,5 +1,5 @@
 import { buildi18n } from '@config/i18next';
-import { AkairoClient } from 'discord-akairo';
+import { AkairoClient, Listener } from 'discord-akairo';
 import { CategoryChannel } from 'discord.js';
 import path from 'path';
 import { Prompt } from '@struct/Command';
@@ -44,5 +44,14 @@ export default class LaurieClient extends AkairoClient {
       if (channel instanceof CategoryChannel) return channel;
       return null;
     });
+  }
+}
+
+declare module 'discord.js' {
+  interface Command {
+    client: Client;
+  }
+  interface Listener {
+    client: Client;
   }
 }

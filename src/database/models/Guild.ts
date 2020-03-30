@@ -32,7 +32,7 @@ const ticketConfigSchema = new Schema(
 const GuildSchema = new Schema({
   guildId: { type: String, required: true },
   disableChannels: [String],
-  penaltyChannels: [String],
+  penaltyChannel: String,
   ticket: ticketConfigSchema,
   welcome: welcomeSchema,
 });
@@ -64,7 +64,7 @@ export interface TicketConfigModule {
 export interface GuildDocument extends Document {
   guildId: string;
   disableChannels: string[];
-  penaltyChannels: string[];
+  penaltyChannel?: string | null;
   ticket?: TicketConfigModule;
   welcome: WelcomeModule | null;
 }

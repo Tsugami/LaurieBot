@@ -11,19 +11,24 @@ commands:
   on_option:
     already_enabled: 'os comandos já estão ativados nesse canal.'
     enabled: 'os comandos foram ativados nesse canal.'
-setchannelpn:
-  usage: '<on|off>'
+pnconfig:
   description: "Ativa/Desativa ou altera o canal das mensagens de punições."
+  title: 'configurações do canal de punições'
   args:
     option:
-      start: 'digite **{{ onOption }}** para ativar e **{{ offOption }}** para desativar as mensagens de punições nesse canal.'
-      retry: 'digite uma das opções corretamente.'
-  off_option:
-    already_disabled: 'as mensagens de punições já estão desativadas nesse canal.'
-    disabled: 'as mensagens de punições foram desativadas nesse canal.'
-  on_option:
-    already_enabled: 'as mensagens de punições já estão ativadas nesse canal.'
-    enabled: 'as mensagens de punições foram ativadas nesse canal.'
+      enable: 'Ativar mensagens de punições'
+      disable: 'Desativar mensagens de punições'
+      change_channel: "Alterar o canal de punições"
+      test: "Testar as mensagens de punição"
+    channel:
+      enable: 'Digite qual será o canal de punições.'
+      change_channel: 'Digite pra qual canal será alterado.'
+  enabled: 'as mensagens de punições foram ativadas no canal {{ channel }}.'
+  disabled: 'as mensagens de punições foram desativadas.'
+  channel_changed: 'canal de punições foi alterado de {{ oldChannel }} para {{ channel }}.'
+  it_is_test: "Isso é um test."
+  current_channel_tested: 'Testado com sucesso! {{ emoji }}'
+  channel_tested: 'Testado com sucesso em {{ channel }}! {{ emoji }}'
 welcome:
   description: 'Ativa/Desativa ou altera as mensagens de boas vindas.'
   title: 'CONFIGURAÇÕES DE BOAS VINDAS'

@@ -1,6 +1,7 @@
 import Command, { TFunction, Prompt } from '@struct/Command';
 
 import { Message, GuildMember } from 'discord.js';
+import { sendPunaltyMessage } from '@utils/ModuleUtils';
 
 interface ArgsI {
   member: GuildMember;
@@ -35,9 +36,8 @@ class BanCommand extends Command {
     });
   }
 
-  async run(msg: Message, t: TFunction, args: ArgsI) {
+  async run(msg: Message, t: TFunction, { member, reason }: ArgsI) {
     const author = msg.member;
-    const { member } = args;
     const ownerId = msg.guild.ownerID;
     const bot = msg.guild.me;
 
@@ -54,8 +54,8 @@ class BanCommand extends Command {
     }
 
     try {
-      await member.ban(args.reason);
-      this.client.emit('punishmentCommand', msg, this, member, args.reason);
+      await member.ban(reason);
+      sendPunaltyMessage(msg, member, this, reason);
       return msg.reply(t('commands:ban.user_banned'));
     } catch (error) {
       this.printError(error, msg);

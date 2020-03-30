@@ -25,13 +25,13 @@ class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
     return this.save();
   }
 
-  addPenaltyChannel(channelId: string): Promise<T> {
-    this.data.penaltyChannels = this.addArrayData(channelId, this.data.penaltyChannels);
+  setPenaltyChannel(channelId: string): Promise<T> {
+    this.data.penaltyChannel = channelId;
     return this.save();
   }
 
-  removePenaltyChannel(channelId: string): Promise<T> {
-    this.data.penaltyChannels = this.removeArrayData(channelId, this.data.penaltyChannels);
+  removePenaltyChannel(): Promise<T> {
+    this.data.penaltyChannel = null;
     return this.save();
   }
 }

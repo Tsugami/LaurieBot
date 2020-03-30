@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Listener } from 'discord-akairo';
 import { ActivityType } from 'discord.js';
 import { Emojis } from '@utils/Constants';
@@ -16,6 +17,7 @@ export default class ReadyListener extends Listener {
       guilds,
       users,
       akairoOptions: { prefix },
+      commandHandler,
     } = this.client;
 
     console.table({
@@ -24,6 +26,8 @@ export default class ReadyListener extends Listener {
       users: users.size,
       prefix,
     });
+
+    console.table(commandHandler.modules);
 
     const statusTypes: Array<[string, ActivityType]> = [
       [`Amor para ${users.size} membros.`, 'STREAMING'],

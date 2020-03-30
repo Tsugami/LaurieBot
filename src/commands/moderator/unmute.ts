@@ -2,6 +2,7 @@ import Command, { TFunction, Prompt } from '@struct/Command';
 
 import { Message, GuildMember } from 'discord.js';
 import { MUTE_ROLE_NAME } from '@utils/Constants';
+import { sendPunaltyMessage } from '@utils/ModuleUtils';
 
 interface ArgsI {
   member: GuildMember;
@@ -35,9 +36,8 @@ class UnmuteCommand extends Command {
     });
   }
 
-  async run(msg: Message, t: TFunction, args: ArgsI) {
+  async run(msg: Message, t: TFunction, { member, reason }: ArgsI) {
     const author = msg.member;
-    const { member } = args;
     const ownerId = msg.guild.ownerID;
     const bot = msg.guild.me;
 
@@ -55,8 +55,8 @@ class UnmuteCommand extends Command {
     }
 
     try {
-      await member.removeRole(role, args.reason);
-      this.client.emit('punishmentCommand', msg, this, member, args.reason);
+      await member.removeRole(role, reason);
+      sendPunaltyMessage(msg, member, this, reason);
       return msg.reply(t('commands:unmute.user_muted'));
     } catch (error) {
       this.printError(error, msg);
