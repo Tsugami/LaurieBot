@@ -1,6 +1,7 @@
 import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message, GuildMember, Role, TextChannel, VoiceChannel } from 'discord.js';
 import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME } from '@utils/Constants';
+import { sendPunaltyMessage } from '@utils/ModuleUtils';
 
 interface ArgsI {
   member: GuildMember;
@@ -34,9 +35,8 @@ class MuteCommand extends Command {
     });
   }
 
-  async run(msg: Message, t: TFunction, args: ArgsI) {
+  async run(msg: Message, t: TFunction, { member, reason }: ArgsI) {
     const author = msg.member;
-    const { member } = args;
     const ownerId = msg.guild.ownerID;
     const bot = msg.guild.me;
 
@@ -61,7 +61,7 @@ class MuteCommand extends Command {
     if (result instanceof Role) {
       try {
         await member.addRole(role);
-        this.client.emit('punishmentCommand', msg, this, member, args.reason);
+        sendPunaltyMessage(msg, member, this, reason);
         return msg.reply(t('commands:mute.user_muted'));
       } catch (error) {
         this.printError(error, msg);
