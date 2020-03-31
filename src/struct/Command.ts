@@ -1,16 +1,6 @@
-import {
-  Command,
-  ArgumentPromptFunction,
-  ArgumentOptions,
-  ArgumentTypeFunction,
-  ArgumentPromptOptions,
-  AkairoClient,
-  ArgumentType,
-} from 'discord-akairo';
+import { Command, ArgumentPromptFunction } from 'discord-akairo';
 import { Message, MessageOptions, Guild } from 'discord.js';
 import i18next, { TFunctionResult, TFunctionKeys, StringMap, TOptions } from 'i18next';
-import { guild } from '@database/index';
-import Embed from '@utils/Embed';
 import { printError } from '@utils/Utils';
 import { CustomCommandOptions } from './interfaces';
 import categories from './categories';
@@ -55,13 +45,6 @@ export function Prompt<B extends { option: string } | any>(
   return (msg, args, tries) => fn(getFixedT(msg), msg, args, tries);
 }
 
-export function PromptOptions<T extends Record<any, string>, A extends { option: keyof T }>(
-  options: T,
-  tOptions: TOptions = {},
-): (msg: Message, args: A) => string {
-  return (msg, args) => getFixedT(msg)(options[args.option], tOptions);
-}
-
 export default abstract class CustomCommand extends Command {
   help: string;
 
@@ -97,82 +80,4 @@ export default abstract class CustomCommand extends Command {
   printError(error: Error, message: Message) {
     return printError(error, this.client, message, this);
   }
-}
-// guild data argument
-export const guildDataArg: ArgumentOptions = {
-  id: 'guildData',
-  type: (_: string, msg: Message) => guild(msg.guild.id),
-};
-// options argument
-type OptionFunc = (m: Message, args: any) => boolean;
-type Option = {
-  key: string;
-  message: string | OptionFunc;
-  aliases: string[];
-  parse?: OptionFunc;
-};
-
-export const defineOptions = (options: Option[]) => options;
-export type Keys<options extends Option[]> = options[number]['key'];
-
-export type optionType<T> = [T | T[], ArgumentType];
-export function getAkairoArgument<T extends string>(
-  client: AkairoClient,
-  key: T,
-  options: optionType<T>[],
-  defaultR: any = '',
-): ArgumentTypeFunction {
-  return (...args) => {
-    const x = options.find(o => (Array.isArray(o[0]) && o[0].includes(key)) || o[0] === key);
-    if (x) {
-      if (typeof x[1] === 'string') return client.commandHandler.resolver.type(x[1])(...args) || null;
-    }
-    return defaultR;
-  };
-}
-
-export function optionsArg(
-  id: string,
-  options: Option[],
-  title: string,
-  promptOptions: ArgumentPromptOptions = {},
-): ArgumentOptions {
-  const optionsParsed = (m: Message, a: any): Option[] => options.filter(o => !o.parse || o.parse(m, a));
-
-  const fillPromptEmpty = (key: 'retry' | 'timeout' | 'ended' | 'cancel') => {
-    if (!promptOptions[key]) promptOptions[key] = Prompt(`commons:prompt_options_default.${key}`);
-  };
-
-  fillPromptEmpty('retry');
-  fillPromptEmpty('timeout');
-  fillPromptEmpty('ended');
-  fillPromptEmpty('cancel');
-
-  return {
-    id,
-    type: (word, m, a) => {
-      const option = optionsParsed(m, a).find(
-        (x, i) => Number(word) === i + 1 || word === x.key || x.aliases.includes(word),
-      );
-      if (option) return option.key;
-      return null;
-    },
-    prompt: {
-      ...promptOptions,
-      start: (m, a) => {
-        const t = getFixedT(m);
-        return {
-          embed: new Embed(m.author).setDescription(
-            `**${t(title).toUpperCase()}**\n\n${t('commons:choose_option', {
-              author: m.author,
-            })}\n\n${optionsParsed(m, a)
-              .map((o, i) => {
-                return `**${i + 1}**: ${typeof o.message === 'string' ? Prompt(o.message)(m) : o.message(m, a)}`;
-              })
-              .join('\n')}\n\n${t('commons:cancel_message')}`,
-          ),
-        };
-      },
-    },
-  };
 }
