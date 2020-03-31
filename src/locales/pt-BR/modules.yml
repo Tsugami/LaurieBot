@@ -6,6 +6,8 @@ punishment:
   user: 'Culpado'
   text_channel: 'Canal'
   user_info: 'INFORMAÇÕES DO USUÁRIO'
+welcome:
+  message_default: "{user}, Bem vindo ao servidor!"
 ticket:
   question_ticket: "Esclarecer Dúvidas"
   report_ticket: "Revisar Punição"

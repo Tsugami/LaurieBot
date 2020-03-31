@@ -54,15 +54,15 @@ export default new ModuleCommand(
       id: 'test',
       aliases: ['testar'],
       validate,
-      async run(msg, t, args) {
+      async run(msg, t, { guildData }) {
         await sendPunaltyMessage(msg, msg.guild.me, MuteTestCommand, t('commands:pnconfig.it_is_test'));
-        if (args.guildData.data.penaltyChannel === msg.channel.id) {
+        if (guildData.data.penaltyChannel === msg.channel.id) {
           msg.reply(t('commands:pnconfig.current_channel_tested', { emoji: Emojis.WINK }));
         } else {
           msg.reply(
             t('commands:pnconfig.channel_tested', {
               emoji: Emojis.WINK,
-              channel: msg.guild.channels.get(String(args.guildData.data.penaltyChannel)),
+              channel: msg.guild.channels.get(String(guildData.data.penaltyChannel)),
             }),
           );
         }

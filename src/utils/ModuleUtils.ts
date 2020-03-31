@@ -33,3 +33,22 @@ export async function sendPunaltyMessage(message: Message, member: GuildMember, 
     channel.send(embed);
   }
 }
+
+export function parseWelcomeMessage(text: string, user: string, guildName: string) {
+  return text.replace(/{{user}}/gi, user).replace(/{{guild}}/gi, guildName);
+}
+
+export async function sendWelcomeMessage(member: GuildMember) {
+  const { data } = await guild(member.guild.id);
+
+  const channel = member.guild.channels.get(String(data?.welcome?.channelId));
+  if (channel instanceof TextChannel) {
+    const message = parseWelcomeMessage(
+      data?.welcome?.message || getFixedT(member.guild)('modules:welcome.message_default'),
+      member.toString(),
+      guild.toString(),
+    );
+
+    channel.send(parseWelcomeMessage(message, member.user.toString(), member.guild.name));
+  }
+}

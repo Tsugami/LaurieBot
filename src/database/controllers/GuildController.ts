@@ -1,19 +1,12 @@
-import { GuildDocument, WelcomeModule } from '@database/models/Guild';
+import { GuildDocument } from '@database/models/Guild';
 import Base from './Base';
 import TicketController from './TicketController';
+import WelcomeController from './WelcomeController';
 
 class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
   public ticket = new TicketController(this.data);
 
-  updateWelcome(data: WelcomeModule): Promise<T> {
-    this.data.welcome = data;
-    return this.save();
-  }
-
-  disableWelcome(): Promise<T> {
-    this.data.welcome = null;
-    return this.save();
-  }
+  public welcome = new WelcomeController(this.data);
 
   disableChannel(channelId: string): Promise<T> {
     this.data.disableChannels = this.addArrayData(channelId, this.data.disableChannels);

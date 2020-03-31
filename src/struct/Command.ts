@@ -7,7 +7,7 @@ import {
   AkairoClient,
   ArgumentType,
 } from 'discord-akairo';
-import { Message, MessageOptions } from 'discord.js';
+import { Message, MessageOptions, Guild } from 'discord.js';
 import i18next, { TFunctionResult, TFunctionKeys, StringMap, TOptions } from 'i18next';
 import { guild } from '@database/index';
 import Embed from '@utils/Embed';
@@ -40,7 +40,7 @@ export interface TFunction {
 export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => string | MessageOptions;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function getFixedT(msg: Message) {
+export function getFixedT(msg: Message | Guild) {
   const language = 'pt-BR';
   return i18next.getFixedT(language);
 }
