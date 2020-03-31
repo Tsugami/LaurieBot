@@ -1,31 +1,11 @@
 import { Command, ArgumentPromptFunction } from 'discord-akairo';
 import { Message, MessageOptions, Guild } from 'discord.js';
-import i18next, { TFunctionResult, TFunctionKeys, StringMap, TOptions } from 'i18next';
 import { printError } from '@utils/Utils';
+import i18next, { TFunction, TOptions } from 'i18next';
 import { CustomCommandOptions } from './interfaces';
 import categories from './categories';
 
-export interface TFunction {
-  // basic usage
-  <
-    TResult extends TFunctionResult = string,
-    TKeys extends TFunctionKeys = string,
-    TInterpolationMap extends object = StringMap
-  >(
-    key: TKeys | TKeys[],
-    options?: TOptions<TInterpolationMap> | string,
-  ): TResult;
-  // overloaded usage
-  <
-    TResult extends TFunctionResult = string,
-    TKeys extends TFunctionKeys = string,
-    TInterpolationMap extends object = StringMap
-  >(
-    key: TKeys | TKeys[],
-    defaultValue?: string,
-    options?: TOptions<TInterpolationMap> | string,
-  ): TResult;
-}
+export { TFunction } from 'i18next';
 
 export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => string | MessageOptions;
 
