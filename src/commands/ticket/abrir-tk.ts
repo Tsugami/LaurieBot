@@ -1,10 +1,9 @@
 import Command, { TFunction } from '@struct/Command';
 import { Message, MessageReaction, User, Guild, ChannelCreationOverwrites, TextChannel, ChannelData } from 'discord.js';
 import { guild } from '@database/index';
-import Embed from '@utils/Embed';
-import Text from '@utils/Text';
+import LaurieEmbed from '@struct/LaurieEmbed';
 import { getCategoryByEmoji, getEmojiByCategory } from '@utils/TicketUtil';
-import { TICKET_EMOJIS, Emojis } from '@utils/Constants';
+import { TICKET_EMOJIS, EMOJIS } from '@utils/Constants';
 
 export default class AbrirTicket extends Command {
   readonly TICKET_NAME_REGEX = /ticket-([0-9])/;
@@ -28,7 +27,7 @@ export default class AbrirTicket extends Command {
     }
 
     const sent = await msg.reply(
-      new Embed(msg.author).setDescription(
+      new LaurieEmbed(msg.author).setDescription(
         `${t('commands:abrir_tk.message')}\n\n${TICKET_EMOJIS.QUESTION} **${t('modules:ticket.question_ticket')}**\n${
           TICKET_EMOJIS.REPORT
         } **${t('modules:ticket.report_ticket')}**\n${TICKET_EMOJIS.REVIEW} **${t('modules:ticket.review_ticket')}**\n`,
@@ -36,13 +35,13 @@ export default class AbrirTicket extends Command {
     );
 
     if (sent instanceof Message) {
-      const sendEmojis = async () => {
+      const sendEMOJIS = async () => {
         await sent.react(TICKET_EMOJIS.QUESTION);
         await sent.react(TICKET_EMOJIS.REPORT);
         await sent.react(TICKET_EMOJIS.REVIEW);
       };
 
-      sendEmojis();
+      sendEMOJIS();
 
       const collector = sent.createReactionCollector((r: MessageReaction, u: User) => r.me && msg.author.id === u.id);
 
@@ -69,17 +68,14 @@ export default class AbrirTicket extends Command {
           }
 
           channel.send(msg.author.toString(), {
-            embed: new Embed(msg.author).setDescription(
-              new Text()
-                .addTitle(Emojis.WALLET, t('commands:abrir_tk.title'))
-                .addField(
-                  getEmojiByCategory(category),
-                  t('commons:category'),
-                  `${t(`modules:ticket.${category}_ticket`)}`,
-                )
-                .addField(Emojis.PERSON, t('commons:created_by'), msg.author.toString())
-                // eslint-disable-next-line no-underscore-dangle
-                .addField(Emojis.COMPUTER, t('commons:id'), `${ticket && ticket._id}`),
+            embed: new LaurieEmbed(msg.author).addInfoText(
+              'WALLET',
+              t('commands:abrir_tk.title'),
+              [getEmojiByCategory(category), t('commons:category'), `${t(`modules:ticket.${category}_ticket`)}`],
+
+              ['PERSON', t('commons:created_by'), msg.author.toString()],
+              // eslint-disable-next-line no-underscore-dangle
+              ['COMPUTER', t('commons:id'), `${ticket && ticket._id}`],
             ),
           });
           await sent.delete();

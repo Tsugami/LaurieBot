@@ -1,7 +1,7 @@
 import Command, { TFunction } from '@struct/Command';
 
 import { Message } from 'discord.js';
-import Embed from '@utils/Embed';
+import LaurieEmbed from '@struct/LaurieEmbed';
 import { getUser } from '@services/minecraft';
 
 interface ArgsI {
@@ -31,7 +31,7 @@ class McSkinCommand extends Command {
       return msg.reply(t('commands:mcskin.not_found'));
     }
 
-    const embed = new Embed(msg.author).setAuthor(res.name).setImage(res.skin);
+    const embed = new LaurieEmbed(msg.author).setAuthor(res.name).setImage(res.skin);
     msg.reply(embed);
   }
 }

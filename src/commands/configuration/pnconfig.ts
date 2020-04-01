@@ -1,6 +1,6 @@
 import { Message, TextChannel } from 'discord.js';
 import ModuleCommand, { ModuleOptionArgs } from '@struct/ModuleCommand';
-import { Emojis } from '@utils/Constants';
+import { EMOJIS } from '@utils/Constants';
 import { sendPunaltyMessage } from '../../utils/ModuleUtils';
 import MuteCommand from '../moderator/mute';
 
@@ -57,11 +57,11 @@ export default new ModuleCommand(
       async run(msg, t, { guildData }) {
         await sendPunaltyMessage(msg, msg.guild.me, MuteTestCommand, t('commands:pnconfig.it_is_test'));
         if (guildData.data.penaltyChannel === msg.channel.id) {
-          msg.reply(t('commands:pnconfig.current_channel_tested', { emoji: Emojis.WINK }));
+          msg.reply(t('commands:pnconfig.current_channel_tested', { emoji: EMOJIS.WINK }));
         } else {
           msg.reply(
             t('commands:pnconfig.channel_tested', {
-              emoji: Emojis.WINK,
+              emoji: EMOJIS.WINK,
               channel: msg.guild.channels.get(String(guildData.data.penaltyChannel)),
             }),
           );

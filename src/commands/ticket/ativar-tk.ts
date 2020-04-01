@@ -1,7 +1,7 @@
 import Command, { TFunction } from '@struct/Command';
 import { Message } from 'discord.js';
 import { guild } from '@database/index';
-import Embed from '@utils/Embed';
+import LaurieEmbed from '@struct/LaurieEmbed';
 import categories from '@struct/categories';
 
 export default class AtivarTicket extends Command {
@@ -20,7 +20,7 @@ export default class AtivarTicket extends Command {
     await guildData.ticket.enable();
 
     msg.reply(
-      new Embed(msg.author)
+      new LaurieEmbed(msg.author)
         .setDescription(t('commands:ativar_tk.message', { prefix: this.getPrefix(msg) }))
         .setTitle(t('commands:ativar_tk.title'))
         .addFields(

@@ -1,9 +1,7 @@
 import Command, { TFunction } from '@struct/Command';
 
 import { Message } from 'discord.js';
-import Embed from '@utils/Embed';
-import Text from '@utils/Text';
-import { Emojis } from '@utils/Constants';
+import LaurieEmbed from '@struct/LaurieEmbed';
 import { getServer } from '@services/minecraft';
 
 interface ArgsI {
@@ -34,12 +32,13 @@ class McServerCommand extends Command {
       return msg.reply(t('commands:mcserver.not_found'));
     }
 
-    const text = new Text()
-      .addTitle(Emojis.PLACA_MINECRAFT, t('commands:mcserver.server_info'))
-      .addField(Emojis.COMPUTER, t('commands:mcserver.address'), res.address)
-      .addField(Emojis.PERSONS, t('commands:mcserver.players'), res.players)
-      .addField(Emojis.JAVA, t('commands:mcserver.minecraft_version'), res.version);
-    const embed = new Embed(msg.author).setDescription(text);
+    const embed = new LaurieEmbed(msg.author).addInfoText(
+      'PLACA_MINECRAFT',
+      t('commands:mcserver.server_info'),
+      ['COMPUTER', t('commands:mcserver.address'), res.address],
+      ['PERSONS', t('commands:mcserver.players'), res.players],
+      ['JAVA', t('commands:mcserver.minecraft_version'), res.version],
+    );
     msg.reply(embed);
   }
 }

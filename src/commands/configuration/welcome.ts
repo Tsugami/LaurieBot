@@ -1,7 +1,7 @@
 import { Message, TextChannel } from 'discord.js';
 import ModuleCommand, { ModuleOptionArgs } from '@struct/ModuleCommand';
 import { sendWelcomeMessage } from '@utils/ModuleUtils';
-import { Emojis } from '@utils/Constants';
+import { EMOJIS } from '@utils/Constants';
 
 const validate = (message: Message, { guildData: { data } }: ModuleOptionArgs) => {
   return !!(data.welcome?.channelId && message.guild.channels.has(data.welcome?.channelId));
@@ -67,11 +67,11 @@ export default new ModuleCommand(
       async run(msg, t, { guildData }) {
         await sendWelcomeMessage(msg.member);
         if (guildData.data.penaltyChannel === msg.channel.id) {
-          msg.reply(t('commands:welcome.current_channel_tested', { emoji: Emojis.WINK }));
+          msg.reply(t('commands:welcome.current_channel_tested', { emoji: EMOJIS.WINK }));
         } else {
           msg.reply(
             t('commands:welcome.channel_tested', {
-              emoji: Emojis.WINK,
+              emoji: EMOJIS.WINK,
               channel: msg.guild.channels.get(String(guildData.data.penaltyChannel)),
             }),
           );

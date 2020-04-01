@@ -1,10 +1,9 @@
 import Command, { TFunction } from '@struct/Command';
 import { Message, Client } from 'discord.js';
 
-import Embed from '@utils/Embed';
-import Text from '@utils/Text';
+import LaurieEmbed from '@struct/LaurieEmbed';
 import { getDate } from '@utils/Date';
-import { Emojis } from '@utils/Constants';
+import { EMOJIS } from '@utils/Constants';
 
 async function getUser(userId: string, client: Client): Promise<string> {
   const findByUsers = client.users.get(userId);
@@ -28,14 +27,18 @@ class BotinfoCommand extends Command {
     const bot = msg.client;
     const dev = process.env.DEV_ID ? await getUser(process.env.DEV_ID, bot) : unknownTranst;
     const owner = process.env.CREATOR_ID ? await getUser(process.env.CREATOR_ID, bot) : unknownTranst;
-    const text = new Text()
-      .addTitle(Emojis.ROBOT, t('commands:botinfo.bot_info'))
-      .addField(Emojis.LABEL, t('commons:name'), bot.user.username)
-      .addField(Emojis.SHIELD, t('commands:botinfo.guilds'), bot.guilds.size)
-      .addField(Emojis.CALENDER, t('commons:created_on'), getDate(bot.user.createdAt))
-      .addField(Emojis.CROWN, t('commands:botinfo.creator'), owner)
-      .addField(Emojis.KEYBOARD, t('commands:botinfo.developer'), dev);
-    const embed = new Embed(msg.author).setDescription(text).setThumbnail(bot.user.displayAvatarURL);
+    const embed = new LaurieEmbed(msg.author)
+      .setThumbnail(bot.user.displayAvatarURL)
+      .addInfoText(
+        'ROBOT',
+        t('commands:botinfo.bot_info'),
+        ['LABEL', t('commons:name'), bot.user.username],
+        ['SHIELD', t('commands:botinfo.guilds'), bot.guilds.size],
+        ['CALENDER', t('commons:created_on'), getDate(bot.user.createdAt)],
+        ['CROWN', t('commands:botinfo.creator'), owner],
+        ['KEYBOARD', t('commands:botinfo.developer'), dev],
+      );
+
     msg.reply(embed);
   }
 }

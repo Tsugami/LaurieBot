@@ -2,9 +2,8 @@ import Command, { TFunction } from '@struct/Command';
 import { Message } from 'discord.js';
 import { guild } from '@database/index';
 import { Ticket } from '@database/models/Guild';
-import Embed from '@utils/Embed';
-import Text from '@utils/Text';
-import { Emojis, TICKET_EMOJIS, RATE_EMOJIS } from '@utils/Constants';
+import LaurieEmbed from '@struct/LaurieEmbed';
+import { TICKET_EMOJIS, RATE_EMOJIS } from '@utils/Constants';
 
 const toFixed = (num: number) => num.toFixed(1);
 export default class StatusTicket extends Command {
@@ -56,14 +55,14 @@ export default class StatusTicket extends Command {
     }`;
 
     msg.reply(
-      new Embed(msg.author).setDescription(
-        new Text()
-          .addTitle(Emojis.BALLOT_BOX, t('commands:status_tk.status_info'))
-          .addField(Emojis.SPEECH_BALLON, t('commands:status_tk.parent'), category)
-          .addField(Emojis.BRIEFCASE, t('commands:status_tk.role'), role)
-          .addField(Emojis.TICKET, t('commands:status_tk.tickets'), tickets)
-          .addField(TICKET_EMOJIS.REPORT, t('commands:status_tk.ticket_categories'), categories)
-          .addField(Emojis.STRONKS, t('commands:status_tk.ticket_rating'), rating),
+      new LaurieEmbed(msg.author).addInfoText(
+        'BALLOT_BOX',
+        t('commands:status_tk.status_info'),
+        ['SPEECH_BALLON', t('commands:status_tk.parent'), category],
+        ['BRIEFCASE', t('commands:status_tk.role'), role],
+        ['TICKET', t('commands:status_tk.tickets'), tickets],
+        [TICKET_EMOJIS.REPORT, t('commands:status_tk.ticket_categories'), categories],
+        ['STRONKS', t('commands:status_tk.ticket_rating'), rating],
       ),
     );
   }

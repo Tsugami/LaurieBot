@@ -1,8 +1,6 @@
 import { Message } from 'discord.js';
 import Command from '@struct/Command';
-import Embed from '@utils/Embed';
-import Text from '@utils/Text';
-import { Emojis } from '@utils/Constants';
+import LaurieEmbed from '@struct/LaurieEmbed';
 
 class PingCommand extends Command {
   constructor() {
@@ -19,10 +17,14 @@ class PingCommand extends Command {
 
     const timeDiff = Number(sent.editedAt || sent.createdAt) - Number(msg.editedAt || msg.createdAt);
 
-    const text = new Text()
-      .addField(Emojis.RTT, 'RTT', `${timeDiff} ms`)
-      .addField(Emojis.HEARTBEAT, 'Heartbeat', `${Math.round(this.client.ping)} ms`);
-    sent.edit(`${Emojis.PING_PONG} Pong!`, new Embed(msg.author).setDescription(text));
+    sent.edit(
+      new LaurieEmbed(msg.author).addInfoText(
+        'PING_PONG',
+        'Pong!',
+        ['RTT', 'RTT', `${timeDiff} ms`],
+        ['HEARTBEAT', 'Heartbeat', `${Math.round(this.client.ping)} ms`],
+      ),
+    );
   }
 }
 

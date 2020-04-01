@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
 import GifSearch from '@services/giphy';
-import { Emojis } from '@utils/Constants';
+import { EMOJIS } from '@utils/Constants';
 import Command, { TFunction } from '@struct/Command';
 import { printError } from '@utils/Utils';
 
@@ -36,7 +36,7 @@ class GifCommand extends Command {
     }
 
     try {
-      sent = await msg.reply(t('commands:gif.searching', { emoji: Emojis.COMPUTER }));
+      sent = await msg.reply(t('commands:gif.searching', { emoji: EMOJIS.COMPUTER }));
       res = await GifSearch.random(args.query);
     } catch (error) {
       printError(error, this);

@@ -2,7 +2,7 @@
 import Command, { TFunction } from '@struct/Command';
 import { Message } from 'discord.js';
 import { guild } from '@database/index';
-import Embed from '@utils/Embed';
+import LaurieEmbed from '@struct/LaurieEmbed';
 import { RATE_EMOJIS } from '@utils/Constants';
 
 function getRateByEmoji(emoji: string): keyof typeof RATE_EMOJIS {
@@ -40,7 +40,7 @@ export default class AvaliarTk extends Command {
     if (ticket.authorId !== msg.author.id) return msg.reply(t('commands:avaliar_tk.not_owner'));
 
     const sent = await msg.reply(
-      new Embed(msg.author).setAuthor(t('commands:avaliar_tk.title')).setDescription(
+      new LaurieEmbed(msg.author).setAuthor(t('commands:avaliar_tk.title')).setDescription(
         `${t('commands:avaliar_tk.embed')}\n\n${Object.entries(RATE_EMOJIS)
           .map(c => `${c[1]}  ${t(`commands:avaliar_tk.${c[0]}`)}`)
           .join('\n')}`,

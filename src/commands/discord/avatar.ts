@@ -1,6 +1,6 @@
 import { Message, User } from 'discord.js';
 
-import Embed from '@utils/Embed';
+import LaurieEmbed from '@struct/LaurieEmbed';
 
 import Command, { TFunction } from '@struct/Command';
 
@@ -27,7 +27,7 @@ class AvatarCommand extends Command {
   run(msg: Message, t: TFunction, args: ArgsI) {
     const { user } = args;
 
-    const embed = new Embed(msg.author)
+    const embed = new LaurieEmbed(msg.author)
       .setAuthor(`📸 ${user.username}`)
       .setDescription(t('commands:avatar.embed_description', { avatarUrl: user.displayAvatarURL }))
       .setImage(user.displayAvatarURL);

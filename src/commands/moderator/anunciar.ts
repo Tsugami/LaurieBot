@@ -1,8 +1,8 @@
 import Command, { TFunction, Prompt } from '@struct/Command';
 
 import { Message } from 'discord.js';
-import Embed from '@utils/Embed';
-import { Emojis } from '@utils/Constants';
+import LaurieEmbed from '@struct/LaurieEmbed';
+import { EMOJIS } from '@utils/Constants';
 
 interface ArgsI {
   text: string;
@@ -31,8 +31,8 @@ class AnunciarCommand extends Command {
   }
 
   async run(msg: Message, t: TFunction, args: ArgsI) {
-    const title = t('commands:anunciar.embed_title', { emoji: Emojis.ANUNCIAR });
-    return msg.channel.send(new Embed(msg.author).setTitle(title).setDescription(args.text));
+    const title = t('commands:anunciar.embed_title', { emoji: EMOJIS.ANUNCIAR });
+    return msg.channel.send(new LaurieEmbed(msg.author).setTitle(title).setDescription(args.text));
   }
 }
 

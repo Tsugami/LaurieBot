@@ -1,4 +1,4 @@
-import { TICKET_EMOJIS, Emojis } from '@utils/Constants';
+import { TICKET_EMOJIS, EmojiType } from '@utils/Constants';
 import { CategoryTypes } from '@database/models/Guild';
 
 export const TicketNameRegex = /ticket-([0-9])/;
@@ -14,7 +14,7 @@ export function getCategoryByEmoji(emoji: string): CategoryTypes | null {
   return null;
 }
 
-export function getEmojiByCategory(category: CategoryTypes): Emojis {
+export function getEmojiByCategory(category: CategoryTypes): EmojiType {
   if (category === 'question') return TICKET_EMOJIS.QUESTION;
   if (category === 'report') return TICKET_EMOJIS.REPORT;
   return TICKET_EMOJIS.REVIEW;

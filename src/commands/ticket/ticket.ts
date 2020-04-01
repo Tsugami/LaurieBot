@@ -1,7 +1,7 @@
 import Command, { TFunction } from '@struct/Command';
 import Categories from '@struct/categories';
 import { Message } from 'discord.js';
-import Embed from '@utils/Embed';
+import LaurieEmbed from '@struct/LaurieEmbed';
 
 class TicketCommand extends Command {
   constructor() {
@@ -15,7 +15,7 @@ class TicketCommand extends Command {
   run(msg: Message, t: TFunction) {
     const prefix = this.getPrefix(msg);
     return msg.reply(
-      new Embed(msg.author)
+      new LaurieEmbed(msg.author)
         .setAuthor(t('commands:ticket.title'))
         .addField(t('commands:ticket.what'), t('commands:ticket.what_message'))
         .addField(t('commands:ticket.how'), t('commands:ticket.how_message'))

@@ -3,7 +3,7 @@ import Command, { TFunction } from '@struct/Command';
 import { Message } from 'discord.js';
 
 import { getRandomInt } from '@utils/Math';
-import { Emojis } from '@utils/Constants';
+import { EMOJIS } from '@utils/Constants';
 
 class PenisCommand extends Command {
   constructor() {
@@ -19,11 +19,11 @@ class PenisCommand extends Command {
     let emoji: string;
 
     if (num < 10) {
-      emoji = Emojis.PINCHING_HAND;
+      emoji = EMOJIS.PINCHING_HAND;
     } else if (num > 23) {
-      emoji = Emojis.LUL;
+      emoji = EMOJIS.LUL;
     } else {
-      emoji = Emojis.JOIA;
+      emoji = EMOJIS.JOIA;
     }
 
     msg.reply(t('commands:penis.message', { emoji, num }));

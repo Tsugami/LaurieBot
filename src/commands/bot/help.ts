@@ -2,7 +2,7 @@ import { Message, Util, MessageReaction, User, DMChannel } from 'discord.js';
 
 import Command, { TFunction } from '@struct/Command';
 import Categories from '@struct/categories';
-import Embed from '@utils/Embed';
+import LaurieEmbed from '@struct/LaurieEmbed';
 
 class HelpCommand extends Command {
   notShow = ['bot', 'ticket'];
@@ -37,7 +37,7 @@ class HelpCommand extends Command {
     const categories = Object.values(Categories).filter(x => !this.notShow.includes(x.id));
     const categoriesMainMessage = categories.map(c => `${c.emoji} ${t(`categories:${c.id}.description`)}`).join('\n');
 
-    const embed = new Embed(msg.author);
+    const embed = new LaurieEmbed(msg.author);
     embed.setDescription(`${t('commands:help.message', { author: msg.author })}\n\n${categoriesMainMessage}`);
 
     try {

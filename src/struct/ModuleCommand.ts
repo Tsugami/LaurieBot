@@ -2,7 +2,7 @@ import { Message } from 'discord.js';
 import { ArgumentType, ArgumentOptions } from 'discord-akairo';
 
 import Command, { Prompt, TFunction } from '@struct/Command';
-import Embed from '@utils/Embed';
+import LaurieEmbed from '@struct/LaurieEmbed';
 
 import { guild } from '@database/index';
 import GuildController from '@database/controllers/GuildController';
@@ -47,7 +47,7 @@ class ModuleCommand<A extends string> extends Command {
           prompt: {
             start: Prompt<ModuleOptionArgs>((t, m, a) => {
               const { author } = m;
-              const embed = new Embed(m.author);
+              const embed = new LaurieEmbed(m.author);
               const optionsMessage = moduleOptions
                 .filter(o => o.validate(m, a))
                 .map((o, i) => {

@@ -2,7 +2,7 @@ import Command, { TFunction } from '@struct/Command';
 import { Message } from 'discord.js';
 
 import { getRandomInt } from '@utils/Math';
-import { Emojis } from '@utils/Constants';
+import { EMOJIS } from '@utils/Constants';
 
 class CornoCommand extends Command {
   constructor() {
@@ -15,7 +15,7 @@ class CornoCommand extends Command {
 
   run(msg: Message, t: TFunction) {
     const num = getRandomInt(1, 100);
-    msg.reply(t('commands:corno.message', { num, emoji: Emojis.OX }));
+    msg.reply(t('commands:corno.message', { num, emoji: EMOJIS.OX }));
   }
 }
 

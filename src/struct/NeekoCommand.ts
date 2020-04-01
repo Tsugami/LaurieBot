@@ -1,7 +1,7 @@
 import Command, { TFunction, Prompt } from '@struct/Command';
 import { Message, User } from 'discord.js';
 
-import Embed from '../utils/Embed';
+import LaurieEmbed from './LaurieEmbed';
 
 type urlFuncT = () => Promise<string>;
 
@@ -32,7 +32,9 @@ class NeekoCommand extends Command {
 
   async run(msg: Message, t: TFunction, { user }: { user: User }) {
     const url = await this.urlFunc();
-    const embed = new Embed(msg.author).setDescription(t(this.text, { user1: msg.author, user2: user })).setImage(url);
+    const embed = new LaurieEmbed(msg.author)
+      .setDescription(t(this.text, { user1: msg.author, user2: user }))
+      .setImage(url);
     msg.reply(embed);
   }
 }
