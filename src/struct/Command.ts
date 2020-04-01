@@ -25,9 +25,7 @@ export function Prompt<B extends { option: string } | any>(
   return (msg, args, tries) => fn(getFixedT(msg), msg, args, tries);
 }
 
-export default abstract class CustomCommand extends Command {
-  help: string;
-
+export default abstract class LaurieCommand extends Command {
   constructor(id: string, options: CustomCommandOptions) {
     super(
       id,
@@ -35,9 +33,8 @@ export default abstract class CustomCommand extends Command {
         const t = getFixedT(msg);
         return this.run(msg, t, args, edited);
       },
-      options,
+      { ...options, aliases: [...(options.aliases || []), id].filter((x, i, a) => a.indexOf(x) === i) },
     );
-    this.help = options.help;
     categories[options.category].set(this.id, this);
   }
 
@@ -50,7 +47,7 @@ export default abstract class CustomCommand extends Command {
           .replace(/(\]|>)/g, x => `\`${x}`)
           .replace('|', '`|`')
       : '';
-    return `**${this.help}** ${args}`;
+    return `**${this.aliases[0]}** ${args}`;
   }
 
   getPrefix(msg: Message) {

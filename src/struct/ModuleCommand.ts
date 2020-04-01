@@ -24,14 +24,12 @@ class ModuleCommand<A extends string> extends Command {
 
   constructor(
     id: string,
-    help: string,
     commandOptions: Partial<Omit<CustomCommandOptions, 'args' | 'category'>>,
     public moduleOptions: Options<A>[],
     dependArgs?: Record<string, [Exclude<ArgumentType, string[]>, A[], Partial<Omit<ArgumentOptions, 'id' | 'type'>>?]>,
   ) {
     super(id, {
       category: 'configuration',
-      help,
       ...commandOptions,
       args: [
         {
