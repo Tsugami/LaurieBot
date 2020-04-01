@@ -29,6 +29,26 @@ pnconfig:
   it_is_test: "Isso é um test."
   current_channel_tested: 'Testado com sucesso! {{ emoji }}'
   channel_tested: 'Testado com sucesso em {{ channel }}! {{ emoji }}'
+filter:
+  description: "Esse comando serve pra bloquear palavras dos canais de chat, toda vez que alguém tentar falar a palavra que estiver no filtro a palavra será deletada e o bot avisará."
+  title: 'CONFIGURAÇÕES DE FILTRO DE PALAVRAS'
+  args:
+    option:
+      add: 'Adicionar palavras no filtro.'
+      remove: 'Remover palavras do filtro.'
+      list: 'Visualizar as palavras do filtro.'
+      clean: 'Remover todas as palavras do filtro.'
+    words:
+      add: 'Digite as palavras para adicionar, separadas por virgula.'
+      remove: 'Digite quais palavras você quer remover do filtro.'
+  added: 'as palavras {{ words }} foram adicionadas no filtro!'
+  removed: 'as palavras {{ words }} foram removidas do filtro!'
+  clean: 'todas as palavras foram removidas do filtro.'
+  list: 'todas as palavras adicionadas no filtro: {{ words }}'
+filterlist:
+  description: 'Mostra lista de palavras bloqueadas no servidor.'
+  list: 'todas as palavras bloqueadas no servidor: {{ words }}'
+  emply_list: 'nenhuma palavras está bloqueada! Use {{ command }} para adicionar palavras.'
 welcome:
   description: 'Ativa/Desativa ou altera as mensagens de boas vindas.'
   title: 'CONFIGURAÇÕES DE BOAS VINDAS'

@@ -52,3 +52,15 @@ export async function sendWelcomeMessage(member: GuildMember) {
     channel.send(parseWelcomeMessage(message, member.user.toString(), member.guild.name));
   }
 }
+
+export async function deleteWordBannedMessage(message: Message) {
+  if (message.author.bot) return;
+  const { wordFilter } = await guild(message.guild.id);
+
+  if (wordFilter.get().some(word => message.content.toLowerCase().includes(word))) {
+    message.delete();
+    message.reply(
+      getFixedT(message)('modules:filter.message_default', { command: `\`${process.env.BOT_PREFIX}listfiltro\`` }),
+    );
+  }
+}

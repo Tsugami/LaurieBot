@@ -27,7 +27,7 @@ class ModuleCommand<A extends string> extends Command {
     help: string,
     commandOptions: Partial<Omit<CustomCommandOptions, 'args' | 'category'>>,
     public moduleOptions: Options<A>[],
-    dependArgs?: Record<string, [Exclude<ArgumentType, string[]>, A[]]>,
+    dependArgs?: Record<string, [Exclude<ArgumentType, string[]>, A[], Partial<Omit<ArgumentOptions, 'id' | 'type'>>?]>,
   ) {
     super(id, {
       category: 'configuration',
@@ -66,25 +66,29 @@ class ModuleCommand<A extends string> extends Command {
           },
         },
         ...(dependArgs
-          ? Object.entries(dependArgs).reduce<ArgumentOptions[]>((newArgs, [argId, [type, optionIds]]) => {
-              newArgs.push({
-                id: argId,
-                type: (word, m, a) => {
-                  const x = optionIds.find(o => String(a.option) === o);
-                  if (x) {
-                    return this.client.commandHandler.resolver.type(type)(word, m, a) || null;
-                  }
-                  return '';
-                },
-                prompt: {
-                  start: Prompt<any>((t, _, a) => {
+          ? Object.entries(dependArgs).reduce<ArgumentOptions[]>(
+              (newArgs, [argId, [type, optionIds, argOptions = {}]]) => {
+                newArgs.push({
+                  ...argOptions,
+                  id: argId,
+                  type: (word, m, a) => {
                     const x = optionIds.find(o => String(a.option) === o);
-                    return t(`commands:${this.id}.args.${argId}.${x}`);
-                  }),
-                },
-              });
-              return newArgs;
-            }, [])
+                    if (x) {
+                      return this.client.commandHandler.resolver.type(type)(word, m, a) || null;
+                    }
+                    return '';
+                  },
+                  prompt: {
+                    start: Prompt<any>((t, _, a) => {
+                      const x = optionIds.find(o => String(a.option) === o);
+                      return t(`commands:${this.id}.args.${argId}.${x}`);
+                    }),
+                  },
+                });
+                return newArgs;
+              },
+              [],
+            )
           : []),
       ],
     });

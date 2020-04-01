@@ -8,6 +8,8 @@ punishment:
   user_info: 'INFORMAÇÕES DO USUÁRIO'
 welcome:
   message_default: "{user}, Bem vindo ao servidor!"
+filter:
+  message_default: "você utilizou uma palavra proibida neste servidor! Use {{ command }} para ver as palavras proibidas."
 ticket:
   question_ticket: "Esclarecer Dúvidas"
   report_ticket: "Revisar Punição"

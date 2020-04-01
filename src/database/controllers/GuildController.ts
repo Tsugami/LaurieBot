@@ -2,11 +2,14 @@ import { GuildDocument } from '@database/models/Guild';
 import Base from './Base';
 import TicketController from './TicketController';
 import WelcomeController from './WelcomeController';
+import WordFilterController from './WordFilterController';
 
 class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
-  public ticket = new TicketController(this.data);
+  ticket = new TicketController(this.data);
 
-  public welcome = new WelcomeController(this.data);
+  welcome = new WelcomeController(this.data);
+
+  wordFilter = new WordFilterController(this.data);
 
   disableChannel(channelId: string): Promise<T> {
     this.data.disableChannels = this.addArrayData(channelId, this.data.disableChannels);
