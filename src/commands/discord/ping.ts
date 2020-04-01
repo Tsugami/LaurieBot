@@ -5,9 +5,8 @@ import LaurieEmbed from '@struct/LaurieEmbed';
 class PingCommand extends Command {
   constructor() {
     super('ping', {
-      aliases: ['ping'],
+      aliases: ['pong'],
       category: 'discord',
-      help: 'ping',
     });
   }
 

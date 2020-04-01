@@ -10,9 +10,8 @@ interface ArgsI {
 class KickCommand extends Command {
   constructor() {
     super('kick', {
-      aliases: ['kick', 'expulsar'],
+      aliases: ['expulsar'],
       category: 'moderator',
-      help: 'expulsar',
       channelRestriction: 'guild',
       userPermissions: 'KICK_MEMBERS',
       clientPermissions: 'KICK_MEMBERS',

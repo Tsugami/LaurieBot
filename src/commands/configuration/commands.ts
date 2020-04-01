@@ -15,10 +15,9 @@ const prompt = {
 class CommandsCommand extends Command {
   constructor() {
     super('commands', {
-      aliases: ['commands', 'comandos', 'desativar'],
+      aliases: ['comandos', 'desativar'],
       userPermissions: 'MANAGE_MESSAGES',
       category: 'configuration',
-      help: 'comandos',
       channelRestriction: 'guild',
       args: [
         {

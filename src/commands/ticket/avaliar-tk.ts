@@ -15,7 +15,6 @@ export default class AvaliarTk extends Command {
   constructor() {
     super('avaliar-tk', {
       aliases: ['avaliar-ticket', 'avaliar-tk', 'rate-tk'],
-      help: 'avaliar-tk',
       category: 'ticket',
       clientPermissions: ['ADD_REACTIONS', 'EMBED_LINKS'],
       args: [

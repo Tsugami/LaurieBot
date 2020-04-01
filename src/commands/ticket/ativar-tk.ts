@@ -7,8 +7,7 @@ import categories from '@struct/categories';
 export default class AtivarTicket extends Command {
   constructor() {
     super('ativar-tk', {
-      aliases: ['ativar-ticket', 'ativar-tk'],
-      help: 'ativar-tk',
+      aliases: ['ativar-ticket'],
       category: 'ticket',
       clientPermissions: 'ADMINISTRATOR',
       userPermissions: 'ADMINISTRATOR',

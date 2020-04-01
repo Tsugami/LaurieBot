@@ -56,7 +56,7 @@ export async function sendWelcomeMessage(member: GuildMember) {
 }
 
 export async function deleteWordBannedMessage(message: Message) {
-  if (message.author.bot) return;
+  if (message.author.bot || message.channel.type !== 'text') return;
   const { wordFilter } = await guild(message.guild.id);
 
   if (wordFilter.get().some(word => message.content.toLowerCase().includes(word))) {

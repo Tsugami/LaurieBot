@@ -3,7 +3,6 @@ import { Message, Client } from 'discord.js';
 
 import LaurieEmbed from '@struct/LaurieEmbed';
 import { getDate } from '@utils/Date';
-import { EMOJIS } from '@utils/Constants';
 
 async function getUser(userId: string, client: Client): Promise<string> {
   const findByUsers = client.users.get(userId);
@@ -16,9 +15,8 @@ async function getUser(userId: string, client: Client): Promise<string> {
 class BotinfoCommand extends Command {
   constructor() {
     super('botinfo', {
-      aliases: ['botinfo', 'infobot'],
+      aliases: ['infobot'],
       category: 'discord',
-      help: 'infobot',
     });
   }
 

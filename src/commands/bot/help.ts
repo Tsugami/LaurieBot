@@ -10,8 +10,7 @@ class HelpCommand extends Command {
   constructor() {
     super('help', {
       category: 'bot',
-      help: 'ajuda',
-      aliases: ['help', 'ajuda'],
+      aliases: ['ajuda'],
     });
   }
 
@@ -44,11 +43,18 @@ class HelpCommand extends Command {
       const sent = await channel.send(embed);
       if (sent instanceof Message) {
         await msg.reply(t('commands:help.warn_message'));
-        categories.forEach(category => {
-          const emoji = Util.parseEmoji(category.emoji);
-          const id = emoji.id ? emoji.id : emoji.name;
-          sent.react(id);
-        });
+
+        const reactEmojis = async () => {
+          // eslint-disable-next-line no-restricted-syntax
+          for await (const category of categories) {
+            const emoji = Util.parseEmoji(category.emoji);
+            const id = emoji.id ? emoji.id : emoji.name;
+            // eslint-disable-next-line no-await-in-loop
+            await sent.react(id);
+          }
+        };
+
+        reactEmojis();
 
         let currentCategoryId: string;
         const filter = (r: MessageReaction, u: User) => u.id === msg.author.id && r.me;

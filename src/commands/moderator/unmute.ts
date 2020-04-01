@@ -12,10 +12,9 @@ interface ArgsI {
 class UnmuteCommand extends Command {
   constructor() {
     super('unmute', {
-      aliases: ['unmute', 'desmutar'],
+      aliases: ['desmutar'],
       category: 'moderator',
       channelRestriction: 'guild',
-      help: 'desmutar',
       userPermissions: 'MUTE_MEMBERS',
       clientPermissions: 'MUTE_MEMBERS',
       args: [

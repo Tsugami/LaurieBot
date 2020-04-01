@@ -6,7 +6,6 @@ export default class SetCargoTicket extends Command {
   constructor() {
     super('setcargo-tk', {
       aliases: ['setcargo-ticket', 'setcargo-tk', 'setrole-tk'],
-      help: 'setcargo-tk',
       category: 'ticket',
       clientPermissions: 'ADMINISTRATOR',
       userPermissions: 'ADMINISTRATOR',

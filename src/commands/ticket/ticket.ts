@@ -6,8 +6,6 @@ import LaurieEmbed from '@struct/LaurieEmbed';
 class TicketCommand extends Command {
   constructor() {
     super('ticket', {
-      aliases: ['ticket'],
-      help: 'ticket',
       category: 'configuration',
     });
   }
@@ -22,7 +20,7 @@ class TicketCommand extends Command {
         .addField(
           t('commons:commands'),
           Categories.ticket
-            .map(x => `\`${prefix + x.help}\` ${t(`commands:${x.id.replace('-', '_')}.description`)}`)
+            .map(x => `\`${prefix + x.aliases[0]}\` ${t(`commands:${x.id.replace('-', '_')}.description`)}`)
             .join('\n'),
         )
         .addField(t('commands:ticket.warn'), t('commands:ticket.warn_message', { prefix })),

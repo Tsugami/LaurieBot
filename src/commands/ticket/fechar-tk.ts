@@ -7,7 +7,6 @@ export default class FecharTicket extends Command {
   constructor() {
     super('fechar-tk', {
       aliases: ['fechar-ticket', 'fechar-tk', 'close-tk'],
-      help: 'fechar-tk',
       category: 'ticket',
       clientPermissions: 'MANAGE_CHANNELS',
     });

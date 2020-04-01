@@ -10,9 +10,7 @@ interface ArgsI {
 class McConquistaCommand extends Command {
   constructor() {
     super('mcconquista', {
-      aliases: ['mcconquista'],
       category: 'minecraft',
-      help: 'mcconquista',
       args: [
         {
           id: 'message',

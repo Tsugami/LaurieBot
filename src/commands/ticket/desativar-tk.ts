@@ -6,7 +6,6 @@ export default class DesativarTicket extends Command {
   constructor() {
     super('desativar-tk', {
       aliases: ['desativar-ticket', 'desativar-tk'],
-      help: 'desativar-tk',
       category: 'ticket',
       userPermissions: 'ADMINISTRATOR',
     });

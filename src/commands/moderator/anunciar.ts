@@ -11,8 +11,6 @@ interface ArgsI {
 class AnunciarCommand extends Command {
   constructor() {
     super('anunciar', {
-      aliases: ['anunciar'],
-      help: 'anunciar',
       category: 'moderator',
       channelRestriction: 'guild',
       userPermissions: 'MANAGE_MESSAGES',

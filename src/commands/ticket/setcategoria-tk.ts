@@ -6,7 +6,6 @@ export default class SetCategoriaTicket extends Command {
   constructor() {
     super('setcategoria-tk', {
       aliases: ['setcategoria-ticket', 'setcategoria-tk', 'setcategory-tk'],
-      help: 'setcategoria-tk',
       category: 'ticket',
       clientPermissions: 'ADMINISTRATOR',
       userPermissions: 'ADMINISTRATOR',

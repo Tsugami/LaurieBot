@@ -3,7 +3,7 @@ import { Message, MessageReaction, User, Guild, ChannelCreationOverwrites, TextC
 import { guild } from '@database/index';
 import LaurieEmbed from '@struct/LaurieEmbed';
 import { getCategoryByEmoji, getEmojiByCategory } from '@utils/TicketUtil';
-import { TICKET_EMOJIS, EMOJIS } from '@utils/Constants';
+import { TICKET_EMOJIS } from '@utils/Constants';
 
 export default class AbrirTicket extends Command {
   readonly TICKET_NAME_REGEX = /ticket-([0-9])/;
@@ -11,7 +11,6 @@ export default class AbrirTicket extends Command {
   constructor() {
     super('abrir-tk', {
       aliases: ['abrir-ticket', 'abrir-tk', 'abrirtk'],
-      help: 'abrir-tk',
       category: 'ticket',
       clientPermissions: ['MANAGE_CHANNELS', 'ADD_REACTIONS'],
     });

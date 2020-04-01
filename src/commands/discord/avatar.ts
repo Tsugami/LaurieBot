@@ -11,9 +11,7 @@ interface ArgsI {
 class AvatarCommand extends Command {
   constructor() {
     super('avatar', {
-      aliases: ['avatar'],
       category: 'discord',
-      help: 'avatar',
       args: [
         {
           id: 'user',

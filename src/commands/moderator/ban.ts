@@ -11,9 +11,8 @@ interface ArgsI {
 class BanCommand extends Command {
   constructor() {
     super('ban', {
-      aliases: ['ban', 'banir'],
+      aliases: ['banir'],
       category: 'moderator',
-      help: 'banir',
       channelRestriction: 'guild',
       userPermissions: 'BAN_MEMBERS',
       clientPermissions: 'BAN_MEMBERS',

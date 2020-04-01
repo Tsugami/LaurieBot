@@ -11,9 +11,8 @@ interface ArgsI {
 class ShipCommand extends Command {
   constructor() {
     super('ship', {
-      aliases: ['ship', 'shippar'],
+      aliases: ['shippar'],
       category: 'interactivity',
-      help: 'shippar',
       args: [
         {
           type: 'user',

@@ -8,9 +8,8 @@ interface ArgsI {
 class ClearCommand extends Command {
   constructor() {
     super('clear', {
-      aliases: ['clear', 'prune', 'limpar'],
+      aliases: ['limpar', 'prune'],
       category: 'moderator',
-      help: 'limpar',
       channelRestriction: 'guild',
       userPermissions: 'MANAGE_MESSAGES',
       clientPermissions: 'MANAGE_MESSAGES',

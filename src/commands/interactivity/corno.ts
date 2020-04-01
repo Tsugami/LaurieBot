@@ -7,8 +7,6 @@ import { EMOJIS } from '@utils/Constants';
 class CornoCommand extends Command {
   constructor() {
     super('corno', {
-      aliases: ['corno'],
-      help: 'corno',
       category: 'interactivity',
     });
   }

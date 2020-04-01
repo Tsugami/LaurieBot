@@ -8,9 +8,7 @@ import { getDate } from '@utils/Date';
 class ServerinfoCommand extends Command {
   constructor() {
     super('serverinfo', {
-      aliases: ['serverinfo'],
       category: 'discord',
-      help: 'serverinfo',
       channelRestriction: 'guild',
     });
   }

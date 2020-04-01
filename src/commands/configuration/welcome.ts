@@ -17,9 +17,8 @@ interface ChannelArgs {
 
 export default new ModuleCommand(
   'welcome',
-  'configurarbv',
   {
-    aliases: ['welcome', 'configurarbv'],
+    aliases: ['configurarbv'],
     channelRestriction: 'guild',
     userPermissions: 'MANAGE_CHANNELS',
   },

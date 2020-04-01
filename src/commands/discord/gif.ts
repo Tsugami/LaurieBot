@@ -11,14 +11,11 @@ interface ArgsI {
 class GifCommand extends Command {
   constructor() {
     super('gif', {
-      aliases: ['gif'],
       category: 'discord',
-      help: 'gif',
       args: [
         {
           id: 'query',
           type: 'string',
-          default: '',
         },
       ],
     });

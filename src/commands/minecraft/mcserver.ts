@@ -11,9 +11,7 @@ interface ArgsI {
 class McServerCommand extends Command {
   constructor() {
     super('mcserver', {
-      aliases: ['mcserver'],
       category: 'minecraft',
-      help: 'mcserver',
       args: [
         {
           id: 'server',

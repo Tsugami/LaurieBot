@@ -10,7 +10,6 @@ export default class StatusTicket extends Command {
   constructor() {
     super('status-tk', {
       aliases: ['status-ticket', 'status-tk'],
-      help: 'status-tk',
       category: 'ticket',
     });
   }

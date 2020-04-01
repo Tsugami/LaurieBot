@@ -12,9 +12,8 @@ const MuteTestCommand = new MuteCommand();
 
 export default new ModuleCommand(
   'pnconfig',
-  'configurarpn',
   {
-    aliases: ['setchannelpn', 'setcanalpn', 'configurarpn'],
+    aliases: ['configurarpn', 'setchannelpn', 'setcanalpn'],
     userPermissions: 'MANAGE_GUILD',
     channelRestriction: 'guild',
   },

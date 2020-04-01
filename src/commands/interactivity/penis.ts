@@ -8,8 +8,7 @@ import { EMOJIS } from '@utils/Constants';
 class PenisCommand extends Command {
   constructor() {
     super('penis', {
-      aliases: ['penis', 'pau'],
-      help: 'pau',
+      aliases: ['pau'],
       category: 'interactivity',
     });
   }

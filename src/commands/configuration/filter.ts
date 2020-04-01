@@ -6,7 +6,6 @@ const parse = (words: string[]) => words.map(w => `\`${w}\``).join(', ');
 type StringArgs = ModuleOptionArgs & { words: string };
 export default new ModuleCommand(
   'filter',
-  'filtro',
   {
     aliases: ['filtro'],
     userPermissions: 'MANAGE_GUILD',

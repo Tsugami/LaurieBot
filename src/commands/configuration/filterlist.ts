@@ -9,7 +9,6 @@ class CommandsCommand extends Command {
     super('filterlist', {
       aliases: ['listfiltro'],
       category: 'configuration',
-      help: 'listfiltro',
       channelRestriction: 'guild',
     });
   }
@@ -21,7 +20,9 @@ class CommandsCommand extends Command {
     if (words.length) {
       msg.reply(t('commands:filterlist.list', { words }));
     } else {
-      msg.reply(t('commands:filterlist.emply_list', { command: `\`${this.getPrefix(msg) + FilterCommand.help}\`` }));
+      msg.reply(
+        t('commands:filterlist.emply_list', { command: `\`${this.getPrefix(msg) + FilterCommand.aliases[0]}\`` }),
+      );
     }
   }
 }

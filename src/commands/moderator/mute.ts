@@ -11,10 +11,9 @@ interface ArgsI {
 class MuteCommand extends Command {
   constructor() {
     super('mute', {
-      aliases: ['mute', 'mutar'],
+      aliases: ['mutar'],
       category: 'moderator',
       channelRestriction: 'guild',
-      help: 'mutar',
       userPermissions: 'MUTE_MEMBERS',
       clientPermissions: 'MANAGE_ROLES',
       args: [
