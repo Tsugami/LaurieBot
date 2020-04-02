@@ -1,44 +1,38 @@
-import { Command, ArgumentPromptFunction } from 'discord-akairo';
-import { Message, MessageOptions, Guild } from 'discord.js';
+/* eslint-disable no-underscore-dangle */
+import { Command } from 'discord-akairo';
+import { Message } from 'discord.js';
 import { printError } from '@utils/Utils';
-import i18next, { TFunction, TOptions } from 'i18next';
-import { CustomCommandOptions } from './interfaces';
+import { getFixedT } from '@utils/CommandUtils';
+import i18next, { TFunction } from 'i18next';
 import categories from './categories';
 
-export { TFunction } from 'i18next';
+import { LaurieCommandOptions, ArgsTypes } from './interfaces/Command';
 
-export type PrompFunc<A = any> = (t: TFunction, msg: Message, args: A, tries: number) => string | MessageOptions;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function getFixedT(msg: Message | Guild) {
-  const language = 'pt-BR';
-  return i18next.getFixedT(language);
-}
-
-export function Prompt(fn: string, options?: TOptions): (msg: Message) => string;
-export function Prompt<A>(fn: PrompFunc<A>): ArgumentPromptFunction;
-export function Prompt<B extends { option: string } | any>(
-  fn: string | PrompFunc<B>,
-  options: TOptions = {},
-): ArgumentPromptFunction {
-  if (typeof fn === 'string') return (msg: Message) => getFixedT(msg)(fn, options);
-  return (msg, args, tries) => fn(getFixedT(msg), msg, args, tries);
-}
-
-export default abstract class LaurieCommand extends Command {
-  constructor(id: string, options: CustomCommandOptions) {
+export default class LaurieCommand<
+  Options extends LaurieCommandOptions,
+  ArgsOption extends NonNullable<Options['args']>,
+  Arg extends ArgsOption[number],
+  Args extends Record<Arg['id'], ArgsTypes[Arg['type']]>
+> extends Command {
+  constructor(
+    id: string,
+    options: Options,
+    public run: (message: Message, t: TFunction, args: Args, edited?: boolean) => any,
+  ) {
     super(
       id,
-      (msg: Message, args: any, edited: boolean) => {
+      (msg: Message, args: Args, edited: boolean) => {
         const t = getFixedT(msg);
-        return this.run(msg, t, args, edited);
+        this.run(msg, t, args, edited);
       },
-      { ...options, aliases: [...(options.aliases || []), id].filter((x, i, a) => a.indexOf(x) === i) },
+      options,
     );
-    categories[options.category].set(this.id, this);
-  }
 
-  abstract run(msg: Message, t: TFunction, args: any, edited: boolean): any | Promise<any>;
+    this.aliases = [...(options.aliases || []), id].filter((x, i, a) => a.indexOf(x) === i);
+    this.category = categories[options.category];
+
+    this.category.set(this.id, this);
+  }
 
   toTitle(t: TFunction) {
     const args = i18next.exists(`commands:${this.id}.usage`)

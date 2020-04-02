@@ -1,8 +1,8 @@
 import { buildi18n } from '@config/i18next';
-import { AkairoClient, Listener } from 'discord-akairo';
+import { AkairoClient } from 'discord-akairo';
 import { CategoryChannel } from 'discord.js';
 import path from 'path';
-import { Prompt } from '@struct/Command';
+import { Prompt } from '@utils/CommandUtils';
 
 const mainFolder = __filename.endsWith('ts') ? 'src' : 'dist';
 

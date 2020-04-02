@@ -1,5 +1,5 @@
-import Command, { TFunction } from '@struct/Command';
-import { Message, Client } from 'discord.js';
+import Command from '@struct/Command';
+import { Client } from 'discord.js';
 
 import LaurieEmbed from '@struct/LaurieEmbed';
 import { getDate } from '@utils/Date';
@@ -12,15 +12,13 @@ async function getUser(userId: string, client: Client): Promise<string> {
   return userId;
 }
 
-class BotinfoCommand extends Command {
-  constructor() {
-    super('botinfo', {
-      aliases: ['infobot'],
-      category: 'discord',
-    });
-  }
-
-  async run(msg: Message, t: TFunction) {
+export default new Command(
+  'botinfo',
+  {
+    aliases: ['infobot'],
+    category: 'discord',
+  },
+  async (msg, t) => {
     const unknownTranst = t('commons:unknown');
     const bot = msg.client;
     const dev = process.env.DEV_ID ? await getUser(process.env.DEV_ID, bot) : unknownTranst;
@@ -38,7 +36,5 @@ class BotinfoCommand extends Command {
       );
 
     msg.reply(embed);
-  }
-}
-
-export default BotinfoCommand;
+  },
+);

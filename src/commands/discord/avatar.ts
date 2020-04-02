@@ -1,36 +1,17 @@
-import { Message, User } from 'discord.js';
-
 import LaurieEmbed from '@struct/LaurieEmbed';
+import Command from '@struct/Command';
 
-import Command, { TFunction } from '@struct/Command';
-
-interface ArgsI {
-  user: User;
-}
-
-class AvatarCommand extends Command {
-  constructor() {
-    super('avatar', {
-      category: 'discord',
-      args: [
-        {
-          id: 'user',
-          type: 'user',
-          default: (msg: Message) => msg.author,
-        },
-      ],
-    });
-  }
-
-  run(msg: Message, t: TFunction, args: ArgsI) {
-    const { user } = args;
-
+export default new Command(
+  'avatar',
+  {
+    category: 'discord',
+    args: [{ id: 'user', type: 'user', default: msg => msg.author }],
+  },
+  (msg, t, { user }) => {
     const embed = new LaurieEmbed(msg.author)
       .setAuthor(`📸 ${user.username}`)
       .setDescription(t('commands:avatar.embed_description', { avatarUrl: user.displayAvatarURL }))
       .setImage(user.displayAvatarURL);
     msg.reply(embed);
-  }
-}
-
-export default AvatarCommand;
+  },
+);

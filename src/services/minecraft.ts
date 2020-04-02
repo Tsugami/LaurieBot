@@ -34,8 +34,6 @@ export async function getServer(address: string): Promise<MCServerI> {
 
   if (response.status !== 200 || response.data.status === 'error') throw new Error('not found');
 
-  console.log(response);
-
   return {
     online: true,
     players: `${response.data.players.now}/${response.data.players.max}`,
