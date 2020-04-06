@@ -4,29 +4,43 @@ import TicketController from './TicketController';
 import WelcomeController from './WelcomeController';
 import WordFilterController from './WordFilterController';
 
-class GuildController<T extends GuildDocument = GuildDocument> extends Base<T> {
+class GuildController extends Base<GuildDocument> {
   ticket = new TicketController(this.data);
 
   welcome = new WelcomeController(this.data);
 
   wordFilter = new WordFilterController(this.data);
 
-  disableChannel(channelId: string): Promise<T> {
-    this.data.disableChannels = this.addArrayData(channelId, this.data.disableChannels);
+  disabledChannels = this.data.disabledChannels;
+
+  disabledCommands = this.data.disabledCommands;
+
+  disableChannel(channelId: string) {
+    this.data.disabledChannels.push(channelId);
     return this.save();
   }
 
-  enableChannel(channelId: string): Promise<T> {
-    this.data.disableChannels = this.removeArrayData(channelId, this.data.disableChannels);
+  disableCommand(commandId: string) {
+    this.data.disabledCommands.push(commandId);
     return this.save();
   }
 
-  setPenaltyChannel(channelId: string): Promise<T> {
+  enableChannel(channelId: string) {
+    this.data.disabledChannels = this.data.disabledChannels.filter(id => id !== channelId);
+    return this.save();
+  }
+
+  enableCommands(commandId: string) {
+    this.data.disabledCommands = this.data.disabledCommands.filter(id => id !== commandId);
+    return this.save();
+  }
+
+  setPenaltyChannel(channelId: string) {
     this.data.penaltyChannel = channelId;
     return this.save();
   }
 
-  removePenaltyChannel(): Promise<T> {
+  removePenaltyChannel() {
     this.data.penaltyChannel = null;
     return this.save();
   }

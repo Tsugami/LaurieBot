@@ -37,3 +37,7 @@ export function parseOptions<O extends LaurieCommandOptions>(id: string, options
 
   return options;
 }
+
+export function getPrefix(msg: Message) {
+  return msg.client.commandHandler.prefix(msg);
+}

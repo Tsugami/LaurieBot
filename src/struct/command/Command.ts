@@ -58,7 +58,7 @@ export default class LaurieCommand<
   }
 
   getPrefix(msg: Message) {
-    return this.client.commandHandler.prefix(msg);
+    return msg.client.commandHandler.prefix(msg);
   }
 
   printError(error: Error, message: Message) {

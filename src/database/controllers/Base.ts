@@ -17,20 +17,6 @@ class BaseController<Doc extends Document> {
   isId(id: string): boolean {
     return Types.ObjectId.isValid(id);
   }
-
-  addArrayData<D>(data: D, arr: D[]): D[] {
-    if (data && arr && !arr.includes(data)) {
-      arr.push(data);
-    }
-    return arr;
-  }
-
-  removeArrayData<D>(data: D, arr: D[]): D[] {
-    if (data && arr && arr.includes(data)) {
-      return arr.filter(x => x !== data);
-    }
-    return arr;
-  }
 }
 
 export default BaseController;

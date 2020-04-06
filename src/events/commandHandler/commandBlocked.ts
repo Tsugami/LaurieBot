@@ -1,16 +1,17 @@
 import { Listener, Command } from 'discord-akairo';
 import { Message, PermissionResolvable } from 'discord.js';
-import { getFixedT } from '@struct/command/Command';
+import { getFixedT } from '@utils/CommandUtils';
 
-const disableCommandsCooldown = new Set<string>();
+const ChannelDisabledCooldown = new Set<string>();
+const CommandDisabledCooldown = new Set<string>();
 
-function addUserCooldown(userId: string): void {
-  disableCommandsCooldown.add(userId);
-  setTimeout(() => disableCommandsCooldown.delete(userId), 2 * 60000);
+function addUserCooldown(userId: string, set: Set<string>): void {
+  set.add(userId);
+  setTimeout(() => set.delete(userId), 2 * 60000);
 }
 
-function userIsCooldown(userId: string): boolean {
-  return disableCommandsCooldown.has(userId);
+function userIsCooldown(userId: string, set: Set<string>): boolean {
+  return set.has(userId);
 }
 
 const bold = (str: string) => `**${str}**`;
@@ -42,9 +43,17 @@ export default class CommandBlockedListener extends Listener {
       if (permissions) return msg.reply(t('errors:client_permissions', { permissions }));
     }
 
-    if (reason === 'disableCommands' && !userIsCooldown(msg.author.id)) {
-      addUserCooldown(msg.author.id);
-      return msg.reply(t('errors:disable_commands'));
+    if (
+      reason === 'commands_disabled_on_the_current_channel' &&
+      !userIsCooldown(msg.author.id, ChannelDisabledCooldown)
+    ) {
+      addUserCooldown(msg.author.id, ChannelDisabledCooldown);
+      return msg.reply(t('errors:channel_disabled'));
+    }
+
+    if (reason === 'command_disabled' && !userIsCooldown(msg.author.id, CommandDisabledCooldown)) {
+      addUserCooldown(msg.author.id, CommandDisabledCooldown);
+      return msg.reply(t('errors:command_disabled'));
     }
 
     if (reason === 'guild') {

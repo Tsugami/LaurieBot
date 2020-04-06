@@ -31,7 +31,8 @@ const ticketConfigSchema = new Schema(
 
 const GuildSchema = new Schema({
   guildId: { type: String, required: true },
-  disableChannels: [String],
+  disabledCommands: [String],
+  disabledChannels: [String],
   penaltyChannel: String,
   ticket: ticketConfigSchema,
   welcome: welcomeSchema,
@@ -64,7 +65,8 @@ export interface TicketConfigModule {
 
 export interface GuildDocument extends Document {
   guildId: string;
-  disableChannels: string[];
+  disabledChannels: string[];
+  disabledCommands: string[];
   wordFilter: string[];
   penaltyChannel?: string | null;
   ticket?: TicketConfigModule;

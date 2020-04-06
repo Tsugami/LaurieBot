@@ -13,7 +13,7 @@ export default class LaurieClient extends AkairoClient {
         listenerDirectory: path.resolve(mainFolder, 'events'),
         commandDirectory: path.resolve(mainFolder, 'commands'),
         inhibitorDirectory: path.resolve(mainFolder, 'inhibitors'),
-        prefix: process.env.BOT_PREFIX || '!',
+        prefix: process.env.BOT_PREFIX || ';',
         defaultPrompt: {
           cancel: Prompt(`commons:prompt_options_default.cancel`),
           start: Prompt(`commons:prompt_options_default.start`),

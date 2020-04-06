@@ -1,16 +1,31 @@
-commands:
-  usage: '<on|off>'
-  description: "Ativa/Desativa os comandos no canal onde for aplicado o comando."
+cmdconfig:
+  description: "Ativa/Desativa comandos e canais de textos."
+  title: 'configurações de Comandos'
   args:
     option:
-      start: 'digite **{{ onOption }}** para ativar e **{{ offOption }}** para desativar os comandos desse canal.'
-      retry: 'digite uma das opções corretamente.'
-  off_option:
-    already_disabled: 'os comandos já estão desativados nesse canal.'
-    disabled: 'os comandos foram desativados nesse canal.'
-  on_option:
-    already_enabled: 'os comandos já estão ativados nesse canal.'
-    enabled: 'os comandos foram ativados nesse canal.'
+      disable_command: 'Desativar comando.'
+      enable_command: 'Ativar comando.'
+      disable_channel: 'Desativar canal de texto.'
+      enable_channel: 'Ativar canal de texto.'
+    command:
+      disable_command: 'digite o nome do comando que deseja desativar no servidor.'
+      enable_command: 'digite o nome do comando que deseja ativar no servidor.'
+      retry: 'esse comando não existe.'
+    channel:
+      disable_channel: 'digite o canal de texto que deseja desativar os comandos.'
+      enable_channel: 'digite o canal de texto que deseja ativar os comandos.'
+      retry: 'canal de texto invalido.'
+  enabled_channel: 'os comandos foram ativados no canal {{ channel }}.'
+  disabled_channel: 'os comandos foram desativados no canal {{ channel }}.'
+  disabled_commands: 'Comandos Desativados:'
+  disabled_channels: 'Canais Desativados:'
+  none_commands: 'Nenhum comando está desativo.'
+  none_channels: 'Nenhum canal está desativo.'
+  already_disabled_channel: 'Esse canal de texto já está desabilitado.'
+  enabled_command: 'comando foi ativado! Use {{ command }} para confirmar!'
+  already_disabled_command: 'este comando já está desativo no servidor.'
+  cannot_this_command_be_disable: 'este comando não pode ser desativado.'
+  categories_that_cannot_be_disabled: 'comandos com as categorias: {{ categories }}. não podem ser desativados.'
 pnconfig:
   description: "Ativa/Desativa ou altera o canal das mensagens de punições."
   title: 'configurações do canal de punições'
