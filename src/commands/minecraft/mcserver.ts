@@ -1,32 +1,26 @@
-import Command, { TFunction } from '@struct/Command';
+import Command from '@struct/command/Command';
 
-import { Message } from 'discord.js';
 import LaurieEmbed from '@struct/LaurieEmbed';
 import { getServer } from '@services/minecraft';
+import { printError } from '@utils/Utils';
 
-interface ArgsI {
-  server: string;
-}
-
-class McServerCommand extends Command {
-  constructor() {
-    super('mcserver', {
-      category: 'minecraft',
-      args: [
-        {
-          id: 'server',
-          type: 'string',
-        },
-      ],
-    });
-  }
-
-  async run(msg: Message, t: TFunction, args: ArgsI) {
+export default new Command(
+  'mcserver',
+  {
+    category: 'minecraft',
+    args: [
+      {
+        id: 'server',
+        type: 'string',
+      },
+    ],
+  },
+  async function run(msg, t, { server }) {
     let res;
     try {
-      res = await getServer(args.server);
+      res = await getServer(server);
     } catch (error) {
-      this.printError(error, msg);
+      printError(error, this);
       return msg.reply(t('commands:mcserver.not_found'));
     }
 
@@ -38,7 +32,5 @@ class McServerCommand extends Command {
       ['JAVA', t('commands:mcserver.minecraft_version'), res.version],
     );
     msg.reply(embed);
-  }
-}
-
-export default McServerCommand;
+  },
+);

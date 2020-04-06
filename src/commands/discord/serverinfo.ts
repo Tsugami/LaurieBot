@@ -1,19 +1,17 @@
-import Command, { TFunction } from '@struct/Command';
-import { Message, PresenceStatusData } from 'discord.js';
+import Command from '@struct/command/Command';
+import { PresenceStatusData } from 'discord.js';
 
 import LaurieEmbed from '@struct/LaurieEmbed';
 import getCountryInPortuguese from '@utils/getCountryInPortuguese';
 import { getDate } from '@utils/Date';
 
-class ServerinfoCommand extends Command {
-  constructor() {
-    super('serverinfo', {
-      category: 'discord',
-      channelRestriction: 'guild',
-    });
-  }
-
-  run(msg: Message, t: TFunction) {
+export default new Command(
+  'serverinfo',
+  {
+    category: 'discord',
+    channelRestriction: 'guild',
+  },
+  (msg, t) => {
     const { guild, author } = msg;
 
     function getMemberSizeByStatus(status: PresenceStatusData) {
@@ -43,7 +41,5 @@ class ServerinfoCommand extends Command {
       );
     if (guild.iconURL) embed.setThumbnail(`${guild.iconURL}?size=2048`);
     msg.reply(embed);
-  }
-}
-
-export default ServerinfoCommand;
+  },
+);

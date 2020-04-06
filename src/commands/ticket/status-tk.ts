@@ -1,20 +1,17 @@
-import Command, { TFunction } from '@struct/Command';
-import { Message } from 'discord.js';
+import Command from '@struct/command/Command';
 import { guild } from '@database/index';
 import { Ticket } from '@database/models/Guild';
 import LaurieEmbed from '@struct/LaurieEmbed';
 import { TICKET_EMOJIS, RATE_EMOJIS } from '@utils/Constants';
 
 const toFixed = (num: number) => num.toFixed(1);
-export default class StatusTicket extends Command {
-  constructor() {
-    super('status-tk', {
-      aliases: ['status-ticket', 'status-tk'],
-      category: 'ticket',
-    });
-  }
-
-  async run(msg: Message, t: TFunction) {
+export default new Command(
+  'status-tk',
+  {
+    aliases: ['status-ticket', 'status-tk'],
+    category: 'ticket',
+  },
+  async (msg, t) => {
     const guildData = await guild(msg.guild.id);
     const { ticket } = guildData.data;
 
@@ -64,5 +61,5 @@ export default class StatusTicket extends Command {
         ['STRONKS', t('commands:status_tk.ticket_rating'), rating],
       ),
     );
-  }
-}
+  },
+);

@@ -1,27 +1,21 @@
 import { Message } from 'discord.js';
 import GifSearch from '@services/giphy';
 import { EMOJIS } from '@utils/Constants';
-import Command, { TFunction } from '@struct/Command';
+import Command from '@struct/command/Command';
 import { printError } from '@utils/Utils';
 
-interface ArgsI {
-  query: string;
-}
-
-class GifCommand extends Command {
-  constructor() {
-    super('gif', {
-      category: 'discord',
-      args: [
-        {
-          id: 'query',
-          type: 'string',
-        },
-      ],
-    });
-  }
-
-  async run(msg: Message, t: TFunction, args: ArgsI) {
+export default new Command(
+  'gif',
+  {
+    category: 'interactivity',
+    args: [
+      {
+        id: 'query',
+        type: 'string',
+      },
+    ],
+  },
+  async function run(msg, t, args) {
     let res;
     let sent: Message | Message[];
 
@@ -49,7 +43,5 @@ class GifCommand extends Command {
       await deleteMsg();
       msg.reply(t('commands:gif:not_found'));
     }
-  }
-}
-
-export default GifCommand;
+  },
+);

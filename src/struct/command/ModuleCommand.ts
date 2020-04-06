@@ -1,36 +1,42 @@
 import { Message } from 'discord.js';
 import { ArgumentType, ArgumentOptions } from 'discord-akairo';
 
-import Command, { Prompt, TFunction } from '@struct/Command';
+import Command from '@struct/command/Command';
+import { Prompt } from '@utils/CommandUtils';
 import LaurieEmbed from '@struct/LaurieEmbed';
 
 import { guild } from '@database/index';
 import GuildController from '@database/controllers/GuildController';
-import { CustomCommandOptions } from './interfaces';
+
+import { TFunction } from 'i18next';
+import { LaurieCommandOptions } from './interfaces';
+import { CustomArgumentOptions } from './interfaces/index';
 
 export interface ModuleOptionArgs {
   guildData: GuildController;
 }
 
+export type DetailsFuncResult = Array<[string, string, boolean?]>;
 interface Options<A, C = ModuleOptionArgs> {
   id: A;
-  aliases: string[];
   validate: (m: Message, args: ModuleOptionArgs) => boolean;
   run(msg: Message, t: TFunction, args: C): any;
 }
 
-class ModuleCommand<A extends string> extends Command {
-  private readonly title = `commands:${this.id}.title`;
-
-  constructor(
-    id: string,
-    commandOptions: Partial<Omit<CustomCommandOptions, 'args' | 'category'>>,
-    public moduleOptions: Options<A>[],
-    dependArgs?: Record<string, [Exclude<ArgumentType, string[]>, A[], Partial<Omit<ArgumentOptions, 'id' | 'type'>>?]>,
-  ) {
-    super(id, {
+export default function createModuleCommand<A extends string>(
+  id: string,
+  commandOptions: Partial<Omit<LaurieCommandOptions, 'args' | 'category'>>,
+  moduleOptions: Options<A>[],
+  dependArgs?: Record<string, [Exclude<ArgumentType, string[]>, A[], Partial<Omit<ArgumentOptions, 'id' | 'type'>>?]>,
+  detailsFunc?: (msg: Message, t: TFunction, args: ModuleOptionArgs) => DetailsFuncResult,
+) {
+  const title = `commands:${id}.title`;
+  return new Command(
+    id,
+    {
       category: 'configuration',
       ...commandOptions,
+      autoPrompt: false,
       args: [
         {
           id: 'guildData',
@@ -41,7 +47,7 @@ class ModuleCommand<A extends string> extends Command {
           type: (word, message, args) =>
             moduleOptions
               .filter(o => o.validate(message, args))
-              .find((o, i) => Number(word) === i + 1 || word === String(o.id) || o.aliases.includes(word))?.id,
+              .find((o, i) => Number(word) === i + 1 || word === String(o.id))?.id,
           prompt: {
             start: Prompt<ModuleOptionArgs>((t, m, a) => {
               const { author } = m;
@@ -49,22 +55,25 @@ class ModuleCommand<A extends string> extends Command {
               const optionsMessage = moduleOptions
                 .filter(o => o.validate(m, a))
                 .map((o, i) => {
-                  return `**${i + 1}**: ${t(`commands:${this.id}.args.option.${o.id}`)}`;
+                  return `**[${i + 1}]** ${t(`commands:${id}.args.option.${o.id}`)}`;
                 })
                 .join('\n');
 
-              embed.setDescription(
-                `**${t(this.title).toUpperCase()}**\n\n${t('commons:choose_option', {
-                  author,
-                })}\n\n${optionsMessage}\n\n${t('commons:cancel_message')}`,
-              );
+              embed
+                .setDescription(`**${t(title).toUpperCase()}**\n\n${optionsMessage}\n\n${t('commons:cancel_message')}`)
+                .addFields(detailsFunc ? detailsFunc(m, t, a) : []);
 
-              return { embed };
+              return {
+                embed,
+                content: t('commons:choose_option', {
+                  author,
+                }),
+              };
             }),
           },
         },
         ...(dependArgs
-          ? Object.entries(dependArgs).reduce<ArgumentOptions[]>(
+          ? Object.entries(dependArgs).reduce<CustomArgumentOptions[]>(
               (newArgs, [argId, [type, optionIds, argOptions = {}]]) => {
                 newArgs.push({
                   ...argOptions,
@@ -72,14 +81,14 @@ class ModuleCommand<A extends string> extends Command {
                   type: (word, m, a) => {
                     const x = optionIds.find(o => String(a.option) === o);
                     if (x) {
-                      return this.client.commandHandler.resolver.type(type)(word, m, a) || null;
+                      return m.client.commandHandler.resolver.type(type)(word, m, a) || null;
                     }
                     return '';
                   },
                   prompt: {
-                    start: Prompt<any>((t, _, a) => {
+                    start: Prompt<any>((t, m, a) => {
                       const x = optionIds.find(o => String(a.option) === o);
-                      return t(`commands:${this.id}.args.${argId}.${x}`);
+                      return `${m.author.toString()}, ${t(`commands:${id}.args.${argId}.${x}`)}`;
                     }),
                   },
                 });
@@ -89,13 +98,10 @@ class ModuleCommand<A extends string> extends Command {
             )
           : []),
       ],
-    });
-  }
-
-  run(msg: Message, t: TFunction, args: any) {
-    const type = this.moduleOptions.find(o => String(o.id) === String(args.option));
-    if (type) return type.run(msg, t, args);
-  }
+    },
+    (msg, t, args) => {
+      const type = moduleOptions.find(o => String(o.id) === String(args.option));
+      if (type) return type.run(msg, t, args as ModuleOptionArgs);
+    },
+  );
 }
-
-export default ModuleCommand;

@@ -1,26 +1,24 @@
-import Command, { TFunction } from '@struct/Command';
-import { Message, GuildMember } from 'discord.js';
+import Command from '@struct/command/Command';
+import { Message } from 'discord.js';
 
 import LaurieEmbed from '@struct/LaurieEmbed';
 import { STATUS_EMOJIS } from '@utils/Constants';
 import { getDate } from '@utils/Date';
 
-class UserinfoCommand extends Command {
-  constructor() {
-    super('userinfo', {
-      category: 'discord',
-      channelRestriction: 'guild',
-      args: [
-        {
-          id: 'member',
-          type: 'member',
-          default: (msg: Message) => msg.member,
-        },
-      ],
-    });
-  }
-
-  run(msg: Message, t: TFunction, { member }: { member: GuildMember }) {
+export default new Command(
+  'userinfo',
+  {
+    category: 'discord',
+    channelRestriction: 'guild',
+    args: [
+      {
+        id: 'member',
+        type: 'member',
+        default: (msg: Message) => msg.member,
+      },
+    ],
+  },
+  (msg, t, { member }) => {
     const { author, guild } = msg;
     const { user, presence } = member;
 
@@ -28,9 +26,11 @@ class UserinfoCommand extends Command {
     const statusEmoji = STATUS_EMOJIS[presence.status];
 
     const roles = member.roles
+      .array()
       .filter(role => role.id !== guild.id)
-      .map(role => role.toString())
-      .slice(0, 5);
+      .slice(0, 5)
+      .sort((a, b) => b.position - a.position)
+      .map(role => role.toString());
 
     const roleMessage = roles.length > 0 ? roles.join(', ') : t('commons:none');
 
@@ -47,7 +47,5 @@ class UserinfoCommand extends Command {
       )
       .setThumbnail(user.displayAvatarURL);
     msg.reply(embed);
-  }
-}
-
-export default UserinfoCommand;
+  },
+);

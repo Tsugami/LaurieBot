@@ -1,34 +1,22 @@
-import Command, { TFunction, Prompt } from '@struct/Command';
-import { Message } from 'discord.js';
+import Command from '@struct/command/Command';
+import { printError } from '@utils/Utils';
 
-interface ArgsI {
-  amount: number;
-}
-
-class ClearCommand extends Command {
-  constructor() {
-    super('clear', {
-      aliases: ['limpar', 'prune'],
-      category: 'moderator',
-      channelRestriction: 'guild',
-      userPermissions: 'MANAGE_MESSAGES',
-      clientPermissions: 'MANAGE_MESSAGES',
-      args: [
-        {
-          id: 'amount',
-          type: 'number',
-          prompt: {
-            start: Prompt('commands:clear.args.amount.start'),
-            retry: Prompt('commands:clear.args.amount.retry'),
-          },
-        },
-      ],
-    });
-  }
-
-  async run(msg: Message, t: TFunction, args: ArgsI) {
-    let { amount } = args;
-
+export default new Command(
+  'clear',
+  {
+    aliases: ['limpar', 'prune'],
+    category: 'moderator',
+    channelRestriction: 'guild',
+    userPermissions: 'MANAGE_MESSAGES',
+    clientPermissions: 'MANAGE_MESSAGES',
+    args: [
+      {
+        id: 'amount',
+        type: 'number',
+      },
+    ],
+  },
+  async function run(msg, t, { amount }) {
     if (amount > 100) amount = 100;
     else if (amount < 1) amount = 1;
 
@@ -45,18 +33,14 @@ class ClearCommand extends Command {
               // eslint-disable-next-line no-await-in-loop
               await m.delete();
               count += 1;
-              // eslint-disable-next-line no-empty
-            } catch {}
+            } catch {} // eslint-disable-line no-empty
           }
-          // eslint-disable-next-line no-empty
-        } catch {}
+        } catch {} // eslint-disable-line no-empty
       }
       return msg.reply(t('commands:clear.messages_deleted', { amount: count }));
     } catch (error) {
-      this.printError(error, msg);
+      printError(error, this);
       return msg.reply(t('commands:clear.failed'));
     }
-  }
-}
-
-export default ClearCommand;
+  },
+);

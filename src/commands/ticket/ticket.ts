@@ -1,16 +1,13 @@
-import Command, { TFunction } from '@struct/Command';
-import Categories from '@struct/categories';
-import { Message } from 'discord.js';
+import Command from '@struct/command/Command';
+import Categories from '@struct/command/categories';
 import LaurieEmbed from '@struct/LaurieEmbed';
 
-class TicketCommand extends Command {
-  constructor() {
-    super('ticket', {
-      category: 'configuration',
-    });
-  }
-
-  run(msg: Message, t: TFunction) {
+export default new Command(
+  'ticket',
+  {
+    category: 'configuration',
+  },
+  function run(msg, t) {
     const prefix = this.getPrefix(msg);
     return msg.reply(
       new LaurieEmbed(msg.author)
@@ -25,7 +22,5 @@ class TicketCommand extends Command {
         )
         .addField(t('commands:ticket.warn'), t('commands:ticket.warn_message', { prefix })),
     );
-  }
-}
-
-export default TicketCommand;
+  },
+);

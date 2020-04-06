@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import Command, { TFunction } from '@struct/Command';
+import Command from '@struct/command/Command';
 import { Message } from 'discord.js';
 import { guild } from '@database/index';
 import LaurieEmbed from '@struct/LaurieEmbed';
@@ -11,29 +11,27 @@ function getRateByEmoji(emoji: string): keyof typeof RATE_EMOJIS {
   return 'normal';
 }
 
-export default class AvaliarTk extends Command {
-  constructor() {
-    super('avaliar-tk', {
-      aliases: ['avaliar-ticket', 'avaliar-tk', 'rate-tk'],
-      category: 'ticket',
-      clientPermissions: ['ADD_REACTIONS', 'EMBED_LINKS'],
-      args: [
-        {
-          id: 'id',
-          type: 'string',
-        },
-      ],
-    });
-  }
-
-  async run(msg: Message, t: TFunction, args: { id: string }) {
+export default new Command(
+  'avaliar-tk',
+  {
+    aliases: ['avaliar-ticket', 'avaliar-tk', 'rate-tk'],
+    category: 'ticket',
+    clientPermissions: ['ADD_REACTIONS', 'EMBED_LINKS'],
+    args: [
+      {
+        id: 'id',
+        type: 'string',
+      },
+    ],
+  },
+  async (msg, t, { id }) => {
     const guildData = await guild(msg.guild.id);
 
     if (!guildData.data.ticket) return;
-    if (!guildData.isId(args.id)) return msg.reply(t('commands:avaliar_tk.is_not_id'));
+    if (!guildData.isId(id)) return msg.reply(t('commands:avaliar_tk.is_not_id'));
 
     // eslint-disable-next-line no-underscore-dangle
-    const ticket = guildData.data.ticket.tickets.find(tk => tk._id && tk._id.equals(args.id));
+    const ticket = guildData.data.ticket.tickets.find(tk => tk._id && tk._id.equals(id));
     if (!ticket) return msg.reply(t('commands:avaliar_tk.not_exists'));
     if (ticket.rate) return msg.reply(t('commands:avaliar_tk.already_was_rating'));
     if (ticket.authorId !== msg.author.id) return msg.reply(t('commands:avaliar_tk.not_owner'));
@@ -66,5 +64,5 @@ export default class AvaliarTk extends Command {
         }
       });
     }
-  }
-}
+  },
+);

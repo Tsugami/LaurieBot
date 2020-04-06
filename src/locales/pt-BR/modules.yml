@@ -6,8 +6,12 @@ punishment:
   user: 'Culpado'
   text_channel: 'Canal'
   user_info: 'INFORMAÇÕES DO USUÁRIO'
+pnconfig:
+  current_channel: 'Canal de Texto Atual:'
 welcome:
   message_default: "{user}, Bem vindo ao servidor!"
+  current_message: 'Mensagem Atual:'
+  current_text_channel: 'Canal de Texto Atual:'
 filter:
   message_default: "você utilizou uma palavra proibida neste servidor! Use {{ command }} para ver as palavras proibidas."
 ticket:

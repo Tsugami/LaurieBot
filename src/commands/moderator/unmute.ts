@@ -1,41 +1,46 @@
-import Command, { TFunction, Prompt } from '@struct/Command';
+import Command from '@struct/command/Command';
 
-import { Message, GuildMember } from 'discord.js';
+import { GuildMember } from 'discord.js';
 import { MUTE_ROLE_NAME } from '@utils/Constants';
 import { sendPunaltyMessage } from '@utils/ModuleUtils';
+import { printError } from '@utils/Utils';
+import { Prompt } from '@utils/CommandUtils';
 
-interface ArgsI {
-  member: GuildMember;
-  reason: string;
-}
-
-class UnmuteCommand extends Command {
-  constructor() {
-    super('unmute', {
-      aliases: ['desmutar'],
-      category: 'moderator',
-      channelRestriction: 'guild',
-      userPermissions: 'MUTE_MEMBERS',
-      clientPermissions: 'MUTE_MEMBERS',
-      args: [
-        {
-          id: 'member',
-          type: 'member',
-          prompt: {
-            start: Prompt('commands:unmute.args.member.start'),
-            retry: Prompt('commands:unmute.args.member.retry'),
-          },
+export default new Command(
+  'unmute',
+  {
+    aliases: ['desmutar'],
+    category: 'moderator',
+    channelRestriction: 'guild',
+    userPermissions: 'MUTE_MEMBERS',
+    clientPermissions: 'MUTE_MEMBERS',
+    args: [
+      {
+        id: 'member',
+        type: 'member',
+        prompt: {
+          start: Prompt('commands:unmute.args.member.start'),
+          retry: Prompt('commands:unmute.args.member.retry'),
         },
-        {
-          id: 'reason',
-          type: 'string',
-          default: Prompt('commands:unmute.args.default'),
-        },
-      ],
-    });
-  }
-
-  async run(msg: Message, t: TFunction, { member, reason }: ArgsI) {
+      },
+      {
+        id: 'reason',
+        type: 'string',
+        default: Prompt('commands:unmute.args.default'),
+      },
+    ],
+  },
+  async function run(
+    msg,
+    t,
+    {
+      member,
+      reason,
+    }: {
+      member: GuildMember;
+      reason: string;
+    },
+  ) {
     const author = msg.member;
     const ownerId = msg.guild.ownerID;
     const bot = msg.guild.me;
@@ -55,13 +60,11 @@ class UnmuteCommand extends Command {
 
     try {
       await member.removeRole(role, reason);
-      sendPunaltyMessage(msg, member, this, reason);
+      sendPunaltyMessage(msg, member, 'unmute', reason);
       return msg.reply(t('commands:unmute.user_muted'));
     } catch (error) {
-      this.printError(error, msg);
+      printError(error, this);
       return msg.reply(t('commands:unmute.failed'));
     }
-  }
-}
-
-export default UnmuteCommand;
+  },
+);

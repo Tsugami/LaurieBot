@@ -1,7 +1,3 @@
-import NeekoCommand from '@struct/NeekoCommand';
-import Neeko from '@services/neko';
+import NeekoCommand from '@struct/command/NeekoCommand';
 
-export default new NeekoCommand('hug', ['abraçar'], 'commands:hug.message', async () => {
-  const res = await Neeko.sfw.hug();
-  return res.url;
-});
+export default NeekoCommand('hug', 'hug', ['abraçar']);

@@ -36,15 +36,14 @@ filter:
     option:
       add: 'Adicionar palavras no filtro.'
       remove: 'Remover palavras do filtro.'
-      list: 'Visualizar as palavras do filtro.'
       clean: 'Remover todas as palavras do filtro.'
     words:
       add: 'Digite as palavras para adicionar, separadas por virgula.'
       remove: 'Digite quais palavras você quer remover do filtro.'
-  added: 'as palavras {{ words }} foram adicionadas no filtro!'
-  removed: 'as palavras {{ words }} foram removidas do filtro!'
-  clean: 'todas as palavras foram removidas do filtro.'
-  list: 'todas as palavras adicionadas no filtro: {{ words }}'
+  added: 'a palavra {{ words }} foram adicionada no filtro!'
+  removed: 'a palavra {{ words }} foram removida do filtro!'
+  list: 'toda a palavra adicionada no filtro: {{ words }}'
+  words_added: 'Palavras Adicionadas.'
 filterlist:
   description: 'Mostra lista de palavras bloqueadas no servidor.'
   list: 'todas as palavras bloqueadas no servidor: {{ words }}'
@@ -65,6 +64,7 @@ welcome:
     channel:
       set_channel: 'Digite qual será o canal de boas vindas.'
       enable: 'Digite qual será o canal de boas vindas.'
+      retry: 'canal invalido, certifique-se que esse canal de texto existe.'
   disabled: 'mensagem de boas vindas foram desativadas.'
   enabled: 'mensagem de boas vinda foram ativadas no canal {{ channel }}.'
   already_current_message: 'essa mensagem que você enviou já é a atual.'
@@ -110,30 +110,30 @@ penis:
 hug:
   usage: '<@usuário>'
   description: 'Dá um abraço no usuário mencionado.'
-  message: '{{ user1 }} abraçou {{ user2 }}.'
+  message: '{{ author }} abraçou {{ user }}.'
   args:
     user:
       start: 'mencione quem você quer abraçar!'
-      retry: 'Usuário invalido!'
+      retry: 'usuário invalido!'
 slap:
   usage: '<@usuário>'
   description: 'Dá um tapa no usuário mencionado.'
-  message: '{{ user1 }} bateu em {{ user2 }}.'
+  message: '{{ author }} bateu em {{ user }}.'
   args:
     user:
       start: 'mencione quem você quer beijar!'
-      retry: 'Usuário invalido!'
+      retry: 'usuário invalido!'
 ship:
   usage: '<@usuário> [@usuário]'
   description: "Calcula a compatibilidade amorosa entre os dois usuários mencionados."
 kiss:
   usage: '<@usuário>'
   description: 'Dá um beijo no usuário mencionado.'
-  message: '{{ user1 }} beijou {{ user2 }}.'
+  message: '{{ author }} beijou {{ user }}.'
   args:
     user:
       start: 'mencione quem você quer beijar!'
-      retry: 'Usuário invalido!'
+      retry: 'usuário invalido!'
 mcconquista:
   usage: '<mensagem>'
   description: "Gera uma conquista com oque foi escrito após o comando."
@@ -144,6 +144,9 @@ mcconquista:
       retry: "mensagem invalida."
 mcserver:
   usage: '<IP>'
+  args:
+    server:
+      retry: 'digite o ip do servidor!'
   description: "Mostra as informações do servidor de minecraft digitado após o comando."
   not_found: 'esse servidor não existe ou não esta online.'
   server_info: 'INFORMAÇÕES DO SERVIDOR'
@@ -154,6 +157,9 @@ mcskin:
   usage: '<Nick>'
   description: "Mostra a skin do minecraft do nick digitado após o comando."
   not_found: 'Não achei nenhum jogador com esse nome!'
+  args:
+    username:
+      retry: 'digite o nick do avatar!'
 alertar:
   usage: '<mensagem>'
   description: "Manda uma mensagem/texto no privado de todos os usuários que estão no servidor."
@@ -178,6 +184,7 @@ ban:
       start: 'quem você gostaria de banir?'
       retry: 'usuário invalido.'
     reason:
+      retry: 'por qual motivo esse usuário será banido?'
       default: 'Motivo não declarado'
   user_is_owner: 'você não pode banir o dono do servidor.'
   not:
@@ -268,20 +275,14 @@ tkconfig:
     option:
       enable: "Ativar Ticket's"
       disable: "Desativar Ticket's"
-      channel: 'Alterar canal principal.'
       set_category: 'Setar categoria dos canais.'
-      change_category: 'Alterar categoria dos canais.'
       set_role: 'Setar o cargo de suporte.'
-      change_role: 'Alterar cargo de suporte'
     category:
       start:
         enable: "Escolha uma categoria que será criada os canais de ticket's"
         set_categorya: "Escolha uma categoria que será criada os canais de ticket's"
         change_category: "Escolha uma nova categoria que será criada os canais de ticket's"
       retry: 'categoria invalida'
-    channel:
-      start: 'digite pra qual canal de texto você quer que seja o principal.'
-      retry: 'digite canal de texto corretamente.'
     role:
       start:
         enable: "digite qual cargo que terá acesso aos ticket's. digite **OFF** pra pular essa etapa."
@@ -298,6 +299,10 @@ tkconfig:
   role: 'cargo atualizado'
   disable: 'modulo desativado.'
   enable: "O modulo de ticket's ativado."
+  none_role: "Nenhum"
+  none_category: "Nenhum"
+  current_role: "Cargo de Suporte:"
+  current_category: "Categoria dos Ticket's:"
 ping:
   description: 'Mostra a velocidade da conexão com o servidor.'
 help:
@@ -382,3 +387,4 @@ status_tk:
   tickets: "Ticket's"
   ticket_categories: "Categorias"
   ticket_rating: 'Avaliações'
+
