@@ -1,11 +1,11 @@
 import LaurieEmbed from '@struct/LaurieEmbed';
-import Command from '@struct/Command';
+import LaurieCommand from '@struct/command/Command';
 
-export default new Command(
+export default new LaurieCommand(
   'avatar',
   {
     category: 'discord',
-    args: [{ id: 'user', type: 'user', default: msg => msg.author }],
+    args: [{ id: 'user' as const, type: 'user', default: msg => msg.author }],
   },
   (msg, t, { user }) => {
     const embed = new LaurieEmbed(msg.author)

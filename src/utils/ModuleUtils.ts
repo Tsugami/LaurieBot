@@ -1,11 +1,11 @@
 import { Message, TextChannel, GuildMember } from 'discord.js';
-import Command, { getFixedT } from '@struct/Command';
+import { getFixedT } from '@utils/CommandUtils';
 import { guild } from '@database/index';
 
 import LaurieEmbed from '@struct/LaurieEmbed';
 import { getDate } from '@utils/Date';
 
-export async function sendPunaltyMessage(message: Message, member: GuildMember, command: Command, reason: string) {
+export async function sendPunaltyMessage(message: Message, member: GuildMember, commandId: string, reason: string) {
   const guildData = await guild(message.guild.id);
   const channelId = guildData.data.penaltyChannel;
   const channel = message.guild.channels.get(String(channelId));
@@ -18,7 +18,7 @@ export async function sendPunaltyMessage(message: Message, member: GuildMember, 
       .addInfoText(
         'BALLOT_BOX',
         t('modules:punishment.punishment_info'),
-        ['PAGE', t('modules:punishment.type'), command.id],
+        ['PAGE', t('modules:punishment.type'), commandId],
         ['MAN_JUDGE', t('modules:punishment.judge'), message.author.toString()],
         ['SCALES', t('modules:punishment.reason'), reason],
         ['CAP', t('modules:punishment.user'), member.toString()],

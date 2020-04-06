@@ -1,6 +1,6 @@
 import { Listener } from 'discord-akairo';
 import { Message } from 'discord.js';
-import CustomCommand from '@struct/Command';
+import CustomCommand from '@struct/command/Command';
 import { printError } from '@utils/Utils';
 
 export default class CommandHandlerErrorListener extends Listener {

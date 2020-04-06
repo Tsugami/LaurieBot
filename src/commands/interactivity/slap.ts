@@ -1,7 +1,3 @@
-import NeekoCommand from '@struct/NeekoCommand';
-import Neeko from '@services/neko';
+import NeekoCommand from '@struct/command/NeekoCommand';
 
-export default new NeekoCommand('slap', ['bater'], 'commands:slap.message', async () => {
-  const res = await Neeko.sfw.slap();
-  return res.url;
-});
+export default NeekoCommand('slap', 'slap', ['bater']);

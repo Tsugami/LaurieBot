@@ -6,6 +6,14 @@ import Base from './Base';
 class TicketController extends Base<GuildDocument> {
   private ticket = this.data.ticket;
 
+  active = this.ticket?.active;
+
+  role = this.ticket?.role;
+
+  categoryId = this.ticket?.categoryId;
+
+  tickets = this.ticket?.tickets;
+
   throwTicket() {
     if (!this.data.ticket) {
       throw new Error('MODULO DESATIVADO');
@@ -40,7 +48,7 @@ class TicketController extends Base<GuildDocument> {
     return oldData;
   }
 
-  changeRole(role: Role) {
+  setRole(role: Role) {
     this.throwTicket();
     if (this.ticket) {
       if (role.id === this.ticket.role) {
@@ -53,7 +61,7 @@ class TicketController extends Base<GuildDocument> {
     }
   }
 
-  changeCategory(category: CategoryChannel) {
+  setCategory(category: CategoryChannel) {
     this.throwTicket();
     if (this.ticket) {
       if (category.id === this.ticket.categoryId) {

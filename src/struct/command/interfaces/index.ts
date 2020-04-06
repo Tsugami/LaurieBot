@@ -1,5 +1,12 @@
-import { ArgumentType, ArgumentOptions, Inhibitor, Listener, CommandOptions } from 'discord-akairo';
-import categories from '@struct/categories';
+import categories from '@struct/command/categories';
+import {
+  ArgumentType,
+  ArgumentOptions,
+  Inhibitor,
+  Listener,
+  CommandOptions,
+  ArgumentTypeFunction,
+} from 'discord-akairo';
 import {
   Message,
   Guild,
@@ -12,11 +19,13 @@ import {
   Role,
   VoiceChannel,
   TextChannel,
+  Snowflake,
 } from 'discord.js';
 
+export type LaurieArgType = Exclude<NonNullable<ArgumentType>, string[]>;
 export interface CustomArgumentOptions<A = any> extends ArgumentOptions {
   id: string;
-  type: Exclude<NonNullable<ArgumentType>, string[]>;
+  type: LaurieArgType | ArgumentTypeFunction;
   default?: (message: Message, args: A) => any;
 }
 
@@ -24,13 +33,14 @@ type CmdOptions = Omit<CommandOptions, 'defaultPrompt'>;
 export interface LaurieCommandOptions extends CmdOptions {
   category: keyof typeof categories;
   args?: CustomArgumentOptions[];
+  autoPrompt?: boolean;
 }
 
 export interface ArgsTypes {
   string: string;
   number: number;
   guild: Guild;
-  guilds: Guild[];
+  guilds: Collection<Snowflake, Guild>;
   lowercase: string;
   uppercase: string;
   charCodes: string[];
@@ -45,21 +55,21 @@ export interface ArgsTypes {
   inhibitor: Inhibitor;
   listener: Listener;
   user: User;
-  users: User[];
+  users: Collection<Snowflake, User>;
   member: GuildMember;
-  members: GuildMember[];
+  members: Collection<Snowflake, GuildMember>;
   relevant: string; // dms
   relevants: string[]; // dms
   channel: Channel;
-  channels: Channel[];
+  channels: Collection<Snowflake, Channel>;
   textChannel: TextChannel;
-  textChannels: TextChannel[];
+  textChannels: Collection<Snowflake, TextChannel>;
   voiceChannel: VoiceChannel;
-  voiceChannels: VoiceChannel[];
+  voiceChannels: Collection<Snowflake, VoiceChannel>;
   role: Role;
-  roles: Role[];
+  roles: Collection<Snowflake, Role>;
   emoji: Emoji;
-  emojis: Emoji[];
+  emojis: Collection<Snowflake, Emoji>;
   message: Message;
   invite: Invite;
   memberMention: Collection<string, GuildMember>;

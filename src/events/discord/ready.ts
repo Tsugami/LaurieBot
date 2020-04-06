@@ -27,7 +27,17 @@ export default class ReadyListener extends Listener {
       prefix,
     });
 
-    console.table(commandHandler.modules);
+    console.table(
+      commandHandler.modules.reduce((o, { args, aliases, id, editable, typing }) => {
+        o[id] = {
+          aliases: aliases.length,
+          args: args.length,
+          editable,
+          typing,
+        };
+        return o;
+      }, {}),
+    );
 
     const statusTypes: Array<[string, ActivityType]> = [
       [`Amor para ${users.size} membros.`, 'STREAMING'],

@@ -1,4 +1,4 @@
-import Command from '@struct/Command';
+import Command from '@struct/command/Command';
 import { Client } from 'discord.js';
 
 import LaurieEmbed from '@struct/LaurieEmbed';

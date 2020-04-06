@@ -1,19 +1,15 @@
-import { Message } from 'discord.js';
-
-import Command, { TFunction } from '@struct/Command';
+import Command from '@struct/command/Command';
 import { guild } from '@database/index';
 import FilterCommand from './filter';
 
-class CommandsCommand extends Command {
-  constructor() {
-    super('filterlist', {
-      aliases: ['listfiltro'],
-      category: 'configuration',
-      channelRestriction: 'guild',
-    });
-  }
-
-  async run(msg: Message, t: TFunction) {
+export default new Command(
+  'filterlist',
+  {
+    aliases: ['listfiltro'],
+    category: 'configuration',
+    channelRestriction: 'guild',
+  },
+  async function run(msg, t) {
     const { wordFilter } = await guild(msg.guild.id);
     const words = wordFilter.get().map(w => `\`${w}\``);
 
@@ -21,10 +17,10 @@ class CommandsCommand extends Command {
       msg.reply(t('commands:filterlist.list', { words }));
     } else {
       msg.reply(
-        t('commands:filterlist.emply_list', { command: `\`${this.getPrefix(msg) + FilterCommand.aliases[0]}\`` }),
+        t('commands:filterlist.emply_list', {
+          command: `\`${this.getPrefix(msg) + FilterCommand.aliases[0]}\``,
+        }),
       );
     }
-  }
-}
-
-export default CommandsCommand;
+  },
+);

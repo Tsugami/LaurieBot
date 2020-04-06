@@ -1,4 +1,4 @@
-import Command from '@struct/Command';
+import Command from '@struct/command/Command';
 import { getRandomInt } from '@utils/Math';
 import { EMOJIS } from '@utils/Constants';
 

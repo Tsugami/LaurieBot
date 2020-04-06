@@ -1,31 +1,44 @@
 /* eslint-disable no-underscore-dangle */
-import { Command } from 'discord-akairo';
+import { Command, ArgumentTypeFunction } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { printError } from '@utils/Utils';
-import { getFixedT } from '@utils/CommandUtils';
+import { getFixedT, parseOptions } from '@utils/CommandUtils';
 import i18next, { TFunction } from 'i18next';
 import categories from './categories';
 
-import { LaurieCommandOptions, ArgsTypes } from './interfaces/Command';
+import { LaurieCommandOptions, LaurieArgType, ArgsTypes } from './interfaces';
 
 export default class LaurieCommand<
-  Options extends LaurieCommandOptions,
-  ArgsOption extends NonNullable<Options['args']>,
+  O extends LaurieCommandOptions,
+  ArgsOption extends NonNullable<O['args']>,
   Arg extends ArgsOption[number],
-  Args extends Record<Arg['id'], ArgsTypes[Arg['type']]>
+  ArgType extends Arg['type'],
+  Args extends {
+    [K in Arg['id']]: ArgType extends ArgumentTypeFunction
+      ? ReturnType<ArgType>
+      : ArgType extends LaurieArgType
+      ? ArgsTypes[ArgType]
+      : any;
+  }
 > extends Command {
   constructor(
     id: string,
-    options: Options,
-    public run: (message: Message, t: TFunction, args: Args, edited?: boolean) => any,
+    options: O,
+    public run: (
+      this: LaurieCommand<O, ArgsOption, Arg, ArgType, Args>,
+      message: Message,
+      t: TFunction,
+      args: Args,
+      edited?: boolean,
+    ) => any,
   ) {
     super(
       id,
       (msg: Message, args: Args, edited: boolean) => {
         const t = getFixedT(msg);
-        this.run(msg, t, args, edited);
+        this.run.call(this, msg, t, args, edited);
       },
-      options,
+      parseOptions(id, options),
     );
 
     this.aliases = [...(options.aliases || []), id].filter((x, i, a) => a.indexOf(x) === i);

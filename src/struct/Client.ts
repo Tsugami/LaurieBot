@@ -1,5 +1,5 @@
 import { buildi18n } from '@config/i18next';
-import { AkairoClient } from 'discord-akairo';
+import { AkairoClient, CommandHandler } from 'discord-akairo';
 import { CategoryChannel } from 'discord.js';
 import path from 'path';
 import { Prompt } from '@utils/CommandUtils';
@@ -53,5 +53,8 @@ declare module 'discord.js' {
   }
   interface Listener {
     client: Client;
+  }
+  interface Client {
+    commandHandler: CommandHandler;
   }
 }

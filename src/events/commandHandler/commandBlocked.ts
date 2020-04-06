@@ -1,6 +1,6 @@
 import { Listener, Command } from 'discord-akairo';
 import { Message, PermissionResolvable } from 'discord.js';
-import { getFixedT } from '@struct/Command';
+import { getFixedT } from '@struct/command/Command';
 
 const disableCommandsCooldown = new Set<string>();
 

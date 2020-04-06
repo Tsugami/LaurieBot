@@ -1,40 +1,41 @@
-import Command, { TFunction, Prompt } from '@struct/Command';
-import { Message, GuildMember } from 'discord.js';
+import Command from '@struct/command/Command';
+import { GuildMember } from 'discord.js';
 import { sendPunaltyMessage } from '@utils/ModuleUtils';
+import { printError } from '@utils/Utils';
+import { Prompt } from '@utils/CommandUtils';
 
-interface ArgsI {
-  member: GuildMember;
-  reason: string;
-}
-
-class KickCommand extends Command {
-  constructor() {
-    super('kick', {
-      aliases: ['expulsar'],
-      category: 'moderator',
-      channelRestriction: 'guild',
-      userPermissions: 'KICK_MEMBERS',
-      clientPermissions: 'KICK_MEMBERS',
-      args: [
-        {
-          id: 'member',
-          type: 'member',
-          prompt: {
-            start: Prompt('commands:kick.args.member.start'),
-            retry: Prompt('commands:kick.args.member.retry'),
-          },
-        },
-        {
-          id: 'reason',
-          type: 'string',
-          match: 'text',
-          default: Prompt('commands:kick.args.default'),
-        },
-      ],
-    });
-  }
-
-  async run(msg: Message, t: TFunction, { member, reason }: ArgsI) {
+export default new Command(
+  'kick',
+  {
+    aliases: ['expulsar'],
+    category: 'moderator',
+    channelRestriction: 'guild',
+    userPermissions: 'KICK_MEMBERS',
+    clientPermissions: 'KICK_MEMBERS',
+    args: [
+      {
+        id: 'member',
+        type: 'member',
+      },
+      {
+        id: 'reason',
+        type: 'string',
+        match: 'text',
+        default: Prompt('commands:kick.args.default'),
+      },
+    ],
+  },
+  async function run(
+    msg,
+    t,
+    {
+      member,
+      reason,
+    }: {
+      member: GuildMember;
+      reason: string;
+    },
+  ) {
     const author = msg.member;
     const ownerId = msg.guild.ownerID;
     const bot = msg.guild.me;
@@ -53,13 +54,11 @@ class KickCommand extends Command {
 
     try {
       await member.kick(reason);
-      sendPunaltyMessage(msg, member, this, reason);
+      sendPunaltyMessage(msg, member, 'kick', reason);
       return msg.reply(t('commands:kick.user_kicked'));
     } catch (error) {
-      this.printError(error, msg);
+      printError(error, this);
       return msg.reply(t('commands:kick.failed'));
     }
-  }
-}
-
-export default KickCommand;
+  },
+);

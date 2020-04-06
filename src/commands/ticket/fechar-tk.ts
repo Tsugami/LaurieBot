@@ -1,18 +1,15 @@
-import Command, { TFunction } from '@struct/Command';
-import { Message, GuildMember, TextChannel } from 'discord.js';
+import Command from '@struct/command/Command';
+import { TextChannel } from 'discord.js';
 import { guild } from '@database/index';
-import { TicketConfigModule, Ticket } from '@database/models/Guild';
 
-export default class FecharTicket extends Command {
-  constructor() {
-    super('fechar-tk', {
-      aliases: ['fechar-ticket', 'fechar-tk', 'close-tk'],
-      category: 'ticket',
-      clientPermissions: 'MANAGE_CHANNELS',
-    });
-  }
-
-  async run(msg: Message, t: TFunction) {
+export default new Command(
+  'fechar-tk',
+  {
+    aliases: ['fechar-ticket', 'fechar-tk', 'close-tk'],
+    category: 'ticket',
+    clientPermissions: 'MANAGE_CHANNELS',
+  },
+  async function run(msg, t) {
     if (!(msg.channel instanceof TextChannel)) return;
 
     const guildData = await guild(msg.guild.id);
@@ -21,7 +18,11 @@ export default class FecharTicket extends Command {
 
     let ticket = guildData.data.ticket.tickets.find(tk => tk.channelId === msg.channel.id);
     if (!ticket) return msg.reply(t('commands:fechar_tk.is_not_ticket_channel'));
-    if (!this.hasTicketPermission(guildData.data.ticket, ticket, msg.member)) {
+    if (
+      !msg.member.permissions.has('ADMINISTRATOR') ||
+      !msg.member.roles.has(String(guildData.ticket.role)) ||
+      ticket.authorId !== msg.member.id
+    ) {
       return msg.reply(t('commands:fechar_tk.have_no_power'));
     }
 
@@ -29,7 +30,6 @@ export default class FecharTicket extends Command {
     if (ticket) {
       msg.channel.delete();
 
-      // request rate
       const user = msg.client.users.get(ticket.authorId);
       const dm = user && (await user.createDM().catch(() => null));
 
@@ -42,9 +42,5 @@ export default class FecharTicket extends Command {
           }),
         );
     }
-  }
-
-  hasTicketPermission(config: TicketConfigModule, ticket: Ticket, user: GuildMember) {
-    return user.permissions.has('ADMINISTRATOR') || user.roles.has(String(config.role)) || ticket.authorId === user.id;
-  }
-}
+  },
+);

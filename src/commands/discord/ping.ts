@@ -1,4 +1,4 @@
-import Command from '@struct/Command';
+import Command from '@struct/command/Command';
 import LaurieEmbed from '@struct/LaurieEmbed';
 
 export default new Command(
@@ -18,7 +18,7 @@ export default new Command(
         'PING_PONG',
         'Pong!',
         ['RTT', 'RTT', `${timeDiff} ms`],
-        ['HEARTBEAT', 'Heartbeat', `${Math.round(this.client.ping)} ms`],
+        ['HEARTBEAT', 'Heartbeat', `${Math.round(msg.client.ping)} ms`],
       ),
     );
   },

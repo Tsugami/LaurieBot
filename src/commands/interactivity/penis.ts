@@ -1,19 +1,14 @@
-import Command, { TFunction } from '@struct/Command';
-
-import { Message } from 'discord.js';
-
+import Command from '@struct/command/Command';
 import { getRandomInt } from '@utils/Math';
 import { EMOJIS } from '@utils/Constants';
 
-class PenisCommand extends Command {
-  constructor() {
-    super('penis', {
-      aliases: ['pau'],
-      category: 'interactivity',
-    });
-  }
-
-  run(msg: Message, t: TFunction) {
+export default new Command(
+  'penis',
+  {
+    aliases: ['pau'],
+    category: 'interactivity',
+  },
+  (msg, t) => {
     const num = getRandomInt(1, 30);
     let emoji: string;
 
@@ -26,7 +21,5 @@ class PenisCommand extends Command {
     }
 
     msg.reply(t('commands:penis.message', { emoji, num }));
-  }
-}
-
-export default PenisCommand;
+  },
+);
