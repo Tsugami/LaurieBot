@@ -1,6 +1,5 @@
-import { Inhibitor } from 'discord-akairo';
+import { Inhibitor, Command } from 'discord-akairo';
 import { guild } from '@database/index';
-import Command from '@struct/command/Command';
 import { Message } from 'discord.js';
 
 export default class TicketInhibitor extends Inhibitor {

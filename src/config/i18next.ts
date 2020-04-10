@@ -2,7 +2,7 @@ import Backend from 'i18next-node-fs-backend';
 import i18next from 'i18next';
 import path from 'path';
 import fs from 'fs';
-
+import logger from '@utils/logger';
 import { promisify } from 'util';
 
 const readdir = promisify(fs.readdir);
@@ -23,7 +23,7 @@ export async function buildi18n() {
     },
     error => {
       if (error) {
-        console.error(error);
+        logger.error(error);
         process.exit(0);
       }
     },

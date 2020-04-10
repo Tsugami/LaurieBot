@@ -1,7 +1,8 @@
+import QuickIru from 'quick-lru';
 import GuildController from './controllers/GuildController';
 import Guild, { GuildDocument } from './models/Guild';
 
-const guilds = new Map<string, GuildController>();
+const guilds = new QuickIru<string, GuildController>({ maxSize: 100 });
 
 // export async function getDocument<
 //   Controller extends Base<Doc>,

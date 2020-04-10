@@ -2,6 +2,7 @@
 import { Listener } from 'discord-akairo';
 import { ActivityType } from 'discord.js';
 import { EMOJIS } from '@utils/Constants';
+import logger from '@utils/logger';
 
 export default class ReadyListener extends Listener {
   constructor() {
@@ -17,26 +18,10 @@ export default class ReadyListener extends Listener {
       guilds,
       users,
       akairoOptions: { prefix },
-      commandHandler,
     } = this.client;
 
-    console.table({
-      name: user.username,
-      servers: guilds.size,
-      users: users.size,
-      prefix,
-    });
-
-    console.table(
-      commandHandler.modules.reduce((o, { args, aliases, id, editable, typing }) => {
-        o[id] = {
-          aliases: aliases.length,
-          args: args.length,
-          editable,
-          typing,
-        };
-        return o;
-      }, {}),
+    logger.success(
+      `my name is ${user.username}, i am operating for ${guilds.size} servers and ${users.size} users. my prefix is ${prefix}`,
     );
 
     const statusTypes: Array<[string, ActivityType]> = [
@@ -45,9 +30,13 @@ export default class ReadyListener extends Listener {
     ];
     const STREAMING_URL = 'https://www.twitch.tv/rellowtf2';
 
-    const updateStatus = () => {
+    const updateStatus = async () => {
       const status = statusTypes[Math.floor(Math.random() * statusTypes.length)];
-      user.setActivity(status[0], { type: status[1], url: status[1] === 'STREAMING' ? STREAMING_URL : undefined });
+      await user.setActivity(status[0], {
+        type: status[1],
+        url: status[1] === 'STREAMING' ? STREAMING_URL : undefined,
+      });
+      logger.warn(`changed status for: ${status[0]}`);
     };
 
     updateStatus();

@@ -7,6 +7,7 @@ import i18next, { TFunction } from 'i18next';
 import categories from './categories';
 
 import { LaurieCommandOptions, LaurieArgType, ArgsTypes } from './interfaces';
+import { Prompt } from '../../utils/CommandUtils';
 
 export default class LaurieCommand<
   O extends LaurieCommandOptions,
@@ -43,7 +44,19 @@ export default class LaurieCommand<
 
     this.aliases = [...(options.aliases || []), id].filter((x, i, a) => a.indexOf(x) === i);
     this.category = categories[options.category];
+    this.args = this.args.map(a => {
+      const parsePrompt = (x: 'start' | 'cancel' | 'retry') => {
+        const path = `commands:${this.id}.args.${a.id}.${x}`;
+        if (a.prompt && !a.prompt[x] && i18next.exists(path)) {
+          a.prompt[x] = Prompt(path);
+        }
+      };
+      parsePrompt('start');
+      parsePrompt('cancel');
+      parsePrompt('retry');
 
+      return a;
+    });
     this.category.set(this.id, this);
   }
 
