@@ -16,7 +16,7 @@ export default new Command(
     if (penisCache.has(msg.author.id)) {
       num = penisCache.get(msg.author.id) as number;
     } else {
-      num = getRandomInt(1, 100);
+      num = getRandomInt(1, 30);
       penisCache.set(msg.author.id, num);
     }
 
