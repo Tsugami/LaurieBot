@@ -1,4 +1,4 @@
-import { Message, Util, MessageReaction, User, DMChannel } from 'discord.js';
+import { Message, Util, MessageReaction, User, DMChannel, TextChannel } from 'discord.js';
 
 import Command from '@struct/command/Command';
 import Categories from '@struct/command/categories';
@@ -14,7 +14,6 @@ export default new Command('help', { category: 'bot', aliases: ['ajuda'] }, asyn
       file: { attachment: 'assets/help.gif', name: 'help.gif' },
     });
   }
-
   if (msg.channel instanceof DMChannel) {
     channel = msg.channel;
   } else {
@@ -34,7 +33,7 @@ export default new Command('help', { category: 'bot', aliases: ['ajuda'] }, asyn
   try {
     const sent = await channel.send(embed);
     if (sent instanceof Message) {
-      await msg.reply(t('commands:help.warn_message'));
+      if (msg.channel instanceof TextChannel) await msg.reply(t('commands:help.warn_message'));
 
       const reactEmojis = async () => {
         // eslint-disable-next-line no-restricted-syntax
