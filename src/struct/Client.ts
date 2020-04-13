@@ -15,10 +15,10 @@ export default class LaurieClient extends AkairoClient {
         inhibitorDirectory: path.resolve(mainFolder, 'inhibitors'),
         prefix: process.env.BOT_PREFIX || ';',
         defaultPrompt: {
-          cancel: Prompt(`commons:prompt_options_default.cancel`),
+          cancel: Prompt(`commons:prompt_options_default.cancel`, false),
           start: Prompt(`commons:prompt_options_default.start`),
           retry: Prompt(`commons:prompt_options_default.retry`),
-          ended: Prompt('commons:prompt_options_default.ended'),
+          ended: Prompt('commons:prompt_options_default.ended', false),
           timeout: Prompt(`commons:prompt_options_default.timeout`),
           cancelWord: 'cancel',
         },

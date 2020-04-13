@@ -5,6 +5,7 @@ import { printError } from '@utils/Utils';
 import { getFixedT, parseOptions } from '@utils/CommandUtils';
 import i18next, { TFunction } from 'i18next';
 import categories from './categories';
+import LaurieEmbed from '../LaurieEmbed';
 
 import { LaurieCommandOptions, LaurieArgType, ArgsTypes } from './interfaces';
 import { Prompt } from '../../utils/CommandUtils';
@@ -44,11 +45,21 @@ export default class LaurieCommand<
 
     this.aliases = [...(options.aliases || []), id].filter((x, i, a) => a.indexOf(x) === i);
     this.category = categories[options.category];
+
     this.args = this.args.map(a => {
       const parsePrompt = (x: 'start' | 'cancel' | 'retry') => {
         const path = `commands:${this.id}.args.${a.id}.${x}`;
-        if (a.prompt && !a.prompt[x] && i18next.exists(path)) {
+        if ((!a.prompt || (a.prompt && !a.prompt[x])) && i18next.exists(path)) {
+          if (!a.prompt) a.prompt = {};
           a.prompt[x] = Prompt(path);
+        }
+
+        if (a.prompt && a.prompt[x] && typeof a.prompt[x] === 'string') {
+          const phrase = a.prompt[x] as string;
+          a.prompt[x] = m => {
+            const tryCancel = x !== 'cancel' ? `\n\n${Prompt('commons:tryCancel')(m)}` : '';
+            return { embed: new LaurieEmbed(m.author, phrase, tryCancel) };
+          };
         }
       };
       parsePrompt('start');
@@ -74,7 +85,7 @@ export default class LaurieCommand<
     return msg.client.commandHandler.prefix(msg);
   }
 
-  printError(error: Error, message: Message) {
-    return printError(error, this.client, message, this);
+  printError(error: Error) {
+    return printError(error, this.client);
   }
 }

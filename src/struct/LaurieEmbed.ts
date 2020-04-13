@@ -5,8 +5,10 @@ type EmojiNames = keyof typeof EMOJIS | EmojiType;
 type InfoTextField = [EmojiNames, string, string | number, boolean?];
 
 export default class LaurieEmbed extends RichEmbed {
-  constructor(author: User) {
+  constructor(author: User, title?: string, description?: string) {
     super();
+    if (title) this.setTitle(title);
+    if (description) this.setDescription(description);
     this.setFooter(`Por ${author.username}`, author.displayAvatarURL);
     this.setColor(EMBED_DEFAULT_COLOR);
     this.setTimestamp();
