@@ -23,6 +23,7 @@ export default new Command(
     const bot = msg.client;
     const dev = process.env.DEV_ID ? await getUser(process.env.DEV_ID, bot) : unknownTranst;
     const owner = process.env.CREATOR_ID ? await getUser(process.env.CREATOR_ID, bot) : unknownTranst;
+    const invite = await bot.generateInvite(['ADD_REACTIONS', 'EMBED_LINKS', 'MANAGE_CHANNELS', 'MANAGE_ROLES']);
     const embed = new LaurieEmbed(msg.author)
       .setThumbnail(bot.user.displayAvatarURL)
       .addInfoText(
@@ -30,11 +31,13 @@ export default new Command(
         t('commands:botinfo.bot_info'),
         ['LABEL', t('commons:name'), bot.user.username],
         ['SHIELD', t('commands:botinfo.guilds'), bot.guilds.size],
+        ['GIFT_HEART', t('commands:botinfo.users'), bot.users.size],
         ['CALENDER', t('commons:created_on'), getDate(bot.user.createdAt)],
         ['CROWN', t('commands:botinfo.creator'), owner],
         ['KEYBOARD', t('commands:botinfo.developer'), dev],
       );
 
+    embed.description += `\n${t('commons:me_add_your_server', { invite })}`;
     msg.reply(embed);
   },
 );

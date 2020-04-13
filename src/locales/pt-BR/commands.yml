@@ -96,6 +96,8 @@ botinfo:
   description: 'Mostra as informações da Laurie Bot.'
   bot_info: 'INFORMAÇÕES DO BOT'
   guilds: 'Servidores'
+  my_invite: 'Meu convite'
+  users: 'Usuários'
   creator: 'Criador'
   developer: 'Desenvolvedor'
 gif:
