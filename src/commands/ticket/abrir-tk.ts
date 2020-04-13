@@ -1,5 +1,5 @@
 import Command from '@struct/command/Command';
-import { Message, MessageReaction, User, Guild, ChannelCreationOverwrites, TextChannel, ChannelData } from 'discord.js';
+import { Message, User, Guild, ChannelCreationOverwrites, TextChannel, ChannelData } from 'discord.js';
 import { guild } from '@database/index';
 import LaurieEmbed from '@struct/LaurieEmbed';
 import { getCategoryByEmoji, getEmojiByCategory } from '@utils/TicketUtil';
@@ -67,7 +67,7 @@ export default new Command(
 
       sendEMOJIS();
 
-      const collector = sent.createReactionCollector((r: MessageReaction, u: User) => r.me && msg.author.id === u.id);
+      const collector = sent.createReactionCollector((r, u) => r.me && msg.author.id === u.id);
 
       collector.on('collect', async e => {
         const parent = guildData.data.ticket && guildData.data.ticket.categoryId;

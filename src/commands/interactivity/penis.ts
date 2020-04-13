@@ -1,7 +1,9 @@
 import Command from '@struct/command/Command';
 import { getRandomInt } from '@utils/Math';
 import { EMOJIS } from '@utils/Constants';
+import QuickUrl from 'quick-lru';
 
+const penisCache = new QuickUrl<string, number>({ maxSize: 50 });
 export default new Command(
   'penis',
   {
@@ -9,7 +11,14 @@ export default new Command(
     category: 'interactivity',
   },
   (msg, t) => {
-    const num = getRandomInt(1, 30);
+    let num: number;
+    if (penisCache.has(msg.author.id)) {
+      num = penisCache.get(msg.author.id) as number;
+    } else {
+      num = getRandomInt(1, 100);
+      penisCache.set(msg.author.id, num);
+    }
+
     let emoji: string;
 
     if (num < 10) {
