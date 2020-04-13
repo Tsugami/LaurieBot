@@ -2,6 +2,7 @@ import Command from '@struct/command/Command';
 import { getRandomInt } from '@utils/Math';
 import { EMOJIS } from '@utils/Constants';
 import QuickUrl from 'quick-lru';
+import LaurieEmbed from '@struct/LaurieEmbed';
 
 const cornosCache = new QuickUrl({ maxSize: 50 });
 export default new Command(
@@ -17,7 +18,6 @@ export default new Command(
       num = getRandomInt(1, 100);
       cornosCache.set(msg.author.id, num);
     }
-
-    msg.reply(t('commands:corno.message', { num, emoji: EMOJIS.OX }));
+    msg.reply(new LaurieEmbed(null, t('commands:corno.message', { num, emoji: EMOJIS.OX })));
   },
 );

@@ -33,7 +33,7 @@ export default new Command('help', { category: 'bot', aliases: ['ajuda'] }, asyn
   try {
     const sent = await channel.send(embed);
     if (sent instanceof Message) {
-      if (msg.channel instanceof TextChannel) await msg.reply(t('commands:help.warn_message'));
+      if (msg.channel instanceof TextChannel) await msg.reply(new LaurieEmbed(null, t('commands:help.warn_message')));
 
       const reactEmojis = async () => {
         // eslint-disable-next-line no-restricted-syntax

@@ -118,10 +118,10 @@ userinfo:
   user_info: 'INFORMAÇÕES DO(A) {{ username }}'
 corno:
   description: "Calcula a porcentagem do seu chifre."
-  message: 'você é {{ num }}% corno. {{ emoji }}'
+  message: 'Pelos meus cálculos você é {{ num }}% corno. {{ emoji }}'
 penis:
   description: "Calcula o tamanho do seu pau."
-  message: 'seu pau tem {{ num }} centímetros. {{ emoji }}'
+  message: 'Pelos meus cálculos seu pau tem {{ num }} centímetros. {{ emoji }}'
 hug:
   usage: '<@usuário>'
   description: 'Dá um abraço no usuário mencionado.'
@@ -328,7 +328,7 @@ help:
 
     \nSelecione a categoria que deseja receber as informações. Para selecionar a categoria, você precisa clicar no emoji que ela representa
   "
-  warn_message: "enviei para você no privado, veja suas mensagens diretas! :blush:"
+  warn_message: "Enviei para você no privado, veja suas mensagens diretas! :blush:"
   failed_message: "tentei enviar para você no privado, mas provavelmente você desabilitou as mensagens diretas de membros do servidor, então vá até suas __Configurações de Privacidade e Segurança__ e habilite a opção: **Permitir mensagens diretas de membros do servidor**.
 
 Pronto, agora só realizar o comando novamente! "

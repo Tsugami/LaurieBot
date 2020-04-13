@@ -2,6 +2,7 @@ import Command from '@struct/command/Command';
 import { getRandomInt } from '@utils/Math';
 import { EMOJIS } from '@utils/Constants';
 import QuickUrl from 'quick-lru';
+import LaurieEmbed from '@struct/LaurieEmbed';
 
 const penisCache = new QuickUrl<string, number>({ maxSize: 50 });
 export default new Command(
@@ -29,6 +30,6 @@ export default new Command(
       emoji = EMOJIS.JOIA;
     }
 
-    msg.reply(t('commands:penis.message', { emoji, num }));
+    msg.reply(new LaurieEmbed(null, t('commands:penis.message', { emoji, num })));
   },
 );
