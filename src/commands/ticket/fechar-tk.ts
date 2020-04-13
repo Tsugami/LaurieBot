@@ -18,11 +18,15 @@ export default new Command(
 
     let ticket = guildData.data.ticket.tickets.find(tk => tk.channelId === msg.channel.id);
     if (!ticket) return msg.reply(t('commands:fechar_tk.is_not_ticket_channel'));
-    if (
-      !msg.member.permissions.has('ADMINISTRATOR') ||
-      !msg.member.roles.has(String(guildData.ticket.role)) ||
-      ticket.authorId !== msg.member.id
-    ) {
+
+    const hasPermission = () => {
+      return (
+        msg.member.permissions.has('ADMINISTRATOR') ||
+        (guildData.ticket.role && msg.member.roles.has(guildData.ticket.role)) ||
+        ticket?.authorId === msg.author.id
+      );
+    };
+    if (!hasPermission()) {
       return msg.reply(t('commands:fechar_tk.have_no_power'));
     }
 

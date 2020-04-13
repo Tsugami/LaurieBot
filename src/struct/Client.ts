@@ -19,7 +19,7 @@ export default class LaurieClient extends AkairoClient {
           start: Prompt(`commons:prompt_options_default.start`),
           retry: Prompt(`commons:prompt_options_default.retry`),
           ended: Prompt('commons:prompt_options_default.ended', false),
-          timeout: Prompt(`commons:prompt_options_default.timeout`),
+          timeout: Prompt(`commons:prompt_options_default.timeout`, false),
           cancelWord: 'cancel',
         },
       },
