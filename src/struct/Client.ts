@@ -16,8 +16,6 @@ export default class LaurieClient extends AkairoClient {
         prefix: process.env.BOT_PREFIX || ';',
         defaultPrompt: {
           cancel: Prompt(`commons:prompt_options_default.cancel`, false),
-          start: Prompt(`commons:prompt_options_default.start`),
-          retry: Prompt(`commons:prompt_options_default.retry`),
           ended: Prompt('commons:prompt_options_default.ended', false),
           timeout: Prompt(`commons:prompt_options_default.timeout`, false),
           cancelWord: 'cancel',
