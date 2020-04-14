@@ -36,9 +36,10 @@ export default function createNeekoCommand(id: string, fetch: NeekoTypes, aliase
     async (msg, t, { user }) => {
       const { url } = await Neeko.sfw[fetch]();
 
-      const embed = new LaurieEmbed(msg.author)
-        .setDescription(t(`commands:${id}.message`, { author: msg.author, user }))
-        .setImage(url);
+      const embed = new LaurieEmbed(
+        msg.author,
+        t(`commands:${id}.message`, { author: msg.author.username, user: user.username }),
+      ).setImage(url);
       msg.reply(embed);
     },
   );
