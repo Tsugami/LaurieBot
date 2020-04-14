@@ -2,7 +2,7 @@ import Command from '@struct/command/Command';
 import { GuildMember, Role, TextChannel, VoiceChannel } from 'discord.js';
 import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME } from '@utils/Constants';
 import { sendPunaltyMessage } from '@utils/ModuleUtils';
-import { Prompt } from '@utils/CommandUtils';
+import { translationPrompt } from '@utils/CommandUtils';
 import { printError } from '@utils/Utils';
 
 export default new Command(
@@ -21,7 +21,7 @@ export default new Command(
       {
         id: 'reason',
         type: 'string',
-        default: Prompt('commands:mute.args.default'),
+        default: translationPrompt('commands:mute.args.reason.default'),
       },
     ],
   },

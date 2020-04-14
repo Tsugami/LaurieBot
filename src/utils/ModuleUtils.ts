@@ -12,13 +12,12 @@ export async function sendPunaltyMessage(message: Message, member: GuildMember, 
 
   if (channel instanceof TextChannel) {
     const t = getFixedT(message);
-
     const embed = new LaurieEmbed(message.author)
       .setThumbnail(member.user.displayAvatarURL)
       .addInfoText(
         'BALLOT_BOX',
         t('modules:punishment.punishment_info'),
-        ['PAGE', t('modules:punishment.type'), commandId],
+        ['PAGE', t('modules:punishment.type'), t(`modules:punishment.types.${commandId}`) as string],
         ['MAN_JUDGE', t('modules:punishment.judge'), message.author.toString()],
         ['SCALES', t('modules:punishment.reason'), reason],
         ['CAP', t('modules:punishment.user'), member.toString()],

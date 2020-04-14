@@ -2,7 +2,7 @@ import Command from '@struct/command/Command';
 import { GuildMember } from 'discord.js';
 import { sendPunaltyMessage } from '@utils/ModuleUtils';
 import { printError } from '@utils/Utils';
-import { Prompt } from '@utils/CommandUtils';
+import { translationPrompt } from '@utils/CommandUtils';
 
 export default new Command(
   'kick',
@@ -21,7 +21,7 @@ export default new Command(
         id: 'reason',
         type: 'string',
         match: 'text',
-        default: Prompt('commands:kick.args.default'),
+        default: translationPrompt('commands:kick.args.reason.default'),
       },
     ],
   },

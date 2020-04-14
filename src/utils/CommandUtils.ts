@@ -32,6 +32,10 @@ export function Prompt<B extends { option: string } | any>(
   return (msg, args, tries) => fn(getFixedT(msg), msg, args, tries);
 }
 
+export function translationPrompt(tPath: string, tOptions?: TOptions) {
+  return (m: Message) => getFixedT(m)(tPath, tOptions);
+}
+
 // eslint-disable-next-line no-nested-ternary
 const defaultTrue = (o: any) => (o === undefined ? (o === null ? true : o) : o);
 export function parseOptions<O extends LaurieCommandOptions>(id: string, options: O): O {

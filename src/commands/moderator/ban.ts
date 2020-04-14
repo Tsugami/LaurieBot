@@ -2,7 +2,7 @@ import Command from '@struct/command/Command';
 
 import { GuildMember } from 'discord.js';
 import { sendPunaltyMessage } from '@utils/ModuleUtils';
-import { Prompt } from '@utils/CommandUtils';
+import { translationPrompt } from '@utils/CommandUtils';
 import { printError } from '@utils/Utils';
 
 export default new Command(
@@ -22,7 +22,7 @@ export default new Command(
         id: 'reason',
         match: 'text',
         type: 'string',
-        default: Prompt('commands:ban.args.default'),
+        default: translationPrompt('commands:ban.args.reason.default'),
       },
     ],
   },

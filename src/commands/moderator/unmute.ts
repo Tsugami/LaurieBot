@@ -4,7 +4,7 @@ import { GuildMember } from 'discord.js';
 import { MUTE_ROLE_NAME } from '@utils/Constants';
 import { sendPunaltyMessage } from '@utils/ModuleUtils';
 import { printError } from '@utils/Utils';
-import { Prompt } from '@utils/CommandUtils';
+import { translationPrompt, Prompt } from '@utils/CommandUtils';
 
 export default new Command(
   'unmute',
@@ -26,7 +26,7 @@ export default new Command(
       {
         id: 'reason',
         type: 'string',
-        default: Prompt('commands:unmute.args.default'),
+        default: translationPrompt('commands:unmute.args.reason.default'),
       },
     ],
   },

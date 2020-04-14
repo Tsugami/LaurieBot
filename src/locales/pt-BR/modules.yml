@@ -6,6 +6,11 @@ punishment:
   user: 'Culpado'
   text_channel: 'Canal'
   user_info: 'INFORMAÇÕES DO USUÁRIO'
+  types:
+    mute: 'Mutado(a)'
+    kick: 'Expulso(a)'
+    ban: 'Banido(a)'
+    unmute: 'Desmutado(a)'
 pnconfig:
   current_channel: 'Canal de Texto Atual:'
 welcome:
