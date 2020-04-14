@@ -23,11 +23,13 @@ interface Options<A, C = ModuleOptionArgs> {
   run(msg: Message, t: TFunction, args: C): any;
 }
 
+export type ModuleArgTypes = Exclude<ArgumentType, string[]>;
+
 export default function createModuleCommand<A extends string>(
   id: string,
   commandOptions: Partial<Omit<LaurieCommandOptions, 'args' | 'category'>>,
   moduleOptions: Options<A>[],
-  dependArgs?: Record<string, [Exclude<ArgumentType, string[]>, A[], Partial<Omit<ArgumentOptions, 'id' | 'type'>>?]>,
+  dependArgs?: Record<string, [ModuleArgTypes, A[], Partial<Omit<ArgumentOptions, 'id' | 'type'>>?]>,
   detailsFunc?: (msg: Message, t: TFunction, args: ModuleOptionArgs) => DetailsFuncResult,
 ) {
   const title = `commands:${id}.title`;
@@ -81,6 +83,7 @@ export default function createModuleCommand<A extends string>(
                   type: (word, m, a) => {
                     const x = optionIds.find(o => String(a.option) === o);
                     if (x) {
+                      console.log(word);
                       return m.client.commandHandler.resolver.type(type)(word, m, a) || null;
                     }
                     return '';

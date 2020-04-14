@@ -1,5 +1,5 @@
 import { Role, TextChannel, CategoryChannel } from 'discord.js';
-import ModuleCommand, { ModuleOptionArgs } from '@struct/command/ModuleCommand';
+import ModuleCommand, { ModuleOptionArgs, ModuleArgTypes } from '@struct/command/ModuleCommand';
 import LaurieEmbed from '@struct/LaurieEmbed';
 import categories from '@struct/command/categories';
 
@@ -44,6 +44,7 @@ export default ModuleCommand(
       id: 'set_role',
       validate,
       async run(msg, t, { guildData, role }: ModuleOptionArgs & { role: Role }) {
+        await guildData.ticket.setRole(role);
         msg.reply(t('commands:setcargo_tk.message'));
 
         if (!guildData.data.ticket) return;
@@ -66,7 +67,6 @@ export default ModuleCommand(
       validate,
       async run(msg, t, { guildData, category }: ModuleOptionArgs & { category: CategoryChannel }) {
         await guildData.ticket.setCategory(category);
-
         msg.reply(t('commands:setcategoria_tk.message'));
 
         if (!guildData.data.ticket) return;
@@ -84,6 +84,7 @@ export default ModuleCommand(
   ],
   {
     role: ['role', ['set_role']],
+    category: ['categoryChannel' as ModuleArgTypes, ['set_category']],
   },
   (m, t, { guildData }) => {
     if (validate(m, { guildData })) {

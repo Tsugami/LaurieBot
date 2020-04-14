@@ -37,10 +37,24 @@ export default class LaurieClient extends AkairoClient {
   }
 
   addTypes() {
-    this.commandHandler.resolver.addType('categoryChannel', (w, m, a) => {
-      const channel = this.commandHandler.resolver.type('channel')(w, m, a);
-      if (channel instanceof CategoryChannel) return channel;
-      return null;
+    this.commandHandler.resolver.addType('categoryChannel', (text, m) => {
+      if (m.channel.type !== 'text') return;
+      const { channels } = m.guild;
+      return channels.find(channel => {
+        if (channel instanceof CategoryChannel) {
+          if (channel.id === text) return true;
+
+          const reg = /<#(\d+)>/;
+          const match = text.match(reg);
+
+          if (match && channel.id === match[1]) return true;
+
+          text = text.toLowerCase();
+          const name = channel.name.toLowerCase();
+          return name === text || name === text.replace(/^#/, '');
+        }
+        return false;
+      });
     });
   }
 }

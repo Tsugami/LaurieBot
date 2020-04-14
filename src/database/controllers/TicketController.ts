@@ -4,15 +4,25 @@ import { Types } from 'mongoose';
 import Base from './Base';
 
 class TicketController extends Base<GuildDocument> {
-  private ticket = this.data.ticket;
+  get ticket() {
+    return this.data.ticket;
+  }
 
-  active = this.ticket?.active;
+  get active() {
+    return this.ticket?.active;
+  }
 
-  role = this.ticket?.role;
+  get role() {
+    return this.ticket?.role;
+  }
 
-  categoryId = this.ticket?.categoryId;
+  get categoryId() {
+    return this.ticket?.categoryId;
+  }
 
-  tickets = this.ticket?.tickets;
+  get tickets() {
+    return this.ticket?.tickets;
+  }
 
   throwTicket() {
     if (!this.data.ticket) {
@@ -50,25 +60,23 @@ class TicketController extends Base<GuildDocument> {
 
   setRole(role: Role) {
     this.throwTicket();
-    if (this.ticket) {
-      if (role.id === this.ticket.role) {
+    if (this.data.ticket) {
+      if (role.id === this.data.ticket.role) {
         return this.data;
       }
-
-      this.ticket.role = role.id;
-
+      this.data.ticket.role = role.id;
       return this.save();
     }
   }
 
   setCategory(category: CategoryChannel) {
     this.throwTicket();
-    if (this.ticket) {
-      if (category.id === this.ticket.categoryId) {
+    if (this.data.ticket) {
+      if (category.id === this.data.ticket.categoryId) {
         return this.data;
       }
 
-      this.ticket.categoryId = category.id;
+      this.data.ticket.categoryId = category.id;
 
       return this.save();
     }
