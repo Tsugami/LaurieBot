@@ -335,7 +335,7 @@ Pronto, agora só realizar o comando novamente! "
 ticket:
   description: "Explica como funciona o modulo de Ticket's."
   warn: 'Aviso'
-  warn_message: "O módulo de tickets não foi ativado neste servidor, para ativar um administrador precisa utilizar o comando `{{ prefix }}ativar-tk` em qualquer canal de texto."
+  warn_message: "O módulo de tickets não foi ativado neste servidor, para ativar um administrador precisa utilizar o comando `{{ command }}` em qualquer canal de texto."
   title: "MÓDULO DE TICKET's"
   what: 'O que é o Módulo de Tickets?'
   what_message: "O módulo de tickets vem junto com um sistema responsável pela organização do suporte dos jogadores, basicamente disponibiliza um comando para que os membros do servidor tirem dúvidas, reportem bugs ou revisem punições."
