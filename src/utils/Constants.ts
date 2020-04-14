@@ -69,6 +69,7 @@ export const EMOJIS = {
   RINDO_DOIDO: '<a:interatividade:671813965239549997>',
   CONFIGURAR: '<:configurar:671814632255651851>',
   DISCORD: '<:discord:671813977961005067>',
+  LOADING_EMOJI: '🔄',
 } as const;
 
 export type EmojiType = typeof EMOJIS[keyof typeof EMOJIS];

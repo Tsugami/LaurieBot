@@ -1,9 +1,10 @@
 import Command from '@struct/command/Command';
-import { GuildMember, Role, TextChannel, VoiceChannel } from 'discord.js';
-import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME } from '@utils/Constants';
+import { GuildMember, Role, TextChannel, VoiceChannel, Message } from 'discord.js';
+import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME, EMOJIS } from '@utils/Constants';
 import { sendPunaltyMessage } from '@utils/ModuleUtils';
 import { translationPrompt } from '@utils/CommandUtils';
 import { printError } from '@utils/Utils';
+import LaurieEmbed from '../../struct/LaurieEmbed';
 
 export default new Command(
   'mute',
@@ -58,18 +59,24 @@ export default new Command(
     }
 
     const createMuteRole = async () => {
+      const loadingMsg = (await msg.reply(
+        new LaurieEmbed(null, t('commands:mute.loading_msg', { emoji: EMOJIS.LOADING_EMOJI })),
+      )) as Message;
+
       let newRole: Role;
       try {
         newRole = await msg.guild.createRole({
           name: MUTE_ROLE_NAME,
-          position: bot.highestRole.position - 1,
+          position: bot.highestRole.position - 2,
           color: EMBED_DEFAULT_COLOR,
           permissions: 0,
         });
       } catch (error) {
         printError(error, this);
-        return msg.reply(t('commands:mute.not.create_mute_role_failed'));
+        loadingMsg.delete();
+        return msg.reply(t('commands:mute.create_mute_role_failed'));
       }
+
       const channelsFailed: Array<TextChannel | VoiceChannel> = [];
       msg.guild.channels.forEach(async channel => {
         if (channel instanceof TextChannel) {
@@ -83,16 +90,16 @@ export default new Command(
         }
       });
 
+      await loadingMsg.delete();
       if (channelsFailed.length) {
         const channels = channelsFailed.map(c => c.toString || c.name || c.id).join(', ');
         msg.reply(t('commands:mute.warn', { channels }));
       }
 
-      return role;
+      return newRole;
     };
 
     if (!role) role = (await createMuteRole()) as Role;
-
     if (role instanceof Role) {
       try {
         await member.addRole(role);

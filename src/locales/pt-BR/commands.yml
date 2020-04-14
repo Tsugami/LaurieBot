@@ -250,6 +250,7 @@ mute:
   create_mute_role_failed: 'eu não consegui criar o cargo de mutar.'
   already_is_muted: "esse usuário já esta mutado."
   failed: 'não consegui mutar esse usuário.'
+  loading_msg: '{{ emoji }} Criando cargo...'
   warn: '[AVISO] não foi possivel alterar o cargo de mutar nos seguintes canais: {{ channels }}'
 unmute:
   usage: '<@usuário> [motivo]'
