@@ -1,4 +1,5 @@
 import { RichEmbed, User } from 'discord.js';
+import { capitalize } from '@utils/Utils';
 import { EMBED_DEFAULT_COLOR, EMOJIS, EmojiType } from '../utils/Constants';
 
 type EmojiNames = keyof typeof EMOJIS | EmojiType;
@@ -7,7 +8,7 @@ type InfoTextField = [EmojiNames, string, string | number, boolean?];
 export default class LaurieEmbed extends RichEmbed {
   constructor(author?: User | null, title?: string, description?: string) {
     super();
-    if (title) this.setTitle(title);
+    if (title) this.setTitle(capitalize(title));
     if (description) this.setDescription(description);
     if (author) {
       this.setFooter(`Por ${author.username}`, author.displayAvatarURL);
