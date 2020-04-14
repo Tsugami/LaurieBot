@@ -52,7 +52,7 @@ export default new Command(
       return msg.reply(t('commands:mute.not.bot_has_role_highest'));
     }
 
-    const role: Role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME);
+    let role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME);
     if (role && member.roles.has(role.id)) {
       return msg.reply(t('commands:mute.already_is_muted'));
     }
@@ -90,8 +90,10 @@ export default new Command(
 
       return role;
     };
-    const result = await createMuteRole();
-    if (result instanceof Role) {
+
+    if (!role) role = (await createMuteRole()) as Role;
+
+    if (role instanceof Role) {
       try {
         await member.addRole(role);
         sendPunaltyMessage(msg, member, 'mute', reason);
