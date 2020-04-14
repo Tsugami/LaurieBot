@@ -72,6 +72,7 @@ export default function createModuleCommand<A extends string>(
                 }),
               };
             }),
+            retry: Prompt(`modules:optionInvalid`),
           },
         },
         ...(dependArgs
@@ -83,7 +84,6 @@ export default function createModuleCommand<A extends string>(
                   type: (word, m, a) => {
                     const x = optionIds.find(o => String(a.option) === o);
                     if (x) {
-                      console.log(word);
                       return m.client.commandHandler.resolver.type(type)(word, m, a) || null;
                     }
                     return '';
