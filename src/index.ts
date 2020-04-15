@@ -1,10 +1,10 @@
 import 'dotenv/config';
 import './config/alias';
-import Client from '@struct/Client';
 import mongoose from 'mongoose';
 import http from 'http';
+import LaurieClient from './client/LaurieClient';
 
-const client = new Client();
+const client = new LaurieClient();
 const server = http.createServer((_, res) => {
   res.writeHead(200);
   res.end();
@@ -15,7 +15,7 @@ mongoose.connect(String(process.env.MONGO_URI), {
   useUnifiedTopology: true,
 });
 
-client.login(String(process.env.BOT_TOKEN));
+client.start(String(process.env.BOT_TOKEN));
 server.listen(process.env.PORT || 3333);
 
 setInterval(() => {
