@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "resolveJsonModule": true,
+    "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictPropertyInitialization": false,
-    "target": "es5",
+    "target": "es2019",
     "module": "commonjs",
     "strict": true,
     "baseUrl": "src",

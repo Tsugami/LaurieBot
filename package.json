@@ -5,7 +5,7 @@
   "author": "Tsugami <yslan3000@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --watch '*.ts' --exec 'ts-node' src/index.ts",
     "start": "node dist/index.js",
     "prebuild": "rimraf dist",
     "build": "sucrase ./src -d ./dist --transforms typescript,imports"
@@ -29,6 +29,7 @@
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "sucrase": "^3.12.1",
+    "ts-node": "^8.8.2",
     "typescript": "^3.8.3"
   },
   "dependencies": {
