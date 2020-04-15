@@ -41,6 +41,7 @@ module.exports = {
       "import/extensions": "off",
       "no-param-reassign": "off",
       "@typescript-eslint/no-explicit-any": "off",
-      "consistent-return": "off"
+      "consistent-return": "off",
+      "no-unused-expressions": "off"
     }
 }

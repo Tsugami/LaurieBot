@@ -3,13 +3,15 @@ import i18next from 'i18next';
 import { join } from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
+import { Message, Guild } from 'discord.js';
 import logger from './logger';
 
-export function getFixedT(language = 'pt-BR') {
-  return i18next.getFixedT(language);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function getFixedT(resolve: string | Message | Guild = 'pt-BR') {
+  return i18next.getFixedT('pt-BR');
 }
 
-export function exists(tPath: string) {
+export function exists(tPath: string | string[]) {
   return i18next.exists(tPath);
 }
 

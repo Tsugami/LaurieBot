@@ -7,8 +7,8 @@ addAliases({
   '@utils': join(__dirname, '..', 'utils'),
   '@database': join(__dirname, '..', 'database'),
   '@assets': join(__dirname, '..', '..', 'assets'),
-  '@structures': join(__dirname, '..', '..', 'structures'),
-  '@config': join(__dirname, '..', '..', 'config'),
+  '@structures': join(__dirname, '..', 'structures'),
+  '@config': join(__dirname, '..', 'config'),
 });
 
 moduleAlias();

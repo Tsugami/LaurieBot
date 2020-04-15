@@ -1,22 +1,27 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
-import { CategoryChannel } from 'discord.js';
+import { CategoryChannel, PermissionResolvable } from 'discord.js';
 import { join } from 'path';
+import * as locales from '@utils/locales';
 
 declare module 'discord-akairo' {
   interface AkairoClient {
     commandHandler: CommandHandler;
     inhibitorHandler: InhibitorHandler;
     listenerHandler: ListenerHandler;
+    locales: typeof locales;
+    requiredPermissions: PermissionResolvable[];
   }
 }
 
 class LaurieClient extends AkairoClient {
   constructor() {
     super({ disableMentions: 'all' });
-
+    this.requiredPermissions = [];
     this.commandHandler = new CommandHandler(this, {
       directory: join(__dirname, '..', 'commands'),
-      prefix: process.env.PREFIX || ';',
+      prefix: process.env.BOT_PREFIX || ';',
+      commandUtil: true,
+      handleEdits: true,
     });
 
     this.inhibitorHandler = new InhibitorHandler(this, {
@@ -26,10 +31,13 @@ class LaurieClient extends AkairoClient {
     this.listenerHandler = new ListenerHandler(this, {
       directory: join(__dirname, '..', 'listeners'),
     });
+
+    this.locales = locales;
   }
 
   async init(): Promise<this> {
     this.addTypes();
+    await this.locales.loadAll();
 
     this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
     this.commandHandler.useListenerHandler(this.listenerHandler);
@@ -40,9 +48,9 @@ class LaurieClient extends AkairoClient {
       listenerHandler: this.listenerHandler,
     });
 
-    this.commandHandler.loadAll();
     this.inhibitorHandler.loadAll();
     this.listenerHandler.loadAll();
+    this.commandHandler.loadAll();
 
     return this;
   }
@@ -72,6 +80,10 @@ class LaurieClient extends AkairoClient {
         return false;
       });
     });
+  }
+
+  generateInvite() {
+    return super.generateInvite(this.requiredPermissions);
   }
 }
 
