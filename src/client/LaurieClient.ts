@@ -1,4 +1,5 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
+import { CategoryChannel } from 'discord.js';
 import { join } from 'path';
 
 declare module 'discord-akairo' {
@@ -27,6 +28,8 @@ class LaurieClient extends AkairoClient {
   }
 
   async init(): Promise<this> {
+    this.addTypes();
+
     this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
     this.commandHandler.useListenerHandler(this.listenerHandler);
 
@@ -46,6 +49,28 @@ class LaurieClient extends AkairoClient {
   async start(token: string) {
     await this.init();
     return this.login(token);
+  }
+
+  addTypes() {
+    this.commandHandler.resolver.addType('categoryChannel', (message, phrase) => {
+      if (!message.guild) return;
+      const { channels } = message.guild;
+      return channels.cache.find(channel => {
+        if (channel instanceof CategoryChannel) {
+          if (channel.id === phrase) return true;
+
+          const reg = /<#(\d+)>/;
+          const match = phrase.match(reg);
+
+          if (match && channel.id === match[1]) return true;
+
+          phrase = phrase.toLowerCase();
+          const name = channel.name.toLowerCase();
+          return name === phrase || name === phrase.replace(/^#/, '');
+        }
+        return false;
+      });
+    });
   }
 }
 

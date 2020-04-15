@@ -1,14 +1,21 @@
 import Backend from 'i18next-node-fs-backend';
 import i18next from 'i18next';
-import path from 'path';
+import { join } from 'path';
 import fs from 'fs';
-import logger from '@utils/logger';
 import { promisify } from 'util';
+import logger from './logger';
 
-const readdir = promisify(fs.readdir);
-const pathFolder = path.resolve('src', 'locales');
+export function getFixedT(language = 'pt-BR') {
+  return i18next.getFixedT(language);
+}
 
-export async function buildi18n() {
+export function exists(tPath: string) {
+  return i18next.exists(tPath);
+}
+
+export async function loadAll() {
+  const readdir = promisify(fs.readdir);
+  const pathFolder = join(__dirname, '..', 'locales');
   return i18next.use(Backend).init(
     {
       ns: ['categories', 'commands', 'commons', 'errors', 'permissions', 'modules'],

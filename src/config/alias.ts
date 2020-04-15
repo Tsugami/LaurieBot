@@ -10,4 +10,5 @@ addAliases({
   '@structures': join(__dirname, '..', '..', 'structures'),
   '@config': join(__dirname, '..', '..', 'config'),
 });
-console.log(moduleAlias);
+
+moduleAlias();
