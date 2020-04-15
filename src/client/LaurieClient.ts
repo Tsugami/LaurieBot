@@ -16,6 +16,7 @@ class LaurieClient extends AkairoClient {
 
     this.commandHandler = new CommandHandler(this, {
       directory: join(__dirname, '..', 'commands'),
+      prefix: process.env.PREFIX || ';',
     });
 
     this.inhibitorHandler = new InhibitorHandler(this, {

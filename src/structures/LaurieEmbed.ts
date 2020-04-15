@@ -1,6 +1,6 @@
 import { MessageEmbed, User } from 'discord.js';
-import { capitalize } from '@utils/Utils';
-import { EMBED_DEFAULT_COLOR, EMOJIS, EmojiType } from '../utils/Constants';
+import { capitalize } from '@utils/utils';
+import { EMBED_DEFAULT_COLOR, EMOJIS, EmojiType } from '@utils/constants';
 
 type EmojiNames = keyof typeof EMOJIS | EmojiType;
 type InfoTextField = [EmojiNames, string, string | number, boolean?];
@@ -15,11 +15,6 @@ export default class LaurieEmbed extends MessageEmbed {
       this.setTimestamp();
     }
     this.setColor(EMBED_DEFAULT_COLOR);
-  }
-
-  addFields(fields: Array<[string, string, boolean?]>) {
-    fields.forEach(f => this.addField(f[0], f[1], f[2]));
-    return this;
   }
 
   addInfoText(titleEmoji: EmojiNames, title: string, ...fields: InfoTextField[]) {

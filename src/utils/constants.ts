@@ -1,7 +1,6 @@
 import { PresenceStatusData } from 'discord.js';
 import { RateTypes } from '@database/models/Guild';
 
-export const CUSTOM_STATUS = 'Custom Status';
 export const EMBED_DEFAULT_COLOR = process.env.EMBED_DEFAULT_COLOR || '#ff8c08';
 export const MUTE_ROLE_NAME = 'Mutado';
 export const ASSET_BASE_PATH = 'https://storage.googleapis.com/data-sunlight-146313.appspot.com';
@@ -81,7 +80,7 @@ export const TICKET_EMOJIS = {
 };
 
 export const STATUS_EMOJIS: Record<PresenceStatusData, EmojiType> = {
-  offline: EMOJIS.STATUS_OFFLINE,
+  invisible: EMOJIS.STATUS_OFFLINE,
   online: EMOJIS.STATUS_ONLINE,
   dnd: EMOJIS.STATUS_BUSY,
   idle: EMOJIS.STATUS_AWAY,

@@ -15,7 +15,7 @@
       "@utils/*": ["utils/*"],
       "@database/*": ["database/*"],
       "@assets/*": ["../assets/*"],
-      "@struct/*": ["struct/*"],
+      "@structures/*": ["structures/*"],
       "@config/*": ["config/*"]
     },
     "allowSyntheticDefaultImports": true,
