@@ -1,5 +1,5 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, PromptContentModifier } from 'discord-akairo';
-import { CategoryChannel, PermissionResolvable, Message } from 'discord.js';
+import { CategoryChannel, PermissionString, Message } from 'discord.js';
 import { join } from 'path';
 import * as locales from '@utils/locales';
 import logger from '@utils/logger';
@@ -12,7 +12,7 @@ declare module 'discord-akairo' {
     listenerHandler: ListenerHandler;
     locales: typeof locales;
     logger: typeof logger;
-    requiredPermissions: PermissionResolvable[];
+    requiredPermissions: PermissionString[];
   }
 }
 
@@ -76,8 +76,10 @@ class LaurieClient extends AkairoClient {
     });
 
     this.inhibitorHandler.loadAll();
-    this.listenerHandler.loadAll();
     this.commandHandler.loadAll();
+
+    this.pushRequiredPermissions();
+    this.listenerHandler.loadAll();
 
     return this;
   }
@@ -112,6 +114,20 @@ class LaurieClient extends AkairoClient {
   generateInvite() {
     return super.generateInvite(this.requiredPermissions);
   }
-}
 
+  private pushRequiredPermissions() {
+    this.requiredPermissions = this.commandHandler.modules.reduce<PermissionString[]>((prev, command) => {
+      if (typeof command.clientPermissions === 'string' && !prev.includes(command.clientPermissions)) {
+        prev.push(command.clientPermissions);
+      } else if (Array.isArray(command.clientPermissions)) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const permission of command.clientPermissions) {
+          prev.push(permission as PermissionString);
+        }
+      }
+      return prev;
+    }, []);
+    this.logger.success('permissions added:', this.requiredPermissions);
+  }
+}
 export default LaurieClient;

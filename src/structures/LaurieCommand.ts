@@ -1,4 +1,5 @@
 import { Command, CommandOptions } from 'discord-akairo';
+import { PermissionString } from 'discord.js';
 import { exists, TFunction } from '@utils/locales';
 import logger from '@utils/logger';
 
@@ -14,6 +15,8 @@ export type LaurieCategories =
 export interface LaurieCommandOptions extends CommandOptions {
   category: LaurieCategories;
   editable: boolean;
+  clientPermissions?: PermissionString[] | PermissionString;
+  userPermissions?: PermissionString[] | PermissionString;
 }
 
 declare module 'discord-akairo' {
@@ -46,13 +49,6 @@ class LaurieCommand extends Command {
 
     if (exists(`commands:${id}.usage`)) {
       this.usage = `commands:${id}.usage`;
-    }
-
-    if (Array.isArray(this.clientPermissions)) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const p of this.clientPermissions) {
-        this.client.requiredPermissions.push(p);
-      }
     }
   }
 
