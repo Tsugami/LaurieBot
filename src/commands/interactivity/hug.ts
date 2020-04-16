@@ -7,6 +7,7 @@ export default class Hug extends LaurieCommand {
   constructor() {
     super('hug', {
       aliases: ['abraçar'],
+      editable: true,
       category: 'interactivity',
       args: [
         {

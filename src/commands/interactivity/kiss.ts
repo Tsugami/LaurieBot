@@ -7,6 +7,7 @@ export default class Kiss extends LaurieCommand {
   constructor() {
     super('kiss', {
       aliases: ['beijar'],
+      editable: true,
       category: 'interactivity',
       args: [
         {

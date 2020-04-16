@@ -10,6 +10,7 @@ export default class Corno extends LaurieCommand {
 
   constructor() {
     super('corno', {
+      editable: true,
       category: 'interactivity',
     });
   }

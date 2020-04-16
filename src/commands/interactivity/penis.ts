@@ -12,6 +12,7 @@ export default class Penis extends LaurieCommand {
     super('penis', {
       category: 'interactivity',
       aliases: ['pau'],
+      editable: true,
     });
   }
 

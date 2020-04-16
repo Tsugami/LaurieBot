@@ -8,6 +8,7 @@ export default class Slap extends LaurieCommand {
     super('slap', {
       aliases: ['bater'],
       category: 'interactivity',
+      editable: true,
       args: [
         {
           id: 'user',

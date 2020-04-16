@@ -8,6 +8,7 @@ export default class Botinfo extends LaurieCommand {
     super('botinfo', {
       aliases: ['infobot'],
       category: 'discord',
+      editable: true,
     });
   }
 

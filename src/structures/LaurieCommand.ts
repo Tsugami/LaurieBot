@@ -13,6 +13,7 @@ export type LaurieCategories =
 
 export interface LaurieCommandOptions extends CommandOptions {
   category: LaurieCategories;
+  editable: boolean;
 }
 
 declare module 'discord-akairo' {

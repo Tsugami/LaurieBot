@@ -11,6 +11,7 @@ export default class Help extends Command {
     super('help', {
       aliases: ['ajuda'],
       category: 'bot',
+      editable: false,
     });
   }
 
@@ -44,7 +45,9 @@ export default class Help extends Command {
     let sent: Message;
     try {
       sent = await dm.send(content, { embed, disableMentions: 'none' });
-      msg.reply(new LaurieEmbed(msg.author, msg.t('commands:help.warn_message')));
+      if (msg.channel.type === 'text') {
+        msg.reply(new LaurieEmbed(msg.author, msg.t('commands:help.warn_message')));
+      }
     } catch {
       return isLocked();
     }

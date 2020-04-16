@@ -12,7 +12,7 @@ interface MCUserI {
 
 export async function getUser(username: string): Promise<MCUserI> {
   const res = await axios.get(MOJANG + username);
-  if (res.status !== 200) return Promise.reject();
+  if (res.status !== 200) return Promise.reject(res.statusText);
 
   return {
     name: res.data.name,

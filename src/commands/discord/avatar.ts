@@ -6,6 +6,7 @@ export default class Avatar extends LaurieCommand {
   constructor() {
     super('avatar', {
       category: 'discord',
+      editable: true,
       args: [
         {
           id: 'user',

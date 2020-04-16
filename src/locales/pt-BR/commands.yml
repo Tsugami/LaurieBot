@@ -147,14 +147,15 @@ mcconquista:
   description: "Gera uma conquista com oque foi escrito após o comando."
   message: 'Conquista desbloqueada!'
   args:
-    message:
+    text:
       start: "digite alguma mensagem."
       retry: "mensagem invalida."
 mcserver:
   usage: '<IP>'
   args:
     server:
-      retry: 'digite o ip do servidor!'
+      start: 'digite o ip do servidor!'
+      retry: 'ip invalido!'
   description: "Mostra as informações do servidor de minecraft digitado após o comando."
   not_found: 'esse servidor não existe ou não esta online.'
   server_info: 'INFORMAÇÕES DO SERVIDOR'
@@ -167,7 +168,8 @@ mcskin:
   not_found: 'Não achei nenhum jogador com esse nome!'
   args:
     username:
-      retry: 'digite o nick do avatar!'
+      start: 'digite o nick do avatar!'
+      retry: 'nick invalido!'
 alertar:
   usage: '<mensagem>'
   description: "Manda uma mensagem/texto no privado de todos os usuários que estão no servidor."

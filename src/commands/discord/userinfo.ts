@@ -9,7 +9,7 @@ export default class Userinfo extends LaurieCommand {
     super('userinfo', {
       category: 'discord',
       lock: 'guild',
-      editable: false,
+      editable: true,
       args: [
         {
           id: 'member',
@@ -48,6 +48,6 @@ export default class Userinfo extends LaurieCommand {
         ['BRIEFCASE', msg.t('commons:roles'), roleMessage],
       )
       .setThumbnail(user.displayAvatarURL());
-    msg.reply(embed);
+    msg.util?.reply(embed);
   }
 }

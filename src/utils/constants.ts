@@ -97,7 +97,7 @@ export const CATEGORIES_EMOJIS: Record<LaurieCategories, EmojiType> = {
   discord: EMOJIS.DISCORD,
   bot: EMOJIS.ROBOT,
   interactivity: EMOJIS.RINDO_DOIDO,
-  minecraft: EMOJIS.RINDO_DOIDO,
+  minecraft: EMOJIS.MINECRAFT,
   moderator: EMOJIS.POLICE_OFFICER,
   configuration: EMOJIS.GEAR,
   ticket: TICKET_EMOJIS.REVIEW,
