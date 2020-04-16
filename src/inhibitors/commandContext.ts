@@ -14,9 +14,3 @@ export default class Context extends Inhibitor {
     return false;
   }
 }
-
-declare module 'discord.js' {
-  interface Message {
-    t: ReturnType<typeof getFixedT>;
-  }
-}

@@ -1,3 +1,4 @@
+import './types';
 import 'dotenv/config';
 import './config/alias';
 import './glitch/autoping';

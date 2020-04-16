@@ -1,7 +1,9 @@
-import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
-import { CategoryChannel, PermissionResolvable } from 'discord.js';
+import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, PromptContentModifier } from 'discord-akairo';
+import { CategoryChannel, PermissionResolvable, Message } from 'discord.js';
 import { join } from 'path';
 import * as locales from '@utils/locales';
+import logger from '@utils/logger';
+import LaurieEmbed from '../structures/LaurieEmbed';
 
 declare module 'discord-akairo' {
   interface AkairoClient {
@@ -9,6 +11,7 @@ declare module 'discord-akairo' {
     inhibitorHandler: InhibitorHandler;
     listenerHandler: ListenerHandler;
     locales: typeof locales;
+    logger: typeof logger;
     requiredPermissions: PermissionResolvable[];
   }
 }
@@ -17,11 +20,34 @@ class LaurieClient extends AkairoClient {
   constructor() {
     super({ disableMentions: 'all' });
     this.requiredPermissions = [];
+
+    const modifyToEmbed = (addCancel: boolean): PromptContentModifier => {
+      return (m, text) => {
+        if (typeof text === 'string') {
+          const cancelMessage = addCancel ? `\n\n${m.t('commons:tryCancel')}` : '';
+          return new LaurieEmbed(m.author, text, cancelMessage);
+        }
+        return text;
+      };
+    };
+
     this.commandHandler = new CommandHandler(this, {
       directory: join(__dirname, '..', 'commands'),
       prefix: process.env.BOT_PREFIX || ';',
       commandUtil: true,
       handleEdits: true,
+      argumentDefaults: {
+        prompt: {
+          cancel: (m: Message) => m.t('commons:prompt_options_default.cancel'),
+          timeout: (m: Message) => m.t('commons:prompt_options_default.timeout'),
+          ended: (m: Message) => m.t('commons:prompt_options_default.ended'),
+          modifyStart: modifyToEmbed(true),
+          modifyRetry: modifyToEmbed(true),
+          modifyCancel: modifyToEmbed(false),
+          modifyEnded: modifyToEmbed(false),
+          modifyTimeout: modifyToEmbed(false),
+        },
+      },
     });
 
     this.inhibitorHandler = new InhibitorHandler(this, {
@@ -33,6 +59,7 @@ class LaurieClient extends AkairoClient {
     });
 
     this.locales = locales;
+    this.logger = logger.scope(this.constructor.name);
   }
 
   async init(): Promise<this> {

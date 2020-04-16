@@ -34,7 +34,7 @@ class LaurieCommand extends Command {
     if (exists(`commands:${id}.description`)) {
       this.description = `commands:${id}.description`;
     } else {
-      logger.warn(`${id} command not have description in locales.`);
+      this.logger.warn(`command not have description in locales.`);
     }
 
     if (exists(`commands:${id}.examples`)) {
