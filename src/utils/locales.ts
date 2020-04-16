@@ -6,6 +6,8 @@ import { promisify } from 'util';
 import { Message, Guild } from 'discord.js';
 import logger from './logger';
 
+export { TFunction } from 'i18next';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getFixedT(resolve: string | Message | Guild = 'pt-BR') {
   return i18next.getFixedT('pt-BR');

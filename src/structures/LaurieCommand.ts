@@ -1,5 +1,5 @@
 import { Command, CommandOptions } from 'discord-akairo';
-import { exists } from '@utils/locales';
+import { exists, TFunction } from '@utils/locales';
 import logger from '@utils/logger';
 
 export type LaurieCategories =
@@ -20,6 +20,8 @@ declare module 'discord-akairo' {
     help: string;
     logger: typeof logger;
     examples?: string;
+    usage?: string;
+    getTitle: (t: TFunction) => string;
   }
 }
 
@@ -41,12 +43,28 @@ class LaurieCommand extends Command {
       this.examples = `commands:${id}.examples`;
     }
 
+    if (exists(`commands:${id}.usage`)) {
+      this.usage = `commands:${id}.usage`;
+    }
+
     if (Array.isArray(this.clientPermissions)) {
       // eslint-disable-next-line no-restricted-syntax
       for (const p of this.clientPermissions) {
         this.client.requiredPermissions.push(p);
       }
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  getTitle(t: TFunction) {
+    const args = this.usage
+      ? t(this.usage)
+          .replace(/(\[|<)/g, x => `${x}\``)
+          .replace(/(\]|>)/g, x => `\`${x}`)
+          .replace('|', '`|`')
+      : '';
+    return `**${this.help}** ${args}`;
   }
 }
 

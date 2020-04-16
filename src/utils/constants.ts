@@ -1,5 +1,6 @@
 import { PresenceStatusData } from 'discord.js';
 import { RateTypes } from '@database/models/Guild';
+import { LaurieCategories } from '@structures/LaurieCommand';
 
 export const EMBED_DEFAULT_COLOR = process.env.EMBED_DEFAULT_COLOR || '#ff8c08';
 export const MUTE_ROLE_NAME = 'Mutado';
@@ -90,6 +91,16 @@ export const RATE_EMOJIS: Record<RateTypes, EmojiType> = {
   good: EMOJIS.GOOD_FACE,
   bad: EMOJIS.BAD_FACE,
   normal: EMOJIS.OH_FACE,
+};
+
+export const CATEGORIES_EMOJIS: Record<LaurieCategories, EmojiType> = {
+  discord: EMOJIS.DISCORD,
+  bot: EMOJIS.ROBOT,
+  interactivity: EMOJIS.RINDO_DOIDO,
+  minecraft: EMOJIS.RINDO_DOIDO,
+  moderator: EMOJIS.POLICE_OFFICER,
+  configuration: EMOJIS.GEAR,
+  ticket: TICKET_EMOJIS.REVIEW,
 };
 
 export const ERROR_CHANNEL_ID = '675412206988427284';
