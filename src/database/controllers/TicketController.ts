@@ -87,7 +87,7 @@ class TicketController extends Base<GuildDocument> {
 
     if (!this.ticket || !this.ticket.tickets || !this.ticket.tickets.length) return null;
     return this.ticket.tickets.find(
-      ticket => ticket.authorId === user.id && !ticket.closed && guild.channels.has(ticket.channelId),
+      ticket => ticket.authorId === user.id && !ticket.closed && guild.channels.cache.has(ticket.channelId),
     );
   }
 

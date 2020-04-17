@@ -2,6 +2,7 @@ import { Command, CommandOptions } from 'discord-akairo';
 import { PermissionString } from 'discord.js';
 import { exists, TFunction } from '@utils/locales';
 import logger from '@utils/logger';
+import * as locales from '@utils/locales';
 
 export type LaurieCategories =
   | 'discord'
@@ -23,9 +24,11 @@ declare module 'discord-akairo' {
   interface Command {
     help: string;
     logger: typeof logger;
+    locales: typeof locales;
     examples?: string;
     usage?: string;
     getTitle: (t: TFunction) => string;
+    tPath: string;
   }
 }
 
@@ -33,22 +36,23 @@ class LaurieCommand extends Command {
   constructor(id: string, options: LaurieCommandOptions) {
     super(id, options);
 
+    this.tPath = `commands:${id}`;
     this.logger = logger.scope(id);
+    this.locales = locales;
     this.help = this.aliases[0] || id;
     this.aliases = [id, ...this.aliases];
-
-    if (exists(`commands:${id}.description`)) {
-      this.description = `commands:${id}.description`;
+    if (exists(`${this.tPath}.description`)) {
+      this.description = `${this.tPath}.description`;
     } else {
       this.logger.warn(`command not have description in locales.`);
     }
 
-    if (exists(`commands:${id}.examples`)) {
-      this.examples = `commands:${id}.examples`;
+    if (exists(`${this.tPath}.examples`)) {
+      this.examples = `${this.tPath}.examples`;
     }
 
-    if (exists(`commands:${id}.usage`)) {
-      this.usage = `commands:${id}.usage`;
+    if (exists(`${this.tPath}.usage`)) {
+      this.usage = `${this.tPath}.usage`;
     }
   }
 

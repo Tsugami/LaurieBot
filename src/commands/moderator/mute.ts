@@ -6,7 +6,7 @@ import LaurieEmbed from '@structures/LaurieEmbed';
 export default class Mute extends LaurieCommand {
   constructor() {
     super('mute', {
-      aliases: ['desmutar'],
+      aliases: ['mutar'],
       editable: true,
       category: 'moderator',
       lock: 'guild',

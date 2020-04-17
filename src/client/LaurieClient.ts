@@ -4,6 +4,7 @@ import { join } from 'path';
 import * as locales from '@utils/locales';
 import logger from '@utils/logger';
 import LaurieEmbed from '../structures/LaurieEmbed';
+import Database from '../database/index';
 
 declare module 'discord-akairo' {
   interface AkairoClient {
@@ -13,19 +14,23 @@ declare module 'discord-akairo' {
     locales: typeof locales;
     logger: typeof logger;
     requiredPermissions: PermissionString[];
+    database: Database;
   }
 }
 
 class LaurieClient extends AkairoClient {
   constructor() {
-    super({ disableMentions: 'all' });
+    super({ disableMentions: 'everyone' });
     this.requiredPermissions = [];
 
     const modifyToEmbed = (addCancel: boolean): PromptContentModifier => {
-      return (m, text) => {
+      return (m, text: any) => {
         if (typeof text === 'string') {
           const cancelMessage = addCancel ? `\n\n${m.t('commons:tryCancel')}` : '';
           return new LaurieEmbed(m.author, text, cancelMessage);
+        }
+        if (text instanceof LaurieEmbed) {
+          return { content: m.author.toString(), embed: text };
         }
         return text;
       };
@@ -60,10 +65,12 @@ class LaurieClient extends AkairoClient {
 
     this.locales = locales;
     this.logger = logger.scope(this.constructor.name);
+    this.database = new Database();
   }
 
   async init(): Promise<this> {
     this.addTypes();
+    await this.database.init();
     await this.locales.loadAll();
 
     this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
