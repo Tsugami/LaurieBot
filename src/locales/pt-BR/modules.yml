@@ -1,4 +1,4 @@
-optionInvalid: 'Opção invalida! Escolha uma das opção correta.'
+optionInvalid: 'Opção invalida! Escolha uma das opções disponiveis abaixo.'
 punishment:
   punishment_info: 'INFORMAÇÕES DE PUNIÇÃO'
   type: 'Pena'

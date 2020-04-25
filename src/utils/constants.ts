@@ -104,3 +104,5 @@ export const CATEGORIES_EMOJIS: Record<LaurieCategories, EmojiType> = {
 };
 
 export const ERROR_CHANNEL_ID = '675412206988427284';
+export const COMMANDS_THAT_CANNOT_BE_DISABLED = ['help'];
+export const CATEGORIES_THAT_CANNOT_BE_DISABLED = ['configuration', 'ticket'];
