@@ -30,7 +30,6 @@ export default class LaurieEmbed extends MessageEmbed {
 
     this.description += `${getEmoji(titleEmoji)} **${title.toUpperCase()}**\n\n`;
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const [emojiName, key, value, skip = true] of fields) {
       this.description += `${getEmoji(emojiName)} **${key}**: ${value}${skip ? '\n' : ''}`;
     }

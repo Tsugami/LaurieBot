@@ -32,7 +32,6 @@ export default class Clear extends Command {
       if (messagesDeleted.size !== amount) {
         try {
           const messages = await msg.channel.messages.fetch({ limit: amount - messagesDeleted.size });
-          // eslint-disable-next-line no-restricted-syntax
           for (const m of messages.array()) {
             try {
               // eslint-disable-next-line no-await-in-loop

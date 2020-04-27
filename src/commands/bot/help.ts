@@ -34,7 +34,7 @@ export default class Help extends Command {
       .map(c => `${CATEGORIES_EMOJIS[c.id]} ${msg.t(`categories:${c.id}.description`)}`)
       .join('\n');
 
-    const content = msg.t('commands:help.content', { author: msg.author.toString() });
+    const content = msg.t('commands:help.content', { author: `${msg.author}` });
     const embed = new LaurieEmbed(
       msg.author,
       msg.t('commands:help.embed_title'),
@@ -53,7 +53,6 @@ export default class Help extends Command {
     }
 
     const reactEmojis = async () => {
-      // eslint-disable-next-line no-restricted-syntax
       for await (const category of categories.array()) {
         const emoji = Util.parseEmoji(CATEGORIES_EMOJIS[category.id]);
         if (emoji) {

@@ -34,7 +34,6 @@ class GuildController extends Base<GuildDocument> {
     if (typeof resolved === 'string') {
       this.data.disabledCommands.push(resolved);
     } else {
-      // eslint-disable-next-line no-restricted-syntax
       for (const id of resolved) {
         this.data.disabledCommands.push(id);
       }
@@ -48,7 +47,6 @@ class GuildController extends Base<GuildDocument> {
     if (typeof resolved === 'string') {
       this.data.disabledCommands.push(resolved);
     } else {
-      // eslint-disable-next-line no-restricted-syntax
       for (const id of resolved) {
         this.data.disabledCommands.push(id);
       }

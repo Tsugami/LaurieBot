@@ -2,9 +2,13 @@ import { GuildDocument } from '@database/models/Guild';
 import Base from './Base';
 
 class WelcomeController extends Base<GuildDocument> {
-  readonly message = this.data.welcome?.message;
+  get message() {
+    return this.data.welcome?.message;
+  }
 
-  readonly channelId = this.data.welcome?.channelId;
+  get channelId() {
+    return this.data.welcome?.channelId;
+  }
 
   enable(channelId: string, message: string) {
     this.data.welcome = {

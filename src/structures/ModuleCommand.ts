@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import { Message, Guild } from 'discord.js';
 import { ArgumentOptions } from 'discord-akairo';
 
@@ -23,9 +22,8 @@ export default class ModuleCommand extends LaurieCommand {
     public modifyMainEmbed?: (embed: LaurieEmbed, message: Message, guildData: GuildController) => any,
   ) {
     super(id, { ...commandOptions, category: 'configuration', editable: false });
-    // eslint-disable-next-line no-restricted-syntax
+
     for (const a of dependArgs) {
-      // eslint-disable-next-line no-restricted-syntax
       for (const i of a[0]) {
         const arg = a[1];
         if (!arg.prompt) {
@@ -66,7 +64,6 @@ export default class ModuleCommand extends LaurieCommand {
     const dependArgs = this.dependArgs.get(currentOption.id);
 
     if (dependArgs) {
-      // eslint-disable-next-line no-restricted-syntax
       for (const arg of dependArgs) {
         const result = yield arg;
         args[arg.id as string] = result;

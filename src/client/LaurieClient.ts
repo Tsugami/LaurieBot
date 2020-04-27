@@ -30,7 +30,7 @@ class LaurieClient extends AkairoClient {
           return new LaurieEmbed(m.author, text, cancelMessage);
         }
         if (text instanceof LaurieEmbed) {
-          return { content: m.author.toString(), embed: text };
+          return { content: `${m.author}`, embed: text };
         }
         return text;
       };
@@ -127,7 +127,6 @@ class LaurieClient extends AkairoClient {
       if (typeof command.clientPermissions === 'string' && !prev.includes(command.clientPermissions)) {
         prev.push(command.clientPermissions);
       } else if (Array.isArray(command.clientPermissions)) {
-        // eslint-disable-next-line no-restricted-syntax
         for (const permission of command.clientPermissions) {
           prev.push(permission as PermissionString);
         }

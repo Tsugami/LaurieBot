@@ -35,7 +35,7 @@ class LaurieCommand extends Command {
   constructor(id: string, options: LaurieCommandOptions) {
     super(id, options);
 
-    this.tPath = `commands:${id}`;
+    this.tPath = `commands:${id.replace('-', '_')}`;
     this.logger = logger.scope(id);
     this.locales = locales;
     this.help = this.aliases[0] || id;

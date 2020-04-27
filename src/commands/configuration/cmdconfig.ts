@@ -57,14 +57,14 @@ export default class CmdConfig extends ModuleCommand {
               return msg.reply(msg.t('commands:cmdconfig.already_disabled_channel'));
             }
             await guildData.disableChannel(channel.id);
-            return msg.reply(msg.t('commands:cmdconfig.disabled_channel', { channel: channel.toString() }));
+            return msg.reply(msg.t('commands:cmdconfig.disabled_channel', { channel: `${channel}` }));
           },
         },
         {
           id: 'enable_channel',
           async run(msg, guildData, { channel }: ChannelArgs) {
             await guildData.enableChannel(channel.id);
-            return msg.reply(msg.t('commands:cmdconfig.enabled_channel', { channel: channel.toString() }));
+            return msg.reply(msg.t('commands:cmdconfig.enabled_channel', { channel: `${channel}` }));
           },
         },
       ],
