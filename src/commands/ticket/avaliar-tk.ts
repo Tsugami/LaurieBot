@@ -1,9 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import Command from '@struct/command/Command';
+import Command from '@structures/LaurieCommand';
 import { Message } from 'discord.js';
-import { guild } from '@database/index';
-import LaurieEmbed from '@struct/LaurieEmbed';
-import { RATE_EMOJIS } from '@utils/Constants';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { RATE_EMOJIS } from '@utils/constants';
 
 function getRateByEmoji(emoji: string): keyof typeof RATE_EMOJIS {
   if (RATE_EMOJIS.bad === emoji) return 'bad';
@@ -11,35 +10,39 @@ function getRateByEmoji(emoji: string): keyof typeof RATE_EMOJIS {
   return 'normal';
 }
 
-export default new Command(
-  'avaliar-tk',
-  {
-    aliases: ['avaliar-ticket', 'avaliar-tk', 'rate-tk'],
-    category: 'ticket',
-    clientPermissions: ['ADD_REACTIONS', 'EMBED_LINKS'],
-    args: [
-      {
-        id: 'id',
-        type: 'string',
-      },
-    ],
-  },
-  async (msg, t, { id }) => {
-    const guildData = await guild(msg.guild.id);
+export default class AvaliarTk extends Command {
+  constructor() {
+    super('avaliar-tk', {
+      editable: false,
+      aliases: ['avaliar-ticket', 'rate-tk', 'ratetk'],
+      category: 'ticket',
+      channel: 'guild',
+      clientPermissions: ['ADD_REACTIONS', 'EMBED_LINKS'],
+      args: [
+        {
+          id: 'id',
+          type: 'string',
+        },
+      ],
+    });
+  }
+
+  async exec(msg: Message, { id }: { id: string }) {
+    const guildData = await this.client.database.getGuild(msg.guild?.id as string);
 
     if (!guildData.data.ticket) return;
-    if (!guildData.isId(id)) return msg.reply(t('commands:avaliar_tk.is_not_id'));
+    if (!guildData.isId(id)) return msg.reply(msg.t('commands:avaliar_tk.is_not_id'));
 
     // eslint-disable-next-line no-underscore-dangle
     const ticket = guildData.data.ticket.tickets.find(tk => tk._id && tk._id.equals(id));
-    if (!ticket) return msg.reply(t('commands:avaliar_tk.not_exists'));
-    if (ticket.rate) return msg.reply(t('commands:avaliar_tk.already_was_rating'));
-    if (ticket.authorId !== msg.author.id) return msg.reply(t('commands:avaliar_tk.not_owner'));
+    if (!ticket) return msg.reply(msg.t('commands:avaliar_tk.not_exists'));
+    if (ticket.rate) return msg.reply(msg.t('commands:avaliar_tk.already_was_rating'));
+    if (ticket.authorId !== msg.author.id) return msg.reply(msg.t('commands:avaliar_tk.not_owner'));
 
     const sent = await msg.reply(
-      new LaurieEmbed(msg.author).setAuthor(t('commands:avaliar_tk.title')).setDescription(
-        `${t('commands:avaliar_tk.embed')}\n\n${Object.entries(RATE_EMOJIS)
-          .map(c => `${c[1]}  ${t(`commands:avaliar_tk.${c[0]}`)}`)
+      new LaurieEmbed(msg.author).setAuthor(msg.t('commands:avaliar_tk.title')).setDescription(
+        `${msg.t('commands:avaliar_tk.embed')}\n\n${Object.entries(RATE_EMOJIS)
+          .map(c => `${c[1]}  ${msg.t(`commands:avaliar_tk.${c[0]}`)}`)
           .join('\n')}`,
       ),
     );
@@ -60,9 +63,9 @@ export default new Command(
         if (ticket._id) {
           await guildData.ticket.ratingTicket(ticket._id, rate);
           sent.delete();
-          msg.reply(t('commands:avaliar_tk.message'));
+          msg.reply(msg.t('commands:avaliar_tk.message'));
         }
       });
     }
-  },
-);
+  }
+}

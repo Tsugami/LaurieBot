@@ -1,23 +1,28 @@
-import Command from '@struct/command/Command';
-import { getRandomInt } from '@utils/Math';
-import { EMOJIS } from '@utils/Constants';
-import QuickUrl from 'quick-lru';
-import LaurieEmbed from '@struct/LaurieEmbed';
+import LaurieCommand from '@structures/LaurieCommand';
+import { range } from '@utils/utils';
+import { EMOJIS } from '@utils/constants';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { Message } from 'discord.js';
+import Collection from '../../utils/collection';
 
-const penisCache = new QuickUrl<string, number>({ maxSize: 50 });
-export default new Command(
-  'penis',
-  {
-    aliases: ['pau'],
-    category: 'interactivity',
-  },
-  (msg, t) => {
+export default class Penis extends LaurieCommand {
+  cache = new Collection<string, number>(50);
+
+  constructor() {
+    super('penis', {
+      category: 'interactivity',
+      aliases: ['pau'],
+      editable: true,
+    });
+  }
+
+  exec(msg: Message) {
     let num: number;
-    if (penisCache.has(msg.author.id)) {
-      num = penisCache.get(msg.author.id) as number;
+    if (this.cache.has(msg.author.id)) {
+      num = this.cache.get(msg.author.id) as number;
     } else {
-      num = getRandomInt(1, 30);
-      penisCache.set(msg.author.id, num);
+      num = range(1, 100);
+      this.cache.set(msg.author.id, num);
     }
 
     let emoji: string;
@@ -30,6 +35,6 @@ export default new Command(
       emoji = EMOJIS.JOIA;
     }
 
-    msg.reply(new LaurieEmbed(null, t('commands:penis.message', { emoji, num })));
-  },
-);
+    msg.util?.reply(new LaurieEmbed(null, msg.t('commands:penis.message', { emoji, num })));
+  }
+}

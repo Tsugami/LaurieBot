@@ -1,25 +1,29 @@
-import Command from '@struct/command/Command';
-import LaurieEmbed from '@struct/LaurieEmbed';
+import LaurieCommand from '@structures/LaurieCommand';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { Message } from 'discord.js';
 
-export default new Command(
-  'ping',
-  {
-    aliases: ['pong'],
-    category: 'discord',
-  },
-  async msg => {
-    const sent = await msg.channel.send('Pong!');
-    if (Array.isArray(sent)) return;
+export default class Ping extends LaurieCommand {
+  constructor() {
+    super('ping', {
+      category: 'discord',
+      aliases: ['pong'],
+      editable: false,
+    });
+  }
+
+  async exec(msg: Message) {
+    const pingOrpong = msg.util?.parsed?.alias === 'ping' ? 'Pong!' : 'Ping!';
+    const sent = (await msg.channel.send(pingOrpong)) as Message;
 
     const timeDiff = Number(sent.editedAt || sent.createdAt) - Number(msg.editedAt || msg.createdAt);
 
     sent.edit(
       new LaurieEmbed(msg.author).addInfoText(
         'PING_PONG',
-        'Pong!',
+        pingOrpong,
         ['RTT', 'RTT', `${timeDiff} ms`],
-        ['HEARTBEAT', 'Heartbeat', `${Math.round(msg.client.ping)} ms`],
+        ['HEARTBEAT', 'Heartbeat', `${Math.round(this.client.ws.ping)} ms`],
       ),
     );
-  },
-);
+  }
+}

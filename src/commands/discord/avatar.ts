@@ -1,17 +1,28 @@
-import LaurieEmbed from '@struct/LaurieEmbed';
-import LaurieCommand from '@struct/command/Command';
+import LaurieCommand from '@structures/LaurieCommand';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { Message, User } from 'discord.js';
 
-export default new LaurieCommand(
-  'avatar',
-  {
-    category: 'discord',
-    args: [{ id: 'user' as const, type: 'user', default: msg => msg.author }],
-  },
-  (msg, t, { user }) => {
+export default class Avatar extends LaurieCommand {
+  constructor() {
+    super('avatar', {
+      category: 'discord',
+      editable: true,
+      args: [
+        {
+          id: 'user',
+          type: 'user',
+          default: (msg: Message) => msg.author,
+        },
+      ],
+    });
+  }
+
+  exec(msg: Message, { user }: { user: User }) {
+    const avatar = user.displayAvatarURL({ size: 2048 });
     const embed = new LaurieEmbed(msg.author)
       .setAuthor(`📸 ${user.username}`)
-      .setDescription(t('commands:avatar.embed_description', { avatarUrl: user.displayAvatarURL }))
-      .setImage(user.displayAvatarURL);
-    msg.reply(embed);
-  },
-);
+      .setDescription(msg.t('commands:avatar.embed_description', { avatarUrl: avatar }))
+      .setImage(avatar);
+    msg.util?.reply(embed);
+  }
+}

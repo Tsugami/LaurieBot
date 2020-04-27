@@ -3,10 +3,10 @@ cmdconfig:
   title: 'configurações de Comandos'
   args:
     option:
-      disable_command: 'Desativar comando.'
-      enable_command: 'Ativar comando.'
-      disable_channel: 'Desativar canal de texto.'
-      enable_channel: 'Ativar canal de texto.'
+      disable_command: 'Desativar comando no servidor.'
+      enable_command: 'Ativar comando no servidor.'
+      disable_channel: 'Desativar comandos em um canal de texto.'
+      enable_channel: 'Ativar comandos em um canal de texto.'
     command:
       disable_command: 'digite o nome do comando que deseja desativar no servidor.'
       enable_command: 'digite o nome do comando que deseja ativar no servidor.'
@@ -19,11 +19,11 @@ cmdconfig:
   disabled_channel: 'os comandos foram desativados no canal {{ channel }}.'
   disabled_commands: 'Comandos Desativados:'
   disabled_channels: 'Canais Desativados:'
-  none_commands: 'Nenhum comando está desativo.'
-  none_channels: 'Nenhum canal está desativo.'
+  none_commands: 'Nenhum comando está desativado.'
+  none_channels: 'Nenhum canal está desativado.'
   already_disabled_channel: 'Esse canal de texto já está desabilitado.'
   enabled_command: 'comando foi ativado! Use {{ command }} para confirmar!'
-  already_disabled_command: 'este comando já está desativo no servidor.'
+  already_disabled_command: 'este comando já está desativado no servidor.'
   cannot_this_command_be_disable: 'este comando não pode ser desativado.'
   categories_that_cannot_be_disabled: 'comandos com as categorias: {{ categories }}. não podem ser desativados.'
 pnconfig:
@@ -100,12 +100,6 @@ botinfo:
   users: 'Usuários'
   creator: 'Criador'
   developer: 'Desenvolvedor'
-gif:
-  usage: '<Pesquisa>'
-  description: 'Busca um GIF sobre oque você digitar ao lado.'
-  searching: 'pesquisando... {{ emoji }}'
-  failed_to_fetch: 'não consegui pesquisar um gif, tente mais tarde.'
-  not_found: 'não achei nenhum gif com essa palavra.'
 serverinfo:
   description: 'Mostra as informações do servidor.'
   server_info: 'INFORMAÇÕES DO SERVIDOR'
@@ -156,14 +150,15 @@ mcconquista:
   description: "Gera uma conquista com oque foi escrito após o comando."
   message: 'Conquista desbloqueada!'
   args:
-    message:
+    text:
       start: "digite alguma mensagem."
       retry: "mensagem invalida."
 mcserver:
   usage: '<IP>'
   args:
     server:
-      retry: 'digite o ip do servidor!'
+      start: 'digite o ip do servidor!'
+      retry: 'ip invalido!'
   description: "Mostra as informações do servidor de minecraft digitado após o comando."
   not_found: 'esse servidor não existe ou não esta online.'
   server_info: 'INFORMAÇÕES DO SERVIDOR'
@@ -176,7 +171,8 @@ mcskin:
   not_found: 'Não achei nenhum jogador com esse nome!'
   args:
     username:
-      retry: 'digite o nick do avatar!'
+      start: 'digite o nick do avatar!'
+      retry: 'nick invalido!'
 alertar:
   usage: '<mensagem>'
   description: "Manda uma mensagem/texto no privado de todos os usuários que estão no servidor."
@@ -325,10 +321,10 @@ help:
   message: "
     Olá {{ author }}, tudo bem? Espero que sim!
     Você está procurando saber quais comandos eu sei realizar?
-    Certo! Vamos lá...
-
-    \nSelecione a categoria que deseja receber as informações. Para selecionar a categoria, você precisa clicar no emoji que ela representa
-  "
+    Certo! Vamos lá..."
+  categories: 'Categorias'
+  embed_title: "Selecione a categoria que deseja receber as informações."
+  embed_description: "Para selecionar a categoria, você precisa clicar no emoji que ela representa"
   warn_message: "Enviei para você no privado, veja suas mensagens diretas! :blush:"
   failed_message: "tentei enviar para você no privado, mas provavelmente você desabilitou as mensagens diretas de membros do servidor, então vá até suas __Configurações de Privacidade e Segurança__ e habilite a opção: **Permitir mensagens diretas de membros do servidor**.
 
@@ -403,4 +399,8 @@ status_tk:
   tickets: "Ticket's"
   ticket_categories: "Categorias"
   ticket_rating: 'Avaliações'
-
+setlanguage:
+  description: 'Altera lingua do servidor.'
+  usage: '[pt-BR|en-US]'
+  changed: 'Linguagem alterada com sucesso para Português!'
+  reset: 'lingua resetada para Português!'

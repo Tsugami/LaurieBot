@@ -1,51 +1,53 @@
-import Command from '@struct/command/Command';
-import { Message } from 'discord.js';
+import LaurieCommand from '@structures/LaurieCommand';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { Message, GuildMember } from 'discord.js';
+import { STATUS_EMOJIS } from '@utils/constants';
+import { getDate } from '@utils/date';
 
-import LaurieEmbed from '@struct/LaurieEmbed';
-import { STATUS_EMOJIS } from '@utils/Constants';
-import { getDate } from '@utils/Date';
+export default class Userinfo extends LaurieCommand {
+  constructor() {
+    super('userinfo', {
+      category: 'discord',
+      channel: 'guild',
+      editable: true,
+      args: [
+        {
+          id: 'member',
+          type: 'member',
+          default: (msg: Message) => msg.member,
+        },
+      ],
+    });
+  }
 
-export default new Command(
-  'userinfo',
-  {
-    category: 'discord',
-    channelRestriction: 'guild',
-    args: [
-      {
-        id: 'member',
-        type: 'member',
-        default: (msg: Message) => msg.member,
-      },
-    ],
-  },
-  (msg, t, { member }) => {
+  async exec(msg: Message, { member }: { member: GuildMember }) {
     const { author, guild } = msg;
     const { user, presence } = member;
 
-    const status = t(`commons:status:${presence.status}`);
+    const status = msg.t(`commons:status:${presence.status}`);
     const statusEmoji = STATUS_EMOJIS[presence.status];
 
-    const roles = member.roles
+    const roles = member.roles.cache
       .array()
-      .filter(role => role.id !== guild.id)
-      .slice(0, 5)
+      .filter(role => role.id !== guild?.id)
       .sort((a, b) => b.position - a.position)
+      .slice(0, 5)
       .map(role => role.toString());
 
-    const roleMessage = roles.length > 0 ? roles.join(', ') : t('commons:none');
+    const roleMessage = roles.length > 0 ? roles.join(', ') : msg.t('commons:none');
 
     const embed = new LaurieEmbed(author)
       .addInfoText(
         'WALLET',
-        t('commands:userinfo.user_info', { username: user.username.toLowerCase() }),
-        ['PERSON', t('commons:name'), user.tag],
-        ['COMPUTER', t('commons:id'), user.id],
-        [statusEmoji, t('commons:status_e'), status],
-        ['CALENDER', t('commons:created_on'), getDate(user.createdAt)],
-        ['INBOX', t('commons:joined_on'), getDate(member.joinedAt)],
-        ['BRIEFCASE', t('commons:roles'), roleMessage],
+        msg.t('commands:userinfo.user_info', { username: user.username.toLowerCase() }),
+        ['PERSON', msg.t('commons:name'), user.tag],
+        ['COMPUTER', msg.t('commons:id'), user.id],
+        [statusEmoji, msg.t('commons:status_e'), status],
+        ['CALENDER', msg.t('commons:created_on'), getDate(user.createdAt)],
+        ['INBOX', msg.t('commons:joined_on'), getDate(member.joinedAt as Date)],
+        ['BRIEFCASE', msg.t('commons:roles'), roleMessage],
       )
-      .setThumbnail(user.displayAvatarURL);
-    msg.reply(embed);
-  },
-);
+      .setThumbnail(user.displayAvatarURL());
+    msg.util?.reply(embed);
+  }
+}

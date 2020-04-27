@@ -1,33 +1,37 @@
-import Command from '@struct/command/Command';
-import { printError } from '@utils/Utils';
+import Command from '@structures/LaurieCommand';
+import { Message } from 'discord.js';
+import { Argument } from 'discord-akairo';
 
-export default new Command(
-  'clear',
-  {
-    aliases: ['limpar', 'prune'],
-    category: 'moderator',
-    channelRestriction: 'guild',
-    userPermissions: 'MANAGE_MESSAGES',
-    clientPermissions: 'MANAGE_MESSAGES',
-    args: [
-      {
-        id: 'amount',
-        type: 'number',
-      },
-    ],
-  },
-  async function run(msg, t, { amount }) {
-    if (amount > 100) amount = 100;
-    else if (amount < 1) amount = 1;
+export default class Clear extends Command {
+  constructor() {
+    super('clear', {
+      editable: true,
+      aliases: ['limpar'],
+      category: 'moderator',
+      channel: 'guild',
+      userPermissions: 'MANAGE_MESSAGES',
+      clientPermissions: 'MANAGE_MESSAGES',
+      args: [
+        {
+          id: 'amount',
+          type: Argument.range('number', 1, 100),
+          prompt: {
+            start: (m: Message) => m.t('commands:clear.args.amount.start'),
+            retry: (m: Message) => m.t('commands:clear.args.amount.retry'),
+          },
+        },
+      ],
+    });
+  }
 
+  async exec(msg: Message, { amount }: { amount: number }) {
     try {
       await msg.delete();
       const messagesDeleted = await msg.channel.bulkDelete(amount, true);
       let count = messagesDeleted.size;
       if (messagesDeleted.size !== amount) {
         try {
-          const messages = await msg.channel.fetchMessages({ limit: amount - messagesDeleted.size });
-          // eslint-disable-next-line no-restricted-syntax
+          const messages = await msg.channel.messages.fetch({ limit: amount - messagesDeleted.size });
           for (const m of messages.array()) {
             try {
               // eslint-disable-next-line no-await-in-loop
@@ -37,10 +41,10 @@ export default new Command(
           }
         } catch {} // eslint-disable-line no-empty
       }
-      return msg.reply(t('commands:clear.messages_deleted', { amount: count }));
+      return msg.reply(msg.t('commands:clear.messages_deleted', { amount: count }));
     } catch (error) {
-      printError(error, this);
-      return msg.reply(t('commands:clear.failed'));
+      this.logger.error(error);
+      return msg.reply(msg.t('commands:clear.failed'));
     }
-  },
-);
+  }
+}

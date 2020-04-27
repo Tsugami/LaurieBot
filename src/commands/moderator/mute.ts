@@ -1,91 +1,100 @@
-import Command from '@struct/command/Command';
-import { GuildMember, Role, TextChannel, VoiceChannel, Message } from 'discord.js';
-import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME, EMOJIS } from '@utils/Constants';
-import { sendPunaltyMessage } from '@utils/ModuleUtils';
-import { translationPrompt } from '@utils/CommandUtils';
-import { printError } from '@utils/Utils';
-import LaurieEmbed from '../../struct/LaurieEmbed';
+import LaurieCommand from '@structures/LaurieCommand';
+import { GuildMember, Role, TextChannel, VoiceChannel, Message, Guild } from 'discord.js';
+import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME, EMOJIS } from '@utils/constants';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import PunishmentUtil from '@utils/modules/punishment';
 
-export default new Command(
-  'mute',
-  {
-    aliases: ['mutar'],
-    category: 'moderator',
-    channelRestriction: 'guild',
-    userPermissions: 'MUTE_MEMBERS',
-    clientPermissions: 'MANAGE_ROLES',
-    args: [
-      {
-        id: 'member',
-        type: 'member',
-      },
-      {
-        id: 'reason',
-        type: 'string',
-        default: translationPrompt('commands:mute.args.reason.default'),
-      },
-    ],
-  },
-  async function run(
-    msg,
-    t,
-    {
-      member,
-      reason,
-    }: {
-      member: GuildMember;
-      reason: string;
-    },
-  ) {
-    const author = msg.member;
-    const ownerId = msg.guild.ownerID;
-    const bot = msg.guild.me;
+export default class Mute extends LaurieCommand {
+  constructor() {
+    super('mute', {
+      aliases: ['mutar'],
+      editable: true,
+      category: 'moderator',
+      channel: 'guild',
+      userPermissions: ['MUTE_MEMBERS', 'MANAGE_ROLES'],
+      clientPermissions: ['MUTE_MEMBERS', 'MANAGE_ROLES'],
+      args: [
+        {
+          id: 'member',
+          type: 'member',
+          prompt: {
+            start: (m: Message) => m.t('commands:mute.args.member.start'),
+            retry: (m: Message) => m.t('commands:mute.args.member.retry'),
+          },
+        },
+        {
+          id: 'reason',
+          match: 'text',
+          type: 'string',
+          default: (m: Message) => m.t('commands:mute.args.reason.default'),
+        },
+      ],
+    });
+  }
+
+  async exec(msg: Message, { reason, member }: { member: GuildMember; reason: string }) {
+    const author = msg.member as GuildMember;
+    const guild = msg.guild as Guild;
+    const ownerId = guild.ownerID;
+    const bot = guild.me as GuildMember;
 
     if (ownerId === member.user.id) {
-      return msg.reply(t('commands:mute.user_is_owner'));
+      return msg.reply(msg.t('commands:mute.user_is_owner'));
     }
 
-    if (ownerId !== author.user.id && member.highestRole.position >= author.highestRole.position) {
-      return msg.reply(t('commands:mute.not.author_has_role_highest'));
+    if (ownerId !== author.user.id && member.roles.highest.position >= author.roles.highest.position) {
+      return msg.reply(msg.t('commands:mute.not.author_has_role_highest'));
     }
 
-    if (member.highestRole.position >= bot.highestRole.position) {
-      return msg.reply(t('commands:mute.not.bot_has_role_highest'));
+    if (member.roles.highest.position >= bot.roles.highest.position) {
+      return msg.reply(msg.t('commands:mute.not.bot_has_role_highest'));
     }
 
-    let role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME);
-    if (role && member.roles.has(role.id)) {
-      return msg.reply(t('commands:mute.already_is_muted'));
+    let role = guild.roles.cache.find(r => r.name === MUTE_ROLE_NAME);
+    if (role && member.roles.cache.has(role.id)) {
+      return msg.reply(msg.t('commands:mute.already_is_muted'));
     }
 
     const createMuteRole = async () => {
       const loadingMsg = (await msg.reply(
-        new LaurieEmbed(null, t('commands:mute.loading_msg', { emoji: EMOJIS.LOADING_EMOJI })),
+        new LaurieEmbed(null, msg.t('commands:mute.loading_msg', { emoji: EMOJIS.LOADING_EMOJI })),
       )) as Message;
 
       let newRole: Role;
       try {
-        newRole = await msg.guild.createRole({
-          name: MUTE_ROLE_NAME,
-          position: bot.highestRole.position - 2,
-          color: EMBED_DEFAULT_COLOR,
-          permissions: 0,
+        newRole = await guild.roles.create({
+          data: {
+            name: MUTE_ROLE_NAME,
+            position: bot.roles.highest.position - 2,
+            color: EMBED_DEFAULT_COLOR,
+            permissions: 0,
+          },
         });
       } catch (error) {
-        printError(error, this);
+        this.logger.error(error);
         loadingMsg.delete();
-        return msg.reply(t('commands:mute.create_mute_role_failed'));
+        return msg.reply(msg.t('commands:mute.create_mute_role_failed'));
       }
 
       const channelsFailed: Array<TextChannel | VoiceChannel> = [];
-      msg.guild.channels.forEach(async channel => {
+      guild.channels.cache.forEach(async channel => {
         if (channel instanceof TextChannel) {
           await channel
-            .overwritePermissions(newRole, { SEND_MESSAGES: false, ADD_REACTIONS: false })
+            .overwritePermissions([
+              {
+                id: newRole.id,
+                deny: ['SEND_MESSAGES', 'ADD_REACTIONS'],
+              },
+            ])
             .catch(() => channelsFailed.push(channel));
         } else if (channel instanceof VoiceChannel) {
           await channel
-            .overwritePermissions(newRole, { SPEAK: false, CONNECT: false })
+            .overwritePermissions([
+              {
+                id: newRole.id,
+                deny: ['SPEAK', 'CONNECT'],
+              },
+            ])
             .catch(() => channelsFailed.push(channel));
         }
       });
@@ -93,7 +102,7 @@ export default new Command(
       await loadingMsg.delete();
       if (channelsFailed.length) {
         const channels = channelsFailed.map(c => c.toString || c.name || c.id).join(', ');
-        msg.reply(t('commands:mute.warn', { channels }));
+        msg.reply(msg.t('commands:mute.warn', { channels }));
       }
 
       return newRole;
@@ -102,13 +111,14 @@ export default new Command(
     if (!role) role = (await createMuteRole()) as Role;
     if (role instanceof Role) {
       try {
-        await member.addRole(role);
-        sendPunaltyMessage(msg, member, 'mute', reason);
-        return msg.reply(t('commands:mute.user_muted'));
+        await member.roles.add(role, reason);
+        PunishmentUtil.sendMessage(msg, member, this.id, reason);
+
+        return msg.reply(msg.t('commands:mute.user_muted'));
       } catch (error) {
-        printError(error, this);
-        return msg.reply(t('commands:mute.failed'));
+        this.logger.error(error);
+        return msg.reply(msg.t('commands:mute.failed'));
       }
     }
-  },
-);
+  }
+}

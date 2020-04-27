@@ -1,0 +1,18 @@
+discord:
+  name: 'Discord'
+  description: 'Commands focused on Discord.'
+interactivity:
+  name: 'Interactivity'
+  description: "Social Interaction Commands."
+minecraft:
+  name: "Minecraft"
+  description: "Minecraft commands."
+moderator:
+  name: "Moderation"
+  description: "Commands for server moderation."
+configuration:
+  name: 'Configuration'
+  description: "Commands for module configuration."
+ticket:
+  name: "Ticket"
+  description: "Commands of the Ticket module."

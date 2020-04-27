@@ -1,50 +1,52 @@
-import Command from '@struct/command/Command';
-import { TextChannel } from 'discord.js';
-import { guild } from '@database/index';
+import Command from '@structures/LaurieCommand';
+import { TextChannel, Message } from 'discord.js';
 
-export default new Command(
-  'fechar-tk',
-  {
-    aliases: ['fechar-ticket', 'fechar-tk', 'close-tk'],
-    category: 'ticket',
-    clientPermissions: 'MANAGE_CHANNELS',
-  },
-  async function run(msg, t) {
-    if (!(msg.channel instanceof TextChannel)) return;
+export default class FecharTk extends Command {
+  constructor() {
+    super('fechar-tk', {
+      editable: false,
+      aliases: ['fechar-ticket', 'close-tk', 'fechartk'],
+      category: 'ticket',
+      channel: 'guild',
+      clientPermissions: 'MANAGE_CHANNELS',
+    });
+  }
 
-    const guildData = await guild(msg.guild.id);
+  async exec(msg: Message) {
+    const guildData = await this.client.database.getGuild(msg.guild?.id as string);
 
     if (!guildData.data.ticket) return;
 
     let ticket = guildData.data.ticket.tickets.find(tk => tk.channelId === msg.channel.id);
-    if (!ticket) return msg.reply(t('commands:fechar_tk.is_not_ticket_channel'));
+    if (!ticket) return msg.reply(msg.t('commands:fechar_tk.is_not_ticket_channel'));
 
     const hasPermission = () => {
       return (
-        msg.member.permissions.has('ADMINISTRATOR') ||
-        (guildData.ticket.role && msg.member.roles.has(guildData.ticket.role)) ||
+        msg.member?.permissions.has('ADMINISTRATOR') ||
+        (guildData.ticket.role && msg.member?.roles.cache.has(guildData.ticket.role)) ||
         ticket?.authorId === msg.author.id
       );
     };
+
     if (!hasPermission()) {
-      return msg.reply(t('commands:fechar_tk.have_no_power'));
+      return msg.reply(msg.t('commands:fechar_tk.have_no_power'));
     }
 
-    ticket = await guildData.ticket.closeTicket(msg.channel);
+    ticket = await guildData.ticket.closeTicket(msg.channel as TextChannel);
     if (ticket) {
       msg.channel.delete();
 
-      const user = msg.client.users.get(ticket.authorId);
+      const user = msg.client.users.cache.get(ticket.authorId);
       const dm = user && (await user.createDM().catch(() => null));
 
       if (dm)
         dm.send(
-          t('commands:fechar_tk.request_rate', {
-            guildName: msg.guild.name,
+          msg.t('commands:fechar_tk.request_rate', {
+            guildName: msg.guild?.name,
             // eslint-disable-next-line no-underscore-dangle
-            command: `${this.getPrefix(msg)}rate-tk ${ticket._id}`,
+            command: `rate-tk ${ticket._id}`,
           }),
         );
     }
-  },
-);
+  }
+}

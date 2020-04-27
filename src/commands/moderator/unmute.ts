@@ -1,70 +1,63 @@
-import Command from '@struct/command/Command';
+import LaurieCommand from '@structures/LaurieCommand';
+import { GuildMember, Message, Guild } from 'discord.js';
+import { MUTE_ROLE_NAME } from '@utils/constants';
+import PunishmentUtil from '@utils/modules/punishment';
 
-import { GuildMember } from 'discord.js';
-import { MUTE_ROLE_NAME } from '@utils/Constants';
-import { sendPunaltyMessage } from '@utils/ModuleUtils';
-import { printError } from '@utils/Utils';
-import { translationPrompt, Prompt } from '@utils/CommandUtils';
-
-export default new Command(
-  'unmute',
-  {
-    aliases: ['desmutar'],
-    category: 'moderator',
-    channelRestriction: 'guild',
-    userPermissions: 'MUTE_MEMBERS',
-    clientPermissions: 'MUTE_MEMBERS',
-    args: [
-      {
-        id: 'member',
-        type: 'member',
-        prompt: {
-          start: Prompt('commands:unmute.args.member.start'),
-          retry: Prompt('commands:unmute.args.member.retry'),
+export default class Unmute extends LaurieCommand {
+  constructor() {
+    super('unmute', {
+      aliases: ['desmutar'],
+      editable: true,
+      category: 'moderator',
+      channel: 'guild',
+      userPermissions: ['MUTE_MEMBERS', 'MANAGE_ROLES', 'MANAGE_CHANNELS'],
+      clientPermissions: ['MUTE_MEMBERS', 'MANAGE_ROLES', 'MANAGE_CHANNELS'],
+      args: [
+        {
+          id: 'member',
+          type: 'member',
+          prompt: {
+            start: (m: Message) => m.t('commands:unmute.args.member.start'),
+            retry: (m: Message) => m.t('commands:unmute.args.member.retry'),
+          },
         },
-      },
-      {
-        id: 'reason',
-        type: 'string',
-        default: translationPrompt('commands:unmute.args.reason.default'),
-      },
-    ],
-  },
-  async function run(
-    msg,
-    t,
-    {
-      member,
-      reason,
-    }: {
-      member: GuildMember;
-      reason: string;
-    },
-  ) {
-    const author = msg.member;
-    const ownerId = msg.guild.ownerID;
-    const bot = msg.guild.me;
+        {
+          id: 'reason',
+          match: 'text',
+          type: 'string',
+          default: (m: Message) => m.t('commands:unmute.args.reason.default'),
+        },
+      ],
+    });
+  }
 
-    if (ownerId !== author.user.id && member.highestRole.position >= author.highestRole.position) {
-      return msg.reply(t('commands:unmute.not.author_has_role_highest'));
+  async exec(msg: Message, { reason, member }: { member: GuildMember; reason: string }) {
+    const author = msg.member as GuildMember;
+    const guild = msg.guild as Guild;
+    const ownerId = guild.ownerID;
+    const bot = guild.me as GuildMember;
+
+    if (ownerId !== author.user.id && member.roles.highest.position >= author.roles.highest.position) {
+      return msg.reply(msg.t('commands:unmute.not.author_has_role_highest'));
     }
 
-    if (member.highestRole.position >= bot.highestRole.position) {
-      return msg.reply(t('commands:unmute.not.bot_has_role_highest'));
+    if (member.roles.highest.position >= bot.roles.highest.position) {
+      return msg.reply(msg.t('commands:unmute.not.bot_has_role_highest'));
     }
 
-    const role = msg.guild.roles.find(r => r.name === MUTE_ROLE_NAME);
-    if (!role || !member.roles.has(role.id)) {
-      return msg.reply(t('commands:unmute.not.user_muted'));
+    const role = guild.roles.cache.find(r => r.name === MUTE_ROLE_NAME);
+    if (!role || !member.roles.cache.has(role.id)) {
+      return msg.reply(msg.t('commands:unmute.not.user_muted'));
     }
 
     try {
-      await member.removeRole(role, reason);
-      sendPunaltyMessage(msg, member, 'unmute', reason);
-      return msg.reply(t('commands:unmute.user_muted'));
+      await member.roles.remove(role, reason);
+      PunishmentUtil.sendMessage(msg, member, this.id, reason);
+
+      return msg.reply(msg.t('commands:unmute.user_muted'));
     } catch (error) {
-      printError(error, this);
-      return msg.reply(t('commands:unmute.failed'));
+      this.logger.error(error);
+      return msg.reply(msg.t('commands:unmute.failed'));
     }
-  },
-);
+  }
+}

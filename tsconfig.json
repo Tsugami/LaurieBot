@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "resolveJsonModule": true,
+    "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictPropertyInitialization": false,
-    "target": "es5",
+    "target": "es2019",
     "module": "commonjs",
     "strict": true,
     "baseUrl": "src",
@@ -14,12 +15,13 @@
       "@utils/*": ["utils/*"],
       "@database/*": ["database/*"],
       "@assets/*": ["../assets/*"],
-      "@struct/*": ["struct/*"],
+      "@structures/*": ["structures/*"],
       "@config/*": ["config/*"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/old-commands", "src/old-events", "src/old-inhibitors"],
+  "include": ["src"]
 }

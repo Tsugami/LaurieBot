@@ -1,0 +1,30 @@
+ADMINISTRATOR: Administrator
+VIEW_AUDIT_LOG: View the Audit Log
+MANAGE_GUILD: Manage Server
+MANAGE_ROLES: Manage Roles
+MANAGE_CHANNELS: Manage Channels
+KICK_MEMBERS: Expel Members
+BAN_MEMBERS: Ban Members
+CREATE_INSTANT_INVITE: Create an Instant Invitation
+CHANGE_NICKNAME: Change Nickname
+MANAGE_NICKNAMES: Manage Nicknames
+MANAGE_EMOJIS: Manage Emojis
+MANAGE_WEBHOOKS: Manage Webhooks
+VIEW_CHANNEL: Read Messages
+SEND_MESSAGES: Send messages
+SEND_TTS_MESSAGES: Send TTS Messages
+MANAGE_MESSAGES: Manage Messages
+EMBED_LINKS: Insert Links
+ATTACH_FILES: Attach Files
+READ_MESSAGE_HISTORY: Read Message History
+MENTION_EVERYONE: Mention All
+EXTERNAL_EMOJIS: Using External Emojis
+ADD_REACTIONS: Add Reactions
+CONNECT: To connect
+SPEAK: Speak
+MUTE_MEMBERS: Mute Members
+DEAFEN_MEMBERS: Disable Member Audio
+MOVE_MEMBERS: Move Members
+USE_VAD: Using Voice Detection
+PRIORITY_SPEAKER: Priority Talkative
+READ_MESSAGES: Read Messages

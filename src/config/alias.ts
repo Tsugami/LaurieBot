@@ -1,16 +1,14 @@
-import tsconfig from '../../tsconfig.json';
-import moduleAlias from 'module-alias';
-import path from 'path';
+import moduleAlias, { addAliases } from 'module-alias';
+import { join } from 'path';
 
-const alias = tsconfig.compilerOptions.paths;
+addAliases({
+  '@categories': join(__dirname, '..', 'structures', 'categories'),
+  '@services': join(__dirname, '..', 'services'),
+  '@utils': join(__dirname, '..', 'utils'),
+  '@database': join(__dirname, '..', 'database'),
+  '@assets': join(__dirname, '..', '..', 'assets'),
+  '@structures': join(__dirname, '..', 'structures'),
+  '@config': join(__dirname, '..', 'config'),
+});
 
-const mainFolder = __filename.endsWith('ts') ? 'src' : 'dist'
-
-Object.entries(alias).forEach((x) => {
-  const dirPath = x[1].shift()
-  if (dirPath) {
-    moduleAlias.addAlias(x[0].replace('/*', ''), path.resolve(mainFolder + '/' + dirPath).replace('/*', ''))
-  }
-})
-
-moduleAlias()
+moduleAlias();

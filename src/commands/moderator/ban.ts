@@ -1,55 +1,59 @@
-import Command from '@struct/command/Command';
+import LaurieCommand from '@structures/LaurieCommand';
+import { Message, GuildMember } from 'discord.js';
+import PunishmentUtil from '@utils/modules/punishment';
 
-import { GuildMember } from 'discord.js';
-import { sendPunaltyMessage } from '@utils/ModuleUtils';
-import { translationPrompt } from '@utils/CommandUtils';
-import { printError } from '@utils/Utils';
+export default class Ban extends LaurieCommand {
+  constructor() {
+    super('ban', {
+      aliases: ['banir'],
+      editable: true,
+      category: 'moderator',
+      channel: 'guild',
+      userPermissions: 'BAN_MEMBERS',
+      clientPermissions: 'BAN_MEMBERS',
+      args: [
+        {
+          id: 'member',
+          type: 'member',
+          prompt: {
+            start: (m: Message) => m.t('commands:ban.args.member.start'),
+            retry: (m: Message) => m.t('commands:ban.args.member.retry'),
+          },
+        },
+        {
+          id: 'reason',
+          match: 'text',
+          type: 'string',
+          default: (m: Message) => m.t('commands:ban.args.reason.default'),
+        },
+      ],
+    });
+  }
 
-export default new Command(
-  'ban',
-  {
-    aliases: ['banir'],
-    category: 'moderator',
-    channelRestriction: 'guild',
-    userPermissions: 'BAN_MEMBERS',
-    clientPermissions: 'BAN_MEMBERS',
-    args: [
-      {
-        id: 'member',
-        type: 'member',
-      },
-      {
-        id: 'reason',
-        match: 'text',
-        type: 'string',
-        default: translationPrompt('commands:ban.args.reason.default'),
-      },
-    ],
-  },
-  async function run(msg, t, { member, reason }: { member: GuildMember; reason: string }) {
-    const author = msg.member;
-    const ownerId = msg.guild.ownerID;
-    const bot = msg.guild.me;
+  async exec(msg: Message, { reason, member }: { member: GuildMember; reason: string }) {
+    const author = msg.member as GuildMember;
+    const ownerId = msg.guild?.ownerID;
+    const bot = msg.guild?.me as GuildMember;
 
     if (ownerId === member.user.id) {
-      return msg.reply(t('commands:ban.user_is_owner'));
+      return msg.reply(msg.t('commands:ban.user_is_owner'));
     }
 
-    if (ownerId !== author.user.id && member.highestRole.position >= author.highestRole.position) {
-      return msg.reply(t('commands:ban.not.author_has_role_highest'));
+    if (ownerId !== author.user.id && member.roles.highest.position >= author.roles.highest.position) {
+      return msg.reply(msg.t('commands:ban.not.author_has_role_highest'));
     }
 
-    if (member.highestRole.position >= bot.highestRole.position) {
-      return msg.reply(t('commands:ban.not.bot_has_role_highest'));
+    if (member.roles.highest.position >= bot.roles.highest.position) {
+      return msg.reply(msg.t('commands:ban.not.bot_has_role_highest'));
     }
 
     try {
-      await member.ban(reason);
-      sendPunaltyMessage(msg, member, 'ban', reason);
-      return msg.reply(t('commands:ban.user_banned'));
+      await member.ban({ reason });
+      PunishmentUtil.sendMessage(msg, member, this.id, reason);
+      return msg.reply(msg.t('commands:ban.user_banned'));
     } catch (error) {
-      printError(error, this);
-      return msg.reply(t('commands:ban.user_ban_failed'));
+      this.logger.error(error);
+      return msg.reply(msg.t('commands:ban.user_ban_failed'));
     }
-  },
-);
+  }
+}

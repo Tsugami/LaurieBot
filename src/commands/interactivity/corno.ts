@@ -1,23 +1,28 @@
-import Command from '@struct/command/Command';
-import { getRandomInt } from '@utils/Math';
-import { EMOJIS } from '@utils/Constants';
-import QuickUrl from 'quick-lru';
-import LaurieEmbed from '@struct/LaurieEmbed';
+import LaurieCommand from '@structures/LaurieCommand';
+import { range } from '@utils/utils';
+import { EMOJIS } from '@utils/constants';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { Message } from 'discord.js';
+import Collection from '../../utils/collection';
 
-const cornosCache = new QuickUrl({ maxSize: 50 });
-export default new Command(
-  'corno',
-  {
-    category: 'interactivity',
-  },
-  (msg, t) => {
+export default class Corno extends LaurieCommand {
+  cache = new Collection(50);
+
+  constructor() {
+    super('corno', {
+      editable: true,
+      category: 'interactivity',
+    });
+  }
+
+  exec(msg: Message) {
     let num;
-    if (cornosCache.has(msg.author.id)) {
-      num = cornosCache.get(msg.author.id);
+    if (this.cache.has(msg.author.id)) {
+      num = this.cache.get(msg.author.id);
     } else {
-      num = getRandomInt(1, 100);
-      cornosCache.set(msg.author.id, num);
+      num = range(1, 100);
+      this.cache.set(msg.author.id, num);
     }
-    msg.reply(new LaurieEmbed(null, t('commands:corno.message', { num, emoji: EMOJIS.OX })));
-  },
-);
+    msg.util?.reply(new LaurieEmbed(null, msg.t('commands:corno.message', { num, emoji: EMOJIS.OX })));
+  }
+}

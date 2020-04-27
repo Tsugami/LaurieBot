@@ -1,43 +1,43 @@
-import Command from '@struct/command/Command';
-import { Client } from 'discord.js';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import LaurieCommand from '@structures/LaurieCommand';
+import { getDate } from '@utils/date';
+import { Message, ClientUser } from 'discord.js';
 
-import LaurieEmbed from '@struct/LaurieEmbed';
-import { getDate } from '@utils/Date';
+export default class Botinfo extends LaurieCommand {
+  constructor() {
+    super('botinfo', {
+      aliases: ['infobot'],
+      category: 'discord',
+      editable: true,
+    });
+  }
 
-async function getUser(userId: string, client: Client): Promise<string> {
-  const findByUsers = client.users.get(userId);
-  if (findByUsers) return findByUsers.tag;
-  const findByGlobal = await client.fetchUser(userId).catch(() => null);
-  if (findByGlobal) return findByGlobal.tag;
-  return userId;
-}
+  async exec(msg: Message) {
+    const findUser = async (userId?: string) => {
+      if (!userId) return msg.t('commons:unknown');
+      return this.client.users.cache.get(userId)?.tag ?? (await this.client.users.fetch(userId, false))?.tag ?? userId;
+    };
 
-export default new Command(
-  'botinfo',
-  {
-    aliases: ['infobot'],
-    category: 'discord',
-  },
-  async (msg, t) => {
-    const unknownTranst = t('commons:unknown');
-    const bot = msg.client;
-    const dev = process.env.DEV_ID ? await getUser(process.env.DEV_ID, bot) : unknownTranst;
-    const owner = process.env.CREATOR_ID ? await getUser(process.env.CREATOR_ID, bot) : unknownTranst;
-    const invite = await bot.generateInvite(['ADD_REACTIONS', 'EMBED_LINKS', 'MANAGE_CHANNELS', 'MANAGE_ROLES']);
+    const owner = await findUser(process.env.OWNER_ID);
+    const dev = await findUser(process.env.DEV_ID);
+    const invite = await this.client.generateInvite();
+
+    const botUser = this.client.user as ClientUser;
+
     const embed = new LaurieEmbed(msg.author)
-      .setThumbnail(bot.user.displayAvatarURL)
+      .setThumbnail(botUser.displayAvatarURL())
       .addInfoText(
         'ROBOT',
-        t('commands:botinfo.bot_info'),
-        ['LABEL', t('commons:name'), bot.user.username],
-        ['SHIELD', t('commands:botinfo.guilds'), bot.guilds.size],
-        ['GIFT_HEART', t('commands:botinfo.users'), bot.users.size],
-        ['CALENDER', t('commons:created_on'), getDate(bot.user.createdAt)],
-        ['CROWN', t('commands:botinfo.creator'), owner],
-        ['KEYBOARD', t('commands:botinfo.developer'), dev],
+        msg.t('commands:botinfo.bot_info'),
+        ['LABEL', msg.t('commons:name'), botUser.username],
+        ['SHIELD', msg.t('commands:botinfo.guilds'), this.client.guilds.cache.size],
+        ['GIFT_HEART', msg.t('commands:botinfo.users'), this.client.users.cache.size],
+        ['CALENDER', msg.t('commons:created_on'), getDate(botUser.createdAt)],
+        ['CROWN', msg.t('commands:botinfo.creator'), owner],
+        ['KEYBOARD', msg.t('commands:botinfo.developer'), dev],
       );
 
-    embed.description += `\n${t('commons:me_add_your_server', { invite })}`;
-    msg.reply(embed);
-  },
-);
+    embed.description += `\n${msg.t('commons:me_add_your_server', { invite })}`;
+    msg.util?.reply(embed);
+  }
+}

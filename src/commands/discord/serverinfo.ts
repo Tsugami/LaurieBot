@@ -1,45 +1,48 @@
-import Command from '@struct/command/Command';
-import { PresenceStatusData } from 'discord.js';
+import LaurieCommand from '@structures/LaurieCommand';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { Message, PresenceStatusData, Guild } from 'discord.js';
+import { getDate } from '@utils/date';
 
-import LaurieEmbed from '@struct/LaurieEmbed';
-import getCountryInPortuguese from '@utils/getCountryInPortuguese';
-import { getDate } from '@utils/Date';
+export default class Serverinfo extends LaurieCommand {
+  constructor() {
+    super('serverinfo', {
+      category: 'discord',
+      channel: 'guild',
+      editable: false,
+    });
+  }
 
-export default new Command(
-  'serverinfo',
-  {
-    category: 'discord',
-    channelRestriction: 'guild',
-  },
-  (msg, t) => {
-    const { guild, author } = msg;
+  async exec(msg: Message) {
+    const { author } = msg;
+    const guild = msg.guild as Guild;
 
     function getMemberSizeByStatus(status: PresenceStatusData) {
-      return guild.members.filter(m => m.user.presence.status === status).size;
+      return guild.members.cache.filter(m => m.user.presence.status === status).size;
     }
 
     const embed = new LaurieEmbed(author)
       .addInfoText(
         'FOLDER',
-        t('commands:serverinfo.server_info'),
-        ['COMPUTER', t('commons:id'), guild.id],
-        ['COMPUTER', t('commons:name'), guild.name],
-        ['CROWN', t('commands:serverinfo.owner'), guild.owner.user.username],
-        ['EARTH', t('commands:serverinfo.region'), getCountryInPortuguese(guild.region)],
-        ['CALENDER', t('commons:created_on'), getDate(guild.createdAt)],
-        ['INBOX', t('commons:joined_on'), getDate(guild.joinedAt)],
+        msg.t('commands:serverinfo.server_info'),
+        ['COMPUTER', msg.t('commons:id'), guild.id],
+        ['COMPUTER', msg.t('commons:name'), guild.name],
+        ['CROWN', msg.t('commands:serverinfo.owner'), guild.owner?.user.tag ?? guild.ownerID],
+        ['EARTH', msg.t('commands:serverinfo.region'), guild.region],
+        ['CALENDER', msg.t('commons:created_on'), getDate(guild.createdAt)],
+        ['INBOX', msg.t('commons:joined_on'), getDate(guild.joinedAt)],
       )
       .addInfoText(
         'PERSON',
-        t('commands:serverinfo.members_info'),
-        ['PERSONS', t('commands:serverinfo.members'), guild.members.size],
-        ['ROBOT', t('commands:serverinfo.bots'), guild.members.filter(m => m.user.bot).size],
-        ['STATUS_ONLINE', t('commons:status.online'), getMemberSizeByStatus('online')],
-        ['STATUS_OFFLINE', t('commons:status.offline'), getMemberSizeByStatus('offline')],
-        ['STATUS_BUSY', t('commons:status.dnd'), getMemberSizeByStatus('dnd')],
-        ['STATUS_AWAY', t('commons:status.idle'), getMemberSizeByStatus('idle')],
+        msg.t('commands:serverinfo.members_info'),
+        ['PERSONS', msg.t('commands:serverinfo.members'), guild.members.cache.size],
+        ['ROBOT', msg.t('commands:serverinfo.bots'), guild.members.cache.filter(m => m.user.bot).size],
+        ['STATUS_ONLINE', msg.t('commons:status.online'), getMemberSizeByStatus('online')],
+        ['STATUS_OFFLINE', msg.t('commons:status.offline'), getMemberSizeByStatus('invisible')],
+        ['STATUS_BUSY', msg.t('commons:status.dnd'), getMemberSizeByStatus('dnd')],
+        ['STATUS_AWAY', msg.t('commons:status.idle'), getMemberSizeByStatus('idle')],
       );
-    if (guild.iconURL) embed.setThumbnail(`${guild.iconURL}?size=2048`);
+    const icon = guild.iconURL({ size: 2048 });
+    if (icon) embed.setThumbnail(icon);
     msg.reply(embed);
-  },
-);
+  }
+}

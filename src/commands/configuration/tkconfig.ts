@@ -1,101 +1,107 @@
 import { Role, TextChannel, CategoryChannel } from 'discord.js';
-import ModuleCommand, { ModuleOptionArgs, ModuleArgTypes } from '@struct/command/ModuleCommand';
-import LaurieEmbed from '@struct/LaurieEmbed';
-import categories from '@struct/command/categories';
+import ModuleCommand from '@structures/ModuleCommand';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import GuildController from '@database/controllers/GuildController';
 
-const validate = (_: any, { guildData: { data } }: ModuleOptionArgs) => {
-  return !!data.ticket?.active;
+const validate = (_: any, guildData: GuildController) => {
+  return !!guildData.ticket.active;
 };
 
-export default ModuleCommand(
-  'tkconfig',
-  {
-    aliases: ['configurartk'],
-    userPermissions: 'MANAGE_GUILD',
-    channelRestriction: 'guild',
-  },
-  [
-    {
-      id: 'enable',
-      validate: (_, a) => !validate(null, a),
-      async run(msg, t, { guildData }) {
-        await guildData.ticket.enable();
-        const commands = categories.ticket.map<[string, string]>(c => [
-          c.id,
-          t(`commands:${c.id.replace('-', '_')}.description`),
-        ]);
-        msg.reply(
-          new LaurieEmbed(msg.author)
-            .setDescription(t('commands:ativar_tk.message', { prefix: msg.client.commandHandler.prefix }))
-            .setTitle(t('commands:ativar_tk.title'))
-            .addFields(commands),
-        );
-      },
-    },
-    {
-      id: 'disable',
-      validate,
-      async run(msg, t, { guildData }) {
-        await guildData.ticket.disable();
-        msg.reply(t('commands:desativar_tk.message'));
-      },
-    },
-    {
-      id: 'set_role',
-      validate,
-      async run(msg, t, { guildData, role }: ModuleOptionArgs & { role: Role }) {
-        await guildData.ticket.setRole(role);
-        msg.reply(t('commands:setcargo_tk.message'));
+export default class TkConfig extends ModuleCommand {
+  constructor() {
+    super(
+      'tkconfig',
 
-        if (!guildData.data.ticket) return;
-
-        guildData.data.ticket.tickets.forEach(ticket => {
-          if (!ticket.closed && msg.guild.channels.has(ticket.channelId)) {
-            const channel = msg.guild.channels.get(ticket.channelId);
-            if (channel instanceof TextChannel) {
-              channel.overwritePermissions(role, {
-                VIEW_CHANNEL: true,
-                SEND_MESSAGES: true,
-              });
+      [
+        {
+          id: 'enable',
+          validate: (_, a) => !validate(null, a),
+          async run(msg, guildData) {
+            await guildData.ticket.enable();
+            const ticketCategory = this.handler.categories.get('ticket');
+            if (!ticketCategory) {
+              throw new Error('n achei a categoria ticket');
             }
-          }
-        });
-      },
-    },
-    {
-      id: 'set_category',
-      validate,
-      async run(msg, t, { guildData, category }: ModuleOptionArgs & { category: CategoryChannel }) {
-        await guildData.ticket.setCategory(category);
-        msg.reply(t('commands:setcategoria_tk.message'));
 
-        if (!guildData.data.ticket) return;
+            const embed = new LaurieEmbed(msg.author)
+              .setDescription(msg.t('commands:ativar_tk.message', { prefix: this.handler.prefix }))
+              .setTitle(msg.t('commands:ativar_tk.title'));
 
-        guildData.data.ticket.tickets.forEach(ticket => {
-          if (!ticket.closed && msg.guild.channels.has(ticket.channelId)) {
-            const channel = msg.guild.channels.get(ticket.channelId);
-            if (channel instanceof TextChannel) {
-              channel.setParent(category);
+            for (const command of ticketCategory.values()) {
+              embed.addField(command.id, msg.t(command.description));
             }
-          }
-        });
+            msg.reply(embed);
+          },
+        },
+        {
+          id: 'disable',
+          validate,
+          async run(msg, guildData) {
+            await guildData.ticket.disable();
+            msg.reply(msg.t('commands:desativar_tk.message'));
+          },
+        },
+        {
+          id: 'set_role',
+          validate,
+          async run(msg, guildData, { role }: { role: Role }) {
+            await guildData.ticket.setRole(role);
+            msg.reply(msg.t('commands:setcargo_tk.message'));
+
+            if (!guildData.data.ticket) return;
+
+            guildData.data.ticket.tickets.forEach(ticket => {
+              if (!ticket.closed && msg.guild?.channels.cache.has(ticket.channelId)) {
+                const channel = msg.guild?.channels.cache.get(ticket.channelId);
+                if (channel instanceof TextChannel) {
+                  channel.overwritePermissions([
+                    {
+                      id: role.id,
+                      allow: ['VIEW_CHANNEL', 'SEND_MESSAGES'],
+                    },
+                  ]);
+                }
+              }
+            });
+          },
+        },
+        {
+          id: 'set_category',
+          validate,
+          async run(msg, guildData, { category }: { category: CategoryChannel }) {
+            await guildData.ticket.setCategory(category);
+            msg.reply(msg.t('commands:setcategoria_tk.message'));
+
+            if (!guildData.data.ticket) return;
+
+            guildData.data.ticket.tickets.forEach(ticket => {
+              if (!ticket.closed && msg.guild?.channels.cache.has(ticket.channelId)) {
+                const channel = msg.guild.channels.cache.get(ticket.channelId);
+                if (channel instanceof TextChannel) {
+                  channel.setParent(category);
+                }
+              }
+            });
+          },
+        },
+      ],
+      [
+        [['role', 'set_role'], { id: 'role', type: 'role' }],
+        [['set_category'], { id: 'category', type: 'categoryChannel' }],
+      ],
+      {
+        aliases: ['configurartk'],
+        userPermissions: 'MANAGE_GUILD',
+        channel: 'guild',
       },
-    },
-  ],
-  {
-    role: ['role', ['set_role']],
-    category: ['categoryChannel' as ModuleArgTypes, ['set_category']],
-  },
-  (m, t, { guildData }) => {
-    if (validate(m, { guildData })) {
-      const role = m.guild.roles.get(String(guildData.ticket.role))?.toString() || t('commands:tkconfig.none_role');
-      const category =
-        m.guild.channels.get(String(guildData.ticket.categoryId))?.toString() || t('commands:tkconfig.none_category');
-      return [
-        [t('commands:tkconfig.current_role'), String(role)],
-        [t('commands:tkconfig.current_category'), String(category)],
-      ];
-    }
-    return [];
-  },
-);
+      (embed, m, guildData) => {
+        if (validate(m, guildData)) {
+          const role = m.guild?.roles.cache.get(String(guildData.ticket.role))?.toString();
+          const category = m.guild?.channels.cache.get(String(guildData.ticket.categoryId))?.toString();
+          embed.addField(m.t('commands:tkconfig.current_role'), role ?? m.t('commands:tkconfig.none_role'));
+          embed.addField(m.t('commands:tkconfig.current_category'), category ?? m.t('commands:tkconfig.none_category'));
+        }
+      },
+    );
+  }
+}

@@ -1,78 +1,83 @@
-import { Message, TextChannel } from 'discord.js';
-import ModuleCommand, { ModuleOptionArgs } from '@struct/command/ModuleCommand';
-import { EMOJIS } from '@utils/Constants';
-import { sendPunaltyMessage } from '../../utils/ModuleUtils';
-import MuteCommand from '../moderator/mute';
+import { Message, TextChannel, GuildMember } from 'discord.js';
+import GuildController from '@database/controllers/GuildController';
+import { EMOJIS } from '@utils/constants';
+import ModuleCommand from '@structures/ModuleCommand';
+import PunishmentUtil from '@utils/modules/punishment';
 
-const validate = (message: Message, { guildData: { data } }: ModuleOptionArgs) => {
-  return !!(data.penaltyChannel && message.guild.channels.has(data.penaltyChannel));
+const validate = (message: Message, guildData: GuildController) => {
+  return !!(guildData.penaltyChannel && message.guild?.channels.cache.has(guildData.penaltyChannel));
 };
 
-export default ModuleCommand(
-  'pnconfig',
-  {
-    aliases: ['configurarpn', 'setchannelpn', 'setcanalpn'],
-    userPermissions: 'MANAGE_GUILD',
-    channelRestriction: 'guild',
-  },
-  [
-    {
-      id: 'enable',
-      validate: (m, a) => !validate(m, a),
-      async run(msg, t, args: ModuleOptionArgs & { channel: TextChannel }) {
-        await args.guildData.setPenaltyChannel(args.channel.id);
-        msg.reply(t('commands:pnconfig.enabled', { channel: args.channel.toString() }));
+export default class PnConfig extends ModuleCommand {
+  constructor() {
+    super(
+      'pnconfig',
+      [
+        {
+          id: 'enable',
+          validate: (m, a) => !validate(m, a),
+          async run(msg, guildData, { channel }: { channel: TextChannel }) {
+            await guildData.setPenaltyChannel(channel.id);
+            msg.reply(msg.t('commands:pnconfig.enabled', { channel: channel.toString() }));
+          },
+        },
+        {
+          id: 'disable',
+          validate,
+          async run(msg, t, { guildData }) {
+            await guildData.removePenaltyChannel();
+            msg.reply(msg.t('commands:pnconfig.disabled'));
+          },
+        },
+        {
+          id: 'change_channel',
+          validate,
+          async run(msg, guildData, { channel }: { channel: TextChannel }) {
+            const oldChannel =
+              msg.guild?.channels.cache.get(String(guildData.data.penaltyChannel))?.toString() ||
+              guildData.data.penaltyChannel ||
+              '---';
+            await guildData.setPenaltyChannel(channel.id);
+            msg.reply(msg.t('commands:pnconfig.channel_changed', { oldChannel, channel }));
+          },
+        },
+        {
+          id: 'test',
+          validate,
+          async run(msg, t, { guildData }) {
+            await PunishmentUtil.sendMessage(
+              msg,
+              msg.guild?.me as GuildMember,
+              'mute',
+              msg.t('commands:pnconfig.it_is_test'),
+            );
+            if (guildData.data.penaltyChannel === msg.channel.id) {
+              msg.reply(msg.t('commands:pnconfig.current_channel_tested', { emoji: EMOJIS.WINK }));
+            } else {
+              msg.reply(
+                msg.t('commands:pnconfig.channel_tested', {
+                  emoji: EMOJIS.WINK,
+                  channel: msg.guild?.channels.cache.get(String(guildData.data.penaltyChannel)),
+                }),
+              );
+            }
+          },
+        },
+      ],
+      [[['enable', 'change_channel'], { id: 'channel', type: 'textChannel', match: 'rest' }]],
+      {
+        aliases: ['configurarpn'],
+        userPermissions: 'MANAGE_GUILD',
+        channel: 'guild',
       },
-    },
-    {
-      id: 'disable',
-      validate,
-      async run(msg, t, { guildData }) {
-        await guildData.removePenaltyChannel();
-        msg.reply(t('commands:pnconfig.disabled'));
-      },
-    },
-    {
-      id: 'change_channel',
-      validate,
-      async run(msg, t, { guildData, channel }: ModuleOptionArgs & { channel: TextChannel }) {
-        const oldChannel =
-          msg.guild.channels.get(String(guildData.data.penaltyChannel))?.toString() ||
-          guildData.data.penaltyChannel ||
-          '---';
-        await guildData.setPenaltyChannel(channel.id);
-        msg.reply(t('commands:pnconfig.channel_changed', { oldChannel, channel }));
-      },
-    },
-    {
-      id: 'test',
-      validate,
-      async run(msg, t, { guildData }) {
-        await sendPunaltyMessage(msg, msg.guild.me, MuteCommand.id, t('commands:pnconfig.it_is_test'));
-        if (guildData.data.penaltyChannel === msg.channel.id) {
-          msg.reply(t('commands:pnconfig.current_channel_tested', { emoji: EMOJIS.WINK }));
-        } else {
-          msg.reply(
-            t('commands:pnconfig.channel_tested', {
-              emoji: EMOJIS.WINK,
-              channel: msg.guild.channels.get(String(guildData.data.penaltyChannel)),
-            }),
+      (embed, msg, guildData) => {
+        if (validate(msg, guildData)) {
+          embed.addField(
+            msg.t('modules:pnconfig.current_channel'),
+            String(msg.guild?.channels.cache.get(String(guildData.data.penaltyChannel))?.toString()),
           );
         }
       },
-    },
-  ],
-  {
-    channel: ['textChannel', ['enable', 'change_channel']],
-  },
-  (m, t, args) => {
-    return validate(m, args)
-      ? [
-          [
-            t('modules:pnconfig.current_channel'),
-            String(m.guild.channels.get(String(args.guildData.data.penaltyChannel))?.toString()),
-          ],
-        ]
-      : [];
-  },
-);
+    );
+  }
+}

@@ -1,70 +1,84 @@
-import { Message, Util, MessageReaction, User, DMChannel, TextChannel } from 'discord.js';
+import { Message, Util, MessageReaction, User, DMChannel, TextChannel, MessageAttachment } from 'discord.js';
 
-import Command from '@struct/command/Command';
-import Categories from '@struct/command/categories';
-import LaurieEmbed from '@struct/LaurieEmbed';
+import Command from '@structures/LaurieCommand';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { CATEGORIES_EMOJIS } from '../../utils/constants';
 
 const CATEGORIES_HIDDEN = ['bot', 'ticket'];
 
-export default new Command('help', { category: 'bot', aliases: ['ajuda'] }, async (msg, t) => {
-  let channel: DMChannel;
-
-  function sendErrorMessage() {
-    msg.reply(t('commands:help.failed_message'), {
-      file: { attachment: 'assets/help.gif', name: 'help.gif' },
+export default class Help extends Command {
+  constructor() {
+    super('help', {
+      aliases: ['ajuda'],
+      category: 'bot',
+      editable: false,
     });
   }
-  if (msg.channel instanceof DMChannel) {
-    channel = msg.channel;
-  } else {
-    try {
-      channel = await msg.author.createDM();
-    } catch (_) {
-      return sendErrorMessage();
+
+  async exec(msg: Message) {
+    const isLocked = () => {
+      msg.reply(msg.t('commands:help.failed_message'), new MessageAttachment('assets/help.gif', 'help.gif'));
+    };
+
+    let dm = msg.channel as DMChannel;
+    if (msg.channel instanceof TextChannel) {
+      try {
+        dm = await msg.author.createDM();
+      } catch {
+        return isLocked();
+      }
     }
-  }
 
-  const categories = Object.values(Categories).filter(x => !CATEGORIES_HIDDEN.includes(x.id));
-  const categoriesMainMessage = categories.map(c => `${c.emoji} ${t(`categories:${c.id}.description`)}`).join('\n');
+    const categories = this.handler.categories.filter(x => !CATEGORIES_HIDDEN.includes(x.id));
+    const categoriesMainMessage = categories
+      .map(c => `${CATEGORIES_EMOJIS[c.id]} ${msg.t(`categories:${c.id}.description`)}`)
+      .join('\n');
 
-  const embed = new LaurieEmbed(msg.author);
-  embed.setDescription(`${t('commands:help.message', { author: msg.author })}\n\n${categoriesMainMessage}`);
+    const content = msg.t('commands:help.content', { author: `${msg.author}` });
+    const embed = new LaurieEmbed(
+      msg.author,
+      msg.t('commands:help.embed_title'),
+      msg.t('commands:help.embed_description'),
+    );
+    embed.addField(`**${msg.t('commands:help.categories')}**`, categoriesMainMessage);
 
-  try {
-    const sent = await channel.send(embed);
-    if (sent instanceof Message) {
-      if (msg.channel instanceof TextChannel) await msg.reply(new LaurieEmbed(null, t('commands:help.warn_message')));
+    let sent: Message;
+    try {
+      sent = await dm.send(content, { embed, disableMentions: 'none' });
+      if (msg.channel.type === 'text') {
+        msg.reply(new LaurieEmbed(msg.author, msg.t('commands:help.warn_message')));
+      }
+    } catch {
+      return isLocked();
+    }
 
-      const reactEmojis = async () => {
-        // eslint-disable-next-line no-restricted-syntax
-        for await (const category of categories) {
-          const emoji = Util.parseEmoji(category.emoji);
+    const reactEmojis = async () => {
+      for await (const category of categories.array()) {
+        const emoji = Util.parseEmoji(CATEGORIES_EMOJIS[category.id]);
+        if (emoji) {
           const id = emoji.id ? emoji.id : emoji.name;
-          // eslint-disable-next-line no-await-in-loop
           await sent.react(id);
         }
-      };
+      }
+    };
 
-      reactEmojis();
+    reactEmojis();
 
-      let currentCategoryId: string;
-      const filter = (r: MessageReaction, u: User) => u.id === msg.author.id && r.me;
+    let currentCategoryId: string;
+    const filter = (r: MessageReaction, u: User) => u.id === msg.author.id && r.me;
 
-      const colector = sent.createReactionCollector(filter);
+    const colector = sent.createReactionCollector(filter);
 
-      embed.setDescription('');
-      colector.on('collect', e => {
-        const category = categories.find(c => c.emoji === e.emoji.toString());
-        if (category && category.id !== currentCategoryId) {
-          currentCategoryId = category.id;
-          embed.fields = [];
-          embed.setTitle(t(`categories:${category.id}.name`));
-          category.forEach(c => embed.addField(`${c.toTitle(t)}`, `${t(`commands:${c.id}.description`)}`));
-          sent.edit(embed);
-        }
-      });
-    }
-  } catch (_) {
-    sendErrorMessage();
+    embed.setDescription('');
+    colector.on('collect', e => {
+      const category = categories.find(c => CATEGORIES_EMOJIS[c.id] === e.emoji.toString());
+      if (category && category.id !== currentCategoryId) {
+        currentCategoryId = category.id;
+        embed.fields = [];
+        embed.setTitle(msg.t(`categories:${category.id}.name`));
+        category.forEach(c => embed.addField(`${c.getTitle(msg.t)}`, `${msg.t(`commands:${c.id}.description`)}`));
+        sent.edit(embed);
+      }
+    });
   }
-});
+}

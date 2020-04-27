@@ -1,36 +1,40 @@
-import Command from '@struct/command/Command';
+import LaurieCommand from '@structures/LaurieCommand';
+import LaurieEmbed from '@structures/LaurieEmbed';
+import { Message } from 'discord.js';
 
-import LaurieEmbed from '@struct/LaurieEmbed';
 import { getServer } from '@services/minecraft';
-import { printError } from '@utils/Utils';
 
-export default new Command(
-  'mcserver',
-  {
-    category: 'minecraft',
-    args: [
-      {
-        id: 'server',
-        type: 'string',
-      },
-    ],
-  },
-  async function run(msg, t, { server }) {
-    let res;
+export default class Mcserver extends LaurieCommand {
+  constructor() {
+    super('mcserver', {
+      editable: true,
+      category: 'minecraft',
+      args: [
+        {
+          id: 'server',
+          prompt: {
+            start: (m: Message) => m.t('commands:mcserver.args.server.start'),
+            retry: (m: Message) => m.t('commands:mcserver.args.server.retry'),
+          },
+        },
+      ],
+    });
+  }
+
+  async exec(msg: Message, { server }: { server: string }) {
     try {
-      res = await getServer(server);
+      const res = await getServer(server);
+      const embed = new LaurieEmbed(msg.author).addInfoText(
+        'PLACA_MINECRAFT',
+        msg.t('commands:mcserver.server_info'),
+        ['COMPUTER', msg.t('commands:mcserver.address'), res.address],
+        ['PERSONS', msg.t('commands:mcserver.players'), res.players],
+        ['JAVA', msg.t('commands:mcserver.minecraft_version'), res.version],
+      );
+      msg.util?.reply(embed);
     } catch (error) {
-      printError(error, this);
-      return msg.reply(t('commands:mcserver.not_found'));
+      this.logger.error(error);
+      return msg.util?.reply(msg.t('commands:mcserver.not_found'));
     }
-
-    const embed = new LaurieEmbed(msg.author).addInfoText(
-      'PLACA_MINECRAFT',
-      t('commands:mcserver.server_info'),
-      ['COMPUTER', t('commands:mcserver.address'), res.address],
-      ['PERSONS', t('commands:mcserver.players'), res.players],
-      ['JAVA', t('commands:mcserver.minecraft_version'), res.version],
-    );
-    msg.reply(embed);
-  },
-);
+  }
+}

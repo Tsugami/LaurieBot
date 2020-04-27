@@ -1,26 +1,28 @@
-import Command from '@struct/command/Command';
-import { guild } from '@database/index';
-import FilterCommand from './filter';
+import Command from '@structures/LaurieCommand';
+import { Message, Guild } from 'discord.js';
 
-export default new Command(
-  'filterlist',
-  {
-    aliases: ['listfiltro'],
-    category: 'configuration',
-    channelRestriction: 'guild',
-  },
-  async function run(msg, t) {
-    const { wordFilter } = await guild(msg.guild.id);
+export default class FilterList extends Command {
+  constructor() {
+    super('filterlist', {
+      editable: false,
+      aliases: ['listfiltro'],
+      category: 'configuration',
+      channel: 'guild',
+    });
+  }
+
+  async exec(msg: Message) {
+    const { wordFilter } = await this.client.database.getGuild((msg.guild as Guild).id);
     const words = wordFilter.get().map(w => `\`${w}\``);
 
     if (words.length) {
-      msg.reply(t('commands:filterlist.list', { words }));
+      msg.reply(msg.t('commands:filterlist.list', { words }));
     } else {
       msg.reply(
-        t('commands:filterlist.emply_list', {
-          command: `\`${this.getPrefix(msg) + FilterCommand.aliases[0]}\``,
+        msg.t('commands:filterlist.emply_list', {
+          command: `\`${msg.util?.parsed?.prefix + this.handler.findCommand('filter').help}\``,
         }),
       );
     }
-  },
-);
+  }
+}
