@@ -5,7 +5,6 @@ import LaurieEmbed from '@structures/LaurieEmbed';
 import CooldownSet from '@utils/cooldown';
 
 export default class CommandBlockedAddListener extends Listener {
-  // userId:channelId:commandId
   disabledCommand = new CooldownSet(this.client, 3 * 60000, true);
 
   disabledChannel = new CooldownSet(this.client, 3 * 60000, true);
@@ -34,7 +33,12 @@ export default class CommandBlockedAddListener extends Listener {
       }
 
       case 'guild': {
-        message.reply('errors:guild');
+        message.reply(new LaurieEmbed(message.t('errors:guild')));
+        break;
+      }
+
+      case 'ticket': {
+        message.reply(new LaurieEmbed(message.t('errors:ticket')));
         break;
       }
 

@@ -21,7 +21,7 @@ class TicketController extends Base<GuildDocument> {
   }
 
   get tickets() {
-    return this.ticket?.tickets;
+    return this.ticket?.tickets ?? [];
   }
 
   throwTicket() {
