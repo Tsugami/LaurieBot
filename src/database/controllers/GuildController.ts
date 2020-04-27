@@ -20,6 +20,10 @@ class GuildController extends Base<GuildDocument> {
     return this.data.disabledCommands;
   }
 
+  get penaltyChannel() {
+    return this.data.penaltyChannel;
+  }
+
   disableChannel(channelId: string) {
     this.data.disabledChannels.push(channelId);
     return this.save();

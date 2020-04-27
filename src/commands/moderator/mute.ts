@@ -2,6 +2,7 @@ import LaurieCommand from '@structures/LaurieCommand';
 import { GuildMember, Role, TextChannel, VoiceChannel, Message, Guild } from 'discord.js';
 import { EMBED_DEFAULT_COLOR, MUTE_ROLE_NAME, EMOJIS } from '@utils/constants';
 import LaurieEmbed from '@structures/LaurieEmbed';
+import PunishmentUtil from '@utils/modules/punishment';
 
 export default class Mute extends LaurieCommand {
   constructor() {
@@ -111,7 +112,8 @@ export default class Mute extends LaurieCommand {
     if (role instanceof Role) {
       try {
         await member.roles.add(role, reason);
-        // sendPunaltyMessage(msg, member, 'mute', reason);
+        PunishmentUtil.sendMessage(msg, member, this.id, reason);
+
         return msg.reply(msg.t('commands:mute.user_muted'));
       } catch (error) {
         this.logger.error(error);

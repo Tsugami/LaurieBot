@@ -1,6 +1,7 @@
 import LaurieCommand from '@structures/LaurieCommand';
 import { GuildMember, Message, Guild } from 'discord.js';
 import { MUTE_ROLE_NAME } from '@utils/constants';
+import PunishmentUtil from '@utils/modules/punishment';
 
 export default class Unmute extends LaurieCommand {
   constructor() {
@@ -51,7 +52,8 @@ export default class Unmute extends LaurieCommand {
 
     try {
       await member.roles.remove(role, reason);
-      // sendPunaltyMessage(msg, member, 'unmute', reason);
+      PunishmentUtil.sendMessage(msg, member, this.id, reason);
+
       return msg.reply(msg.t('commands:unmute.user_muted'));
     } catch (error) {
       this.logger.error(error);

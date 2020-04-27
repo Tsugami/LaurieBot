@@ -47,9 +47,7 @@ export default class CmdConfig extends ModuleCommand {
           id: 'enable_command',
           async run(msg, guildData, { command }: CmdArgs) {
             await guildData.enableCommands(command.id);
-            msg.reply(
-              msg.t('commands:cmdconfig.enabled_command', { command: this.client.commandHandler.prefix + command.id }),
-            );
+            msg.reply(msg.t('commands:cmdconfig.enabled_command', { command: msg.util?.parsed?.prefix + command.id }));
           },
         },
         {

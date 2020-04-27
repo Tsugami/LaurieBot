@@ -1,5 +1,6 @@
 import LaurieCommand from '@structures/LaurieCommand';
 import { Message, GuildMember } from 'discord.js';
+import PunishmentUtil from '@utils/modules/punishment';
 
 export default class Kick extends LaurieCommand {
   constructor() {
@@ -48,7 +49,8 @@ export default class Kick extends LaurieCommand {
 
     try {
       await member.kick(reason);
-      // sendPunaltyMessage(msg, member, 'kick', reason);
+      PunishmentUtil.sendMessage(msg, member, this.id, reason);
+
       return msg.reply(msg.t('commands:kick.user_kicked'));
     } catch (error) {
       this.logger.error(error);
