@@ -33,7 +33,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@giphy/js-fetch-api": "^1.5.7",
     "axios": "^0.19.2",
     "discord-akairo": "^8.0.0",
     "discord.js": "^12.1.1",
