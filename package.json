@@ -4,6 +4,9 @@
   "main": "src/index.ts",
   "author": "Tsugami <yslan3000@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "scripts": {
     "dev": "nodemon --watch '*.ts' --exec 'ts-node' src/index.ts",
     "start": "node dist/index.js",
