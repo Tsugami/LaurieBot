@@ -1,0 +1,41 @@
+optionInvalid: 'Option invalid! Choose one of the correct options.'
+punishment:
+  punishment_info: "PUNISHMENT INFORMATION's"
+  type: 'Penalty'
+  judge: 'Judge'
+  reason: 'Reason'
+  user: 'Guilty'
+  text_channel: 'Channel'
+  user_info: 'MEMBERS INFORMATION'
+  types:
+    mute: 'Mutated'
+    kick: 'Expelled'
+    ban: 'Banned'
+    unmute: 'Unmuted'
+pnconfig:
+  current_channel: 'Current Text Channel:'
+welcome:
+  message_default: "{user}, Welcome to the server!"
+  current_message: 'Current Message:'
+  current_text_channel: 'Current Text Channel:'
+filter:
+  message_default: "you used a forbidden word on this server! Use {{ command }} to see the forbidden words."
+ticket:
+  question_ticket: "Clarify doubts"
+  report_ticket: "Review Punishment"
+  review_ticket: "Report Bugs"
+  about: "**TICKET'S MODULE**\n\n
+**What is the Ticket Module?**\n
+The ticket module comes together with a system responsible for organizing the support of players, basically providing a command for the members of the server to ask questions, report bugs or review punishments.\n\n
+**How does the Ticket System work?**\n
+Members have a command called `{{ prefix }}open-ticket`, when carrying out the command, a list of information is generated asking what the member wants to talk to the support for, when choosing the category a channel will be the one created for the service."
+  already_has_ticket_open: 'you already have a ticket open.'
+  this_is_the_current_ticket_role: 'this is already the current position of the tickets.'
+  user_already_has_ticket: '{{ author }}, you cannot create another ticket with this open.'
+  ticket_created: '{{ author }}, ticket created!\n{{ role }}'
+  main_message: "**TICKET'S CENTRAL**
+
+Our Ticket system allows customer support to be organized, focused, efficient and effective.
+
+Select the category you want to open a ticket for. To select the category, you need to click on the emoji it represents
+."

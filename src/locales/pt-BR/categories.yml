@@ -1,6 +1,6 @@
 discord:
   name: 'Discord'
-  description: 'Comandos focado para Discord.'
+  description: 'Comandos focados para Discord.'
 interactivity:
   name: 'Interatividade'
   description: "Comandos de Interação Social."
@@ -15,4 +15,4 @@ configuration:
   description: "Comandos para Configuração de módulo."
 ticket:
   name: "Ticket"
-  description: "Comandos do módulo Ticket."
+  description: "Comandos do módulo de Ticket."

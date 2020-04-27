@@ -1,0 +1,409 @@
+cmdconfig:
+  description: "Enables / Disables commands and text channels."
+  title: 'Command settings'
+  args:
+    option:
+      disable_command: 'Disable command.'
+      enable_command: 'Activate command.'
+      disable_channel: 'Disable text channel.'
+      enable_channel: 'Enable text channel.'
+    command:
+      disable_command: 'enter the name of the command you want to disable on the server.'
+      enable_command: 'enter the name of the command you want to activate on the server.'
+      retry: 'this command does not exist.'
+    channel:
+      disable_channel: 'enter the text channel you want to disable commands.'
+      enable_channel: 'enter the text channel you want to activate the commands.'
+      retry: 'invalid text channel.'
+  enabled_channel: 'the commands were activated on the channel {{ channel }}.'
+  disabled_channel: 'commands have been disabled on the channel {{ channel }}.'
+  disabled_commands: 'Disabled Commands:'
+  disabled_channels: 'Disabled Channels:'
+  none_commands: 'No commands are disabled.'
+  none_channels: 'No channels are disabled.'
+  already_disabled_channel: 'This text channel is already disabled.'
+  enabled_command: 'command has been activated! Use {{ command }} to confirm!'
+  already_disabled_command: 'this command is already disabled on the server.'
+  cannot_this_command_be_disable: 'this command cannot be disabled.'
+  categories_that_cannot_be_disabled: 'commands with categories: {{ categories }}. cannot be deactivated.'
+pnconfig:
+  description: "Enables / Disables or changes the channel for punishment messages."
+  title: 'punishment channel settings'
+  args:
+    option:
+      enable: 'Enable punishment messages'
+      disable: 'Disable punishment messages'
+      change_channel: "Change the punishment channel"
+      test: "Test punishment messages"
+    channel:
+      enable: 'Type in the punishment channel.'
+      change_channel: 'Enter which channel to change to.'
+  enabled: 'punishment messages have been enabled on the channel {{ channel }}.'
+  disabled: 'punishment messages have been disabled.'
+  channel_changed: 'punishment channel was changed {{ oldChannel }} to {{ channel }}.'
+  it_is_test: "This is a test."
+  current_channel_tested: 'Successfully tested! {{ emoji }}'
+  channel_tested: 'Successfully tested on {{ channel }}! {{ emoji }}'
+filter:
+  description: "This command is used to block words from the chat channels, every time someone tries to speak the word that is in the filter the word will be deleted and the bot will warn."
+  title: 'WORDS FILTER SETTINGS'
+  args:
+    option:
+      add: 'Add words in the filter.'
+      remove: 'Remove words from the filter.'
+      clean: 'Remove all words from the filter.'
+    words:
+      add: 'Type the words to add, separated by commas.'
+      remove: 'Enter what words you want to remove from the filter.'
+  added: 'the word {{ words }} has been added to the filter!'
+  removed: 'the word {{ words }} has been removed from the filter!'
+  list: 'every word added in the filter: {{ words }}'
+  words_added: 'Added words.'
+filterlist:
+  description: 'Shows list of blocked words on the server.'
+  list: 'all words blocked on the server: {{ words }}'
+  emply_list: 'no words are blocked! Use {{ command }} to add words.'
+welcome:
+  description: 'Enables / Disables or changes the welcome messages.'
+  title: 'WELCOME SETTINGS'
+  args:
+    option:
+      set_message: 'Change welcome message.'
+      set_channel: 'Change welcome channel.'
+      enable: 'Enable welcome message.'
+      disable: 'Disable welcome message.'
+      test: 'Test welcome message.'
+    message:
+      set_message: 'Enter the new welcome message.'
+      enable: 'Enter what will be the welcome message.'
+    channel:
+      set_channel: 'Enter the welcome channel.'
+      enable: 'Enter the welcome channel.'
+      retry: 'invalid channel, make sure that text channel exists.'
+  disabled: 'welcome message has been disabled.'
+  enabled: 'welcome message has been activated on the channel {{ channel }}.'
+  already_current_message: 'this message you sent is already the current one.'
+  message_changed: 'updated welcome message.'
+  already_current_channel: "this is already the current welcome channel."
+  channel_changed: 'updated welcome channel.'
+  current_channel_tested: 'Successfully tested! {{ emoji }}'
+  channel_tested: 'Successfully tested on {{ channel }}! {{ emoji }}'
+avatar:
+  usage: '<@user>'
+  description: 'Shows the avatar of the mentioned user.'
+  embed_description: Clique [here]({{- avatarUrl }}) for download.
+botinfo:
+  description: 'Shows Laurie Bot information.'
+  bot_info: 'BOT INFORMATION'
+  guilds: 'Servers'
+  my_invite: 'My invitation'
+  users: 'Users'
+  creator: 'Creator'
+  developer: 'Developer'
+gif:
+  usage: '<Search>'
+  description: 'Search for a GIF about what you type next.'
+  searching: 'searching... {{ emoji }}'
+  failed_to_fetch: "I couldn't search for a gif, try later."
+  not_found: "I didn't find any gif with that word."
+serverinfo:
+  description: 'Shows the server information.'
+  server_info: "SERVER INFORMATION's"
+  owner: 'Owner'
+  region: 'Region'
+  members_info: 'MEMBERS INFORMATION'
+  bots: 'Robots'
+  members: 'Members'
+userinfo:
+  usage: '<@user>'
+  description: 'Shows the information of the mentioned user.'
+  user_info: '{{ username }} INFORMATION'
+corno:
+  description: "Calculates the percentage of your horn."
+  message: 'By my calculations you are {{ num }}% cuckold. {{ emoji }}'
+penis:
+  description: "Calculates the size of your dick."
+  message: 'By my calculations your dick is {{ num }} centimeters. {{ emoji }}'
+hug:
+  usage: '<@user>'
+  description: 'Give the mentioned user a hug.'
+  message: '{{ author }} hugged {{ user }}.'
+  args:
+    user:
+      start: 'mention who you want to hug!'
+      retry: 'invalid user!'
+slap:
+  usage: '<@user>'
+  description: 'Slap the mentioned user.'
+  message: '{{ author }} hit {{ user }}.'
+  args:
+    user:
+      start: 'mention who you want to kiss!'
+      retry: 'invalid user!'
+ship:
+  usage: '<@user> [@user]'
+  description: "Calculates the loving compatibility between the two mentioned users."
+kiss:
+  usage: '<@user>'
+  description: 'Give a kiss to the mentioned user.'
+  message: '{{ author }} kissed {{ user }}.'
+  args:
+    user:
+      start: 'mention who you want to kiss!'
+      retry: 'invalid user!'
+mcconquista:
+  usage: '<message>'
+  description: "Generates an achievement with what was written after the command."
+  message: 'Achievement unlocked!'
+  args:
+    message:
+      start: "type some message."
+      retry: "invalid message."
+mcserver:
+  usage: '<IP>'
+  args:
+    server:
+      retry: 'type the server ip!'
+  description: "Shows the minecraft server information entered after the command."
+  not_found: 'that server does not exist or is not online.'
+  server_info: "SERVER INFORMATION's"
+  address: 'Address'
+  players: 'Players'
+  minecraft_version: 'Minecraft version'
+mcskin:
+  usage: '<Nick>'
+  description: "Shows the minecraft skin of the nick entered after the command."
+  not_found: "I didn't find any players with that name!"
+  args:
+    username:
+      retry: 'enter the avatar nick!'
+alertar:
+  usage: '<message>'
+  description: "Send a private message / text to all users on the server."
+  args:
+    text:
+      start: 'enter an alert message.'
+      retry: 'invalid message.'
+  message: 'message sent to all possible people!'
+anunciar:
+  usage: '<message>'
+  description: "Make an announcement on the channel where the command is applied."
+  args:
+    text:
+      start: 'enter a message to advertise.'
+      retry: 'invalid message.'
+  embed_title: '{{ emoji }} ANNOUNCEMENT'
+ban:
+  usage: '<user> [reason]'
+  description: "Ban the mentioned user."
+  args:
+    member:
+      start: 'who would you like to ban?'
+      retry: 'invalid user.'
+    reason:
+      retry: 'for what reason will this user be banned?'
+      default: 'Undeclared reason'
+  user_is_owner: 'you cannot ban the owner from the server.'
+  not:
+    author_has_role_highest: "you don't have enough office to ban this member."
+    bot_has_role_highest: "I don't have enough office to ban this member."
+  user_banned: 'user successfully banned!'
+  user_ban_failed: 'I was unable to ban this user.'
+clear:
+  usage: '<1-100>'
+  description: "Clears up to 100 messages at once on the channel where the command is applied."
+  args:
+    amount:
+      start: 'how many messages would you like to delete?'
+      retry: 'this is not a valid number!'
+  messages_deleted: '{{ amount }} messages have been deleted.'
+  failed: "I couldn't delete the messages"
+kick:
+  usage: '<@user> [reason]'
+  description: "Kicks off the mentioned user."
+  args:
+    member:
+      start: 'who would you like to expel?'
+      retry: 'invalid user.'
+    reason:
+      default: 'Undeclared reason'
+  user_is_owner: 'you cannot evict the owner from the server.'
+  not:
+    author_has_role_highest: 'you do not have enough office to expel that member.'
+    bot_has_role_highest: "I don't have enough office to expel this member."
+  user_kicked: 'user successfully expelled!'
+  failed: 'I was unable to expel this user.'
+mute:
+  usage: '<@usuário> [reason]'
+  description: "Mutes the mentioned user."
+  args:
+    member:
+      start: 'who would you like to mutate?'
+      retry: 'disabled user.'
+    reason:
+      default: 'Undeclared reason'
+  user_is_owner: 'you cannot change the owner of the server.'
+  not:
+    author_has_role_highest: "you don't have enough role to change this member."
+    bot_has_role_highest: 'I do not have enough role to change this member.'
+  user_muted: 'user mutated successfully!'
+  create_mute_role_failed: 'I did not manage to create the role of mute.'
+  already_is_muted: "this user is already mutated."
+  failed: 'I was unable to change this user.'
+  loading_msg: '{{ emoji }} Creating role ...'
+  warn: '[WARNING] it was not possible to change the role of muting in the following channels: {{ channels }}'
+unmute:
+  usage: '<@user> [reason]'
+  description: "Unmute the mentioned user."
+  args:
+    member:
+      start: 'who would you like to demute?'
+      retry: 'invalid user.'
+    reason:
+      default: 'Undeclared reason'
+  not:
+    user_muted: 'that user is not mutated.'
+    author_has_role_highest: "you don't have enough office to demute that member."
+    bot_has_role_highest: "I don't have enough office to demute this member."
+  user_muted: 'successfully demoted user!'
+  failed: 'I was unable to demute this user.'
+close:
+  usage: '<@user|ticket id|#ticket-channel>'
+  description: "Closes a Ticket."
+  args:
+    ticket:
+      start: 'enter the name of the ticket owner or the ticket channel to close.'
+      retry: 'input invalid'
+    rating:
+      start: 'which score from 1 to 10 do you give to this ticket?'
+      retry: 'enter a valid number.'
+  ticket_module_disabled: "this command is only available when tickets are active."
+  not:
+    tickets: 'has no existing ticket.'
+    tickets_open: 'you do not have any open tickets.'
+    permission: "you are not allowed to close ticket's."
+  all_closed: "all tickets are closed"
+  already_ticket_closed: 'this ticket is already closed.'
+  you_ticket_closed: 'your ticket has been closed, for details of the ticket use {{ cmdinfo }}'
+  ticket_closed: 'ticket was closed, to obtain details of the ticket use {{ cmdinfo }}'
+tkconfig:
+  description: "Enables / Disables or changes the channel of the Ticket module."
+  title: "TICKET'S SETTINGS"
+  args:
+    option:
+      enable: "Activate Ticket's"
+      disable: "Disable Ticket's"
+      set_category: 'Set category of channels.'
+      set_role: 'Set the support role.'
+    category:
+      enable: "Choose a category to create the ticket channels"
+      set_category: "Choose a category to create the ticket channels"
+      change_category: "Choose a new category to create ticket channels"
+      retry: 'invalid category'
+    role:
+      enable: "type which role will have access to the ticket's. type **OFF** to skip this step."
+      set_role: "Choose the ticket support role"
+      change_role: "Choose the new ticket support role"
+      retry: 'valid role.'
+  already_current_main_channel: "the {{ channel }} channel is already the current ticket channel"
+  already_current_role: "this is already the current ticket support position"
+  deleting_old_message: "Deleting old message"
+  channel: 'Channel updated.'
+  already_current_category: "the {{ categoria }} category is already current on tickets"
+  change_category: 'updated category.'
+  set_category: 'set category.'
+  role: 'updated title'
+  disable: 'module disabled.'
+  enable: "ticket's module activated."
+  none_role: "None"
+  none_category: "None"
+  current_role: "Support Position:"
+  current_category: "Ticket category:"
+ping:
+  description: 'Shows the speed of the connection to the server.'
+help:
+  message: "
+    Hi {{ author }}, how are you? Hope so!
+    Are you looking to know what commands I can do?
+    Right! Come on...
+
+    \nSelect the category you want to receive information about. To select the category, you need to click on the emoji it represents
+  "
+  warn_message: "I sent it to you in private, see your direct messages! :blush:"
+  failed_message: "I tried to send it to you in private, but you probably disabled direct messages from server members, so go to your __Privacy and Security Settings__ and enable the option: **Allow direct messages from server members**
+
+Okay, now just perform the command again! "
+ticket:
+  description: "Explains how the Ticket's module works."
+  warn: 'Warning'
+  warn_message: "The ticket module was not activated on this server, to activate an administrator you need to use the command `{{ command }}` on any text channel."
+  title: "TICKET'S MODULE"
+  what: 'What is the Ticket Module?'
+  what_message: "The ticket module comes together with a system responsible for organizing the support of players, basically providing a command for the members of the server to ask questions, report bugs or review punishments."
+  how: "How does the Ticket System work?"
+  how_message: "Members have a command called `{{ prefix }}open-tk`, when carrying out the command, a list of information is generated asking what the member wants to talk to the support for, when choosing the category a channel will be the one created for the service."
+ativar_tk:
+  description: 'Activates the ticket module'
+  message: 'New commands are available now that you have activated the ticket, see below.'
+  title: "ACTIVATED TICKETS"
+desativar_tk:
+  description: 'Disables the ticket module'
+  message: 'The module has been deactivated and all data deleted.'
+setcargo_tk:
+  args:
+    role:
+      start: 'what position do you want the ticket support role to be? type `cancel` to cancel.'
+      retry: 'invalid role.'
+  description: 'Altera o cargo de suporte dos ticket.'
+  message: 'updated ticket role.'
+setcategoria_tk:
+  args:
+    category:
+      start: 'which category do you want to create ticket channels? type `cancel` to cancel.'
+      retry: 'invalid category.'
+  description: 'Changes the category that ticket channels are created.'
+  message: 'updated ticket category.'
+abrir_tk:
+  description: "Opens a ticket."
+  failed: 'It was not possible to open a ticket.'
+  title: "TICKET INFORMATION's"
+  ticket_created: 'your ticket was successfully created on the channel {{ channel }}. {{ emoji }}'
+  already_has_ticket_opened: 'you already have a ticket open in {{ channel }}.'
+  message: "**TICKET'S CENTRAL**\n
+
+Our Ticket system allows customer support to be organized, focused, efficient and effective.\n
+
+Select the category you want to open a ticket for. To select the category, you need to click on the emoji it represents"
+fechar_tk:
+  description: 'Closes a ticket.'
+  is_not_ticket_channel: 'execute this command on the ticket channel!'
+  have_no_power: 'you cannot close that ticket.'
+  request_rate: 'The ticket you created on **{{guildName}}** was closed! for your assessment of care use `{{command}}`.'
+avaliar_tk:
+  description: 'Evaluates a ticket.'
+  is_not_id: 'this is not a valid id.'
+  not_exists: 'there is no ticket with that id.'
+  already_was_rating: 'you already rated this ticket.'
+  not_owner: 'you do not own this ticket to evaluate.'
+  message: 'your ticket has been successfully evaluated!'
+  title: "Did you like the service?"
+  embed: 'React with the following emojis according to your level of satisfaction'
+  good: 'I liked the service.'
+  normal: 'Could be better.'
+  bad: "I didn't like the service."
+status_tk:
+  description: 'shows ticket statistics.'
+  not_parent: 'None'
+  not_role: 'None'
+  not_tickets: 'No tickets created.'
+  tickets_not_rate: '{{ tickets }}% of tickets that are closed have not been evaluated.'
+  status_info: 'ticket statistics'
+  parent: 'Category'
+  role: 'Support Role'
+  tickets: "Ticket's"
+  ticket_categories: "Category"
+  ticket_rating: 'Assessments'
+setlanguage:
+  description: 'Change server language.'
+  usage: '[pt-BR|en-US]'
+  changed: 'Changed language to English with success!'

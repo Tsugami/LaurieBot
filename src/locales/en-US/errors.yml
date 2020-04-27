@@ -1,0 +1,5 @@
+user_permissions: 'you do not have {{ permissions }} permission to execute this command.'
+client_permissions: "I don't have permission from {{ permissions }} to execute this command."
+channel_disabled: 'commands are disabled on that channel.'
+command_disabled: 'this command is disabled on the server.'
+guild: 'this command is only available on servers.'  
