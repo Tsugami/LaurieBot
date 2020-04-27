@@ -1,8 +1,7 @@
 import { Command, CommandOptions } from 'discord-akairo';
 import { PermissionString } from 'discord.js';
-import { exists, TFunction } from '@utils/locales';
-import logger from '@utils/logger';
 import * as locales from '@utils/locales';
+import logger from '@utils/logger';
 
 export type LaurieCategories =
   | 'discord'
@@ -27,7 +26,7 @@ declare module 'discord-akairo' {
     locales: typeof locales;
     examples?: string;
     usage?: string;
-    getTitle: (t: TFunction) => string;
+    getTitle: (t: locales.TFunction) => string;
     tPath: string;
   }
 }
@@ -41,17 +40,17 @@ class LaurieCommand extends Command {
     this.locales = locales;
     this.help = this.aliases[0] || id;
     this.aliases = [id, ...this.aliases];
-    if (exists(`${this.tPath}.description`)) {
+    if (locales.exists(`${this.tPath}.description`)) {
       this.description = `${this.tPath}.description`;
     } else {
       this.logger.warn(`command not have description in locales.`);
     }
 
-    if (exists(`${this.tPath}.examples`)) {
+    if (locales.exists(`${this.tPath}.examples`)) {
       this.examples = `${this.tPath}.examples`;
     }
 
-    if (exists(`${this.tPath}.usage`)) {
+    if (locales.exists(`${this.tPath}.usage`)) {
       this.usage = `${this.tPath}.usage`;
     }
   }
@@ -61,8 +60,8 @@ class LaurieCommand extends Command {
   getTitle(t: TFunction) {
     const args = this.usage
       ? t(this.usage)
-          .replace(/(\[|<)/g, x => `${x}\``)
-          .replace(/(\]|>)/g, x => `\`${x}`)
+          .replace(/(\[|<)/g, (x: string) => `${x}\``)
+          .replace(/(\]|>)/g, (x: string) => `\`${x}`)
           .replace('|', '`|`')
       : '';
     return `**${this.help}** ${args}`;
