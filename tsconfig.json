@@ -7,6 +7,8 @@
     "target": "es2019",
     "module": "commonjs",
     "strict": true,
+    "rootDir": "src",
+    "outDir": "dist",
     "baseUrl": "src",
     "paths": {
       "@categories": ["categories/index"],
@@ -23,5 +25,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules", "src/old-commands", "src/old-events", "src/old-inhibitors"],
-  "include": ["src"]
+  "include": ["src", "src/locales"]
 }
