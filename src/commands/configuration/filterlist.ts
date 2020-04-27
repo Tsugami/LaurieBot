@@ -7,7 +7,7 @@ export default class FilterList extends Command {
       editable: false,
       aliases: ['listfiltro'],
       category: 'configuration',
-      lock: 'guild',
+      channel: 'guild',
     });
   }
 

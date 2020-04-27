@@ -8,7 +8,7 @@ export default class Kick extends LaurieCommand {
       aliases: ['expulsar'],
       editable: true,
       category: 'moderator',
-      lock: 'guild',
+      channel: 'guild',
       userPermissions: 'KICK_MEMBERS',
       clientPermissions: 'KICK_MEMBERS',
       args: [

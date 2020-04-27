@@ -7,7 +7,7 @@ export default class Serverinfo extends LaurieCommand {
   constructor() {
     super('serverinfo', {
       category: 'discord',
-      lock: 'guild',
+      channel: 'guild',
       editable: false,
     });
   }

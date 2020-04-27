@@ -92,7 +92,7 @@ export default class TkConfig extends ModuleCommand {
       {
         aliases: ['configurartk'],
         userPermissions: 'MANAGE_GUILD',
-        lock: 'guild',
+        channel: 'guild',
       },
       (embed, m, guildData) => {
         if (validate(m, guildData)) {

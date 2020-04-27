@@ -8,7 +8,7 @@ export default class Userinfo extends LaurieCommand {
   constructor() {
     super('userinfo', {
       category: 'discord',
-      lock: 'guild',
+      channel: 'guild',
       editable: true,
       args: [
         {

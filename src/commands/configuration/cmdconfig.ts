@@ -75,7 +75,7 @@ export default class CmdConfig extends ModuleCommand {
       {
         aliases: ['configurarcmds'],
         userPermissions: ['ADMINISTRATOR'],
-        lock: 'guild',
+        channel: 'guild',
       },
       (embed, msg, guildData) => {
         embed.addField(

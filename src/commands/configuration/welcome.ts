@@ -78,7 +78,7 @@ export default class Welcome extends ModuleCommand {
       {
         aliases: ['bemvindo'],
         userPermissions: 'MANAGE_GUILD',
-        lock: 'guild',
+        channel: 'guild',
       },
       (embed, msg, guildData) => {
         if (validate(msg, guildData)) {

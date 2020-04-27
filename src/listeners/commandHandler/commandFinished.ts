@@ -1,17 +1,17 @@
 import { Listener, Command } from 'discord-akairo';
 import { Message, TextChannel } from 'discord.js';
-import LaurieEmbed from '../../struct/LaurieEmbed';
+import LaurieEmbed from '@structures/LaurieEmbed';
 
 export default class CommandFinishedListener extends Listener {
   constructor() {
     super('commandFinished', {
       emitter: 'commandHandler',
-      eventName: 'commandFinished',
+      event: 'commandFinished',
     });
   }
 
   exec(msg: Message, command: Command) {
-    const channel = this.client.channels.get(String(process.env.COMMAND_CHANNEL));
+    const channel = this.client.channels.cache.get(String(process.env.COMMAND_CHANNEL));
     if (channel instanceof TextChannel) {
       channel.send(
         new LaurieEmbed()

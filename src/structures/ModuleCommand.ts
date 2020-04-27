@@ -21,7 +21,7 @@ export default class ModuleCommand extends LaurieCommand {
     commandOptions: Partial<Omit<LaurieCommandOptions, 'category' | 'args' | 'editable'>> = {},
     public modifyMainEmbed?: (embed: LaurieEmbed, message: Message, guildData: GuildController) => any,
   ) {
-    super(id, { ...commandOptions, category: 'configuration', editable: false });
+    super(id, { ...commandOptions, category: 'configuration', editable: false, lock: 'guild' });
 
     for (const a of dependArgs) {
       for (const i of a[0]) {

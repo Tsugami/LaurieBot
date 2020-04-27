@@ -8,7 +8,7 @@ export default class Ban extends LaurieCommand {
       aliases: ['banir'],
       editable: true,
       category: 'moderator',
-      lock: 'guild',
+      channel: 'guild',
       userPermissions: 'BAN_MEMBERS',
       clientPermissions: 'BAN_MEMBERS',
       args: [

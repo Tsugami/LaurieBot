@@ -8,7 +8,7 @@ export default class Clear extends Command {
       editable: true,
       aliases: ['limpar'],
       category: 'moderator',
-      lock: 'guild',
+      channel: 'guild',
       userPermissions: 'MANAGE_MESSAGES',
       clientPermissions: 'MANAGE_MESSAGES',
       args: [

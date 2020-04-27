@@ -32,14 +32,14 @@ declare module 'discord-akairo' {
 }
 
 class LaurieCommand extends Command {
-  constructor(id: string, options: LaurieCommandOptions) {
+  constructor(id: string, options: LaurieCommandOptions, autoAlias = true) {
     super(id, options);
 
     this.tPath = `commands:${id.replace('-', '_')}`;
     this.logger = logger.scope(id);
     this.locales = locales;
     this.help = this.aliases[0] || id;
-    this.aliases = [id, ...this.aliases];
+    if (autoAlias) this.aliases = [id, ...this.aliases];
     if (locales.exists(`${this.tPath}.description`)) {
       this.description = `${this.tPath}.description`;
     } else {

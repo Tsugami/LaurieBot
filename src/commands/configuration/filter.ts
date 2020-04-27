@@ -36,7 +36,7 @@ export default class Filter extends ModuleCommand {
       {
         aliases: ['filtro'],
         userPermissions: 'MANAGE_GUILD',
-        lock: 'guild',
+        channel: 'guild',
       },
       (embed, msg, guildData) => {
         if (guildData.wordFilter.get().length !== 0) {

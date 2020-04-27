@@ -68,7 +68,7 @@ export default class PnConfig extends ModuleCommand {
       {
         aliases: ['configurarpn'],
         userPermissions: 'MANAGE_GUILD',
-        lock: 'guild',
+        channel: 'guild',
       },
       (embed, msg, guildData) => {
         if (validate(msg, guildData)) {

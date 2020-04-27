@@ -10,7 +10,7 @@ export default class Mute extends LaurieCommand {
       aliases: ['mutar'],
       editable: true,
       category: 'moderator',
-      lock: 'guild',
+      channel: 'guild',
       userPermissions: ['MUTE_MEMBERS', 'MANAGE_ROLES'],
       clientPermissions: ['MUTE_MEMBERS', 'MANAGE_ROLES'],
       args: [

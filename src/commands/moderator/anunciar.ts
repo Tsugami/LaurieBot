@@ -8,7 +8,7 @@ export default class Anunciar extends Command {
     super('anunciar', {
       editable: true,
       category: 'moderator',
-      lock: 'guild',
+      channel: 'guild',
       userPermissions: ['MANAGE_MESSAGES'],
       args: [
         {

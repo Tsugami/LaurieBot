@@ -9,7 +9,7 @@ export default class Unmute extends LaurieCommand {
       aliases: ['desmutar'],
       editable: true,
       category: 'moderator',
-      lock: 'guild',
+      channel: 'guild',
       userPermissions: ['MUTE_MEMBERS', 'MANAGE_ROLES', 'MANAGE_CHANNELS'],
       clientPermissions: ['MUTE_MEMBERS', 'MANAGE_ROLES', 'MANAGE_CHANNELS'],
       args: [
