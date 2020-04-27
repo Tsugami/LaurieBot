@@ -3,10 +3,10 @@ cmdconfig:
   title: 'configurações de Comandos'
   args:
     option:
-      disable_command: 'Desativar comando.'
-      enable_command: 'Ativar comando.'
-      disable_channel: 'Desativar canal de texto.'
-      enable_channel: 'Ativar canal de texto.'
+      disable_command: 'Desativar comando no servidor.'
+      enable_command: 'Ativar comando no servidor.'
+      disable_channel: 'Desativar comandos em um canal de texto.'
+      enable_channel: 'Ativar comandos em um canal de texto.'
     command:
       disable_command: 'digite o nome do comando que deseja desativar no servidor.'
       enable_command: 'digite o nome do comando que deseja ativar no servidor.'

@@ -43,6 +43,32 @@ export default class CmdConfig extends ModuleCommand {
             msg.reply(msg.t(`${this.tPath}.disabled_command`, { commandName: command.id }));
           },
         },
+        {
+          id: 'enable_command',
+          async run(msg, guildData, { command }: CmdArgs) {
+            await guildData.enableCommands(command.id);
+            msg.reply(
+              msg.t('commands:cmdconfig.enabled_command', { command: this.client.commandHandler.prefix + command.id }),
+            );
+          },
+        },
+        {
+          id: 'disable_channel',
+          async run(msg, guildData, { channel }: ChannelArgs) {
+            if (guildData.disabledChannels.includes(channel.id)) {
+              return msg.reply(msg.t('commands:cmdconfig.already_disabled_channel'));
+            }
+            await guildData.disableChannel(channel.id);
+            return msg.reply(msg.t('commands:cmdconfig.disabled_channel', { channel: channel.toString() }));
+          },
+        },
+        {
+          id: 'enable_channel',
+          async run(msg, guildData, { channel }: ChannelArgs) {
+            await guildData.enableChannel(channel.id);
+            return msg.reply(msg.t('commands:cmdconfig.enabled_channel', { channel: channel.toString() }));
+          },
+        },
       ],
       [
         [['disable_command', 'enable_command'], { id: 'command', type: 'commandAlias' }],
@@ -53,127 +79,22 @@ export default class CmdConfig extends ModuleCommand {
         userPermissions: ['ADMINISTRATOR'],
         lock: 'guild',
       },
+      (embed, msg, guildData) => {
+        embed.addField(
+          msg.t('commands:cmdconfig.disabled_commands'),
+          guildData.disabledCommands
+            .filter(c => c)
+            .map(c => `\`${c}\``)
+            .join(', ') || msg.t('commands:cmdconfig.none_commands'),
+        );
+        embed.addField(
+          msg.t('commands:cmdconfig.disabled_channels'),
+          guildData.disabledChannels
+            .filter(c => msg?.guild?.channels.cache.has(c))
+            .map(id => msg?.guild?.channels.cache.get(id)?.toString())
+            .join(', ') || msg.t('commands:cmdconfig.none_channels'),
+        );
+      },
     );
   }
 }
-// }
-// const validate = () => true;
-// export default ModuleCommand(
-//   'cmdconfig',
-//   { aliases: ['configurarcmds'], userPermissions: ['ADMINISTRATOR'], channelRestriction: 'guild' },
-//   [
-//     {
-//       id: 'disable_command',
-//       validate,
-//       async run(msg, t, { guildData, command }: CmdArgs) {
-//         if (COMMANDS_THAT_CANNOT_BE_DISABLED.some(cmd => cmd.id === command.id)) {
-//           return msg.reply(t('commands:cmdconfig.cannot_this_command_be_disable'));
-//         }
-
-//         if (CATEGORIES_THAT_CANNOT_BE_DISABLED.some(category => category.id === command.category.id)) {
-//           return msg.reply(
-//             t('', {
-//               categories: `\`${CATEGORIES_THAT_CANNOT_BE_DISABLED.map(category => t(`categories:${category.id}`)).join(
-//                 ', ',
-//               )}\``,
-//             }),
-//           );
-//         }
-
-//         if (guildData.disabledCommands.includes(command.id)) {
-//           return msg.reply(t('commands:cmdconfig.already_disabled_command'));
-//         }
-
-//         await guildData.disableCommand(command.id);
-//         msg.reply(t('commands:cmdconfig.disable_command', { commandName: command.id }));
-//       },
-//     },
-//     {
-//       id: 'enable_command',
-//       validate,
-//       async run(msg, t, { guildData, command }: CmdArgs) {
-//         await guildData.enableCommands(command.id);
-//         msg.reply(t('commands:cmdconfig.enabled_command', { command: getPrefix(msg) + command.id }));
-//       },
-//     },
-//     {
-//       id: 'disable_channel',
-//       validate,
-//       async run(msg, t, { guildData, channel }: ChannelArgs) {
-//         if (guildData.disabledChannels.includes(channel.id)) {
-//           return msg.reply(t('commands:cmdconfig.already_disabled_channel'));
-//         }
-//         await guildData.disableChannel(channel.id);
-//         return msg.reply(t('commands:cmdconfig.disabled_channel', { channel: channel.toString() }));
-//       },
-//     },
-//     {
-//       id: 'enable_channel',
-//       validate,
-//       async run(msg, t, { guildData, channel }: ChannelArgs) {
-//         await guildData.enableChannel(channel.id);
-//         return msg.reply(t('commands:cmdconfig.enabled_channel', { channel: channel.toString() }));
-//       },
-//     },
-//   ],
-//   {
-//     command: ['commandAlias', ['disable_command', 'enable_command']],
-//     channel: ['textChannel', ['disable_channel', 'enable_channel']],
-//   },
-//   (m, t, { guildData }) => {
-//     return [
-//       [
-//         t('commands:cmdconfig.disabled_commands'),
-//         guildData.disabledCommands.map(c => `\`${c}\``).join(', ') || t('commands:cmdconfig.none_commands'),
-//       ],
-//       [
-//         t('commands:cmdconfig.disabled_channels'),
-//         guildData.disabledChannels.map(id => m.guild.channels.get(id)?.toString() || id).join(', ') ||
-//           t('commands:cmdconfig.none_channels'),
-//       ],
-//     ];
-//   },
-// );
-// class CommandsCommand extends Command {
-//   constructor() {
-//     super('commands', {
-//       aliases: ['comandos', 'desativar'],
-//       userPermissions: 'MANAGE_MESSAGES',
-//       category: 'configuration',
-//       channelRestriction: 'guild',
-//       args: [
-//         {
-//           id: 'option',
-//           type: ['on', 'off'],
-//           prompt: {
-//             start: Prompt('commands:commands.args.option.start', prompt),
-//             retry: Prompt('commands:commands.args.option.retry'),
-//           },
-//         },
-//       ],
-//       defaultPrompt: {
-//         cancelWord: 'cancelar',
-//       },
-//     });
-//   }
-
-//   async run(msg: Message, t: TFunction, args: ArgsI) {
-//     const guildData = await guild(msg.guild.id);
-//     if (args.option === 'off') {
-//       if (guildData.data.disableChannels.includes(msg.channel.id)) {
-//         return msg.reply(t('commands:commands.off_option.already_disabled'));
-//       }
-//       await guildData.disableChannel(msg.channel.id);
-//       return msg.reply(t('commands:commands.off_option.disabled'));
-//     }
-
-//     if (!guildData.data.disableChannels.includes(msg.channel.id)) {
-//       return msg.reply(t('commands:commands.on_option.already_enabled'));
-//     }
-
-//     await guildData.enableChannel(msg.channel.id);
-//     return msg.reply(t('commands:commands.on_option.enabled'));
-//   }
-// }
-
-// export default CommandsCommand;
