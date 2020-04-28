@@ -75,6 +75,11 @@ class GuildController extends Base<GuildDocument> {
     this.data.penaltyChannel = null;
     return this.save();
   }
+
+  setLanguage(lang: string) {
+    this.data.language = lang;
+    return this.save();
+  }
 }
 
 export default GuildController;

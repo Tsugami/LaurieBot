@@ -1,7 +1,7 @@
-import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, PromptContentModifier } from 'discord-akairo';
+import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import { CategoryChannel, PermissionString, Message } from 'discord.js';
 import { join } from 'path';
-import * as locales from '@utils/locales';
+import locales from '@utils/locales';
 import logger from '@utils/logger';
 import LaurieEmbed from '../structures/LaurieEmbed';
 import Database from '../database/index';
@@ -23,8 +23,8 @@ class LaurieClient extends AkairoClient {
     super({ disableMentions: 'everyone' });
     this.requiredPermissions = [];
 
-    const modifyToEmbed = (addCancel: boolean): PromptContentModifier => {
-      return (m, text: any) => {
+    const modifyToEmbed = (addCancel: boolean) => {
+      return (m: Message, text: any) => {
         if (typeof text === 'string') {
           const cancelMessage = addCancel ? `\n\n${m.t('commons:tryCancel')}` : '';
           return new LaurieEmbed(m.author, text, cancelMessage);
@@ -52,6 +52,7 @@ class LaurieClient extends AkairoClient {
           modifyEnded: modifyToEmbed(false),
           modifyTimeout: modifyToEmbed(false),
         },
+        modifyOtherwise: modifyToEmbed(false),
       },
     });
 

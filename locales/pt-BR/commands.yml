@@ -323,8 +323,7 @@ help:
     Você está procurando saber quais comandos eu sei realizar?
     Certo! Vamos lá..."
   categories: 'Categorias'
-  embed_title: "Selecione a categoria que deseja receber as informações."
-  embed_description: "Para selecionar a categoria, você precisa clicar no emoji que ela representa"
+  embed_title: "Selecione a categoria que deseja receber as informações. Para selecionar a categoria, você precisa clicar no emoji que ela representa"
   warn_message: "Enviei para você no privado, veja suas mensagens diretas! :blush:"
   failed_message: "tentei enviar para você no privado, mas provavelmente você desabilitou as mensagens diretas de membros do servidor, então vá até suas __Configurações de Privacidade e Segurança__ e habilite a opção: **Permitir mensagens diretas de membros do servidor**.
 
@@ -401,6 +400,8 @@ status_tk:
   ticket_rating: 'Avaliações'
 setlanguage:
   description: 'Altera lingua do servidor.'
-  usage: '[pt-BR|en-US]'
-  changed: 'Linguagem alterada com sucesso para Português!'
-  reset: 'lingua resetada para Português!'
+  usage: '[lingua]'
+  args:
+    language:
+      otherwise: 'Invalido! tente uma dessas linguas: {{ languages }}.'
+  changed: 'Linguagem alterada com sucesso para {{ language }}!'

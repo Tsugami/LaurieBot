@@ -1,6 +1,6 @@
 import { User, Guild, GuildMember, TextChannel } from 'discord.js';
 import { AkairoClient } from 'discord-akairo';
-import { getFixedT } from '@utils/locales';
+import locales from '@utils/locales';
 
 export default class WelcomeUtil {
   static parseText(text: string, user: User, guild: Guild) {
@@ -15,8 +15,7 @@ export default class WelcomeUtil {
     if (channel instanceof TextChannel) {
       channel.send(
         this.parseText(
-          guildData.welcome.message ||
-            getFixedT(member.guild)(getFixedT(member.guild)('modules:welcome.message_default')),
+          guildData.welcome.message || (await locales.getFixedT(member.guild))('modules:welcome.message_default'),
           member.user,
           member.guild,
         ),

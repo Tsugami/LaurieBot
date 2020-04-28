@@ -30,6 +30,7 @@ const ticketConfigSchema = new Schema(
 );
 
 const GuildSchema = new Schema({
+  language: String,
   guildId: { type: String, required: true },
   disabledCommands: [String],
   disabledChannels: [String],
@@ -64,6 +65,7 @@ export interface TicketConfigModule {
 }
 
 export interface GuildDocument extends Document {
+  language?: string;
   guildId: string;
   disabledChannels: string[];
   disabledCommands: string[];

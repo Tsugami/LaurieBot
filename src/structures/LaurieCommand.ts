@@ -1,6 +1,6 @@
 import { Command, CommandOptions } from 'discord-akairo';
 import { PermissionString } from 'discord.js';
-import * as locales from '@utils/locales';
+import locales, { TFunction } from '@utils/locales';
 import logger from '@utils/logger';
 
 export type LaurieCategories =
@@ -26,7 +26,7 @@ declare module 'discord-akairo' {
     locales: typeof locales;
     examples?: string;
     usage?: string;
-    getTitle: (t: locales.TFunction) => string;
+    getTitle: (t: TFunction) => string;
     tPath: string;
   }
 }

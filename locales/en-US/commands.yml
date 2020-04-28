@@ -325,10 +325,9 @@ help:
   message: "
     Hi {{ author }}, how are you? Hope so!
     Are you looking to know what commands I can do?
-    Right! Come on...
-
-    \nSelect the category you want to receive information about. To select the category, you need to click on the emoji it represents
-  "
+    Right! Come on..."
+  categories: "Categories"
+  embed_title: "Select the category you want to receive information about. To select the category, you need to click on the emoji it represents"
   warn_message: "I sent it to you in private, see your direct messages! :blush:"
   failed_message: "I tried to send it to you in private, but you probably disabled direct messages from server members, so go to your __Privacy and Security Settings__ and enable the option: **Allow direct messages from server members**
 
@@ -405,5 +404,8 @@ status_tk:
   ticket_rating: 'Assessments'
 setlanguage:
   description: 'Change server language.'
-  usage: '[pt-BR|en-US]'
+  usage: '[language]'
+  args:
+    language:
+      otherwise: 'Invalid! Try one those languages: {{ languages }}.'
   changed: 'Changed language to English with success!'

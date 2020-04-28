@@ -31,22 +31,20 @@ export default class Help extends Command {
 
     const categories = this.handler.categories.filter(x => !CATEGORIES_HIDDEN.includes(x.id));
     const categoriesMainMessage = categories
-      .map(c => `${CATEGORIES_EMOJIS[c.id]} ${msg.t(`categories:${c.id}.description`)}`)
+      .map(c => `${CATEGORIES_EMOJIS[c.id]} __${msg.t(`categories:${c.id}.description`)}__`)
       .join('\n');
 
-    const content = msg.t('commands:help.content', { author: `${msg.author}` });
+    const content = msg.t(`${this.tPath}.message`, { author: `${msg.author}` });
     const embed = new LaurieEmbed(
       msg.author,
-      msg.t('commands:help.embed_title'),
-      msg.t('commands:help.embed_description'),
-    );
-    embed.addField(`**${msg.t('commands:help.categories')}**`, categoriesMainMessage);
-
+      msg.t(`${this.tPath}.embed_title`),
+      `**${msg.t(`${this.tPath}.categories`).toUpperCase()}**\n${categoriesMainMessage}`,
+    ).setThumbnail(this.client.user?.displayAvatarURL() as string);
     let sent: Message;
     try {
       sent = await dm.send(content, { embed, disableMentions: 'none' });
       if (msg.channel.type === 'text') {
-        msg.reply(new LaurieEmbed(msg.author, msg.t('commands:help.warn_message')));
+        msg.reply(new LaurieEmbed(msg.author, msg.t(`${this.tPath}.warn_message`)));
       }
     } catch {
       return isLocked();
@@ -76,7 +74,7 @@ export default class Help extends Command {
         currentCategoryId = category.id;
         embed.fields = [];
         embed.setTitle(msg.t(`categories:${category.id}.name`));
-        category.forEach(c => embed.addField(`${c.getTitle(msg.t)}`, `${msg.t(`commands:${c.id}.description`)}`));
+        category.forEach(c => embed.addField(`${c.getTitle(msg.t)}`, `${msg.t(c.description)}`));
         sent.edit(embed);
       }
     });

@@ -1,5 +1,5 @@
 import { Inhibitor } from 'discord-akairo';
-import { getFixedT } from '@utils/locales';
+import locales from '@utils/locales';
 import { Message } from 'discord.js';
 
 export default class Context extends Inhibitor {
@@ -9,8 +9,8 @@ export default class Context extends Inhibitor {
     });
   }
 
-  exec(msg: Message) {
-    msg.t = getFixedT(msg);
+  async exec(msg: Message) {
+    msg.t = await locales.getFixedT(msg);
     return false;
   }
 }
