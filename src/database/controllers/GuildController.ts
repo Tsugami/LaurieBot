@@ -54,10 +54,10 @@ class GuildController extends Base<GuildDocument> {
   enableCommands(resolve: string | Command | Command[]) {
     const resolved = this.resolveCommandInput(resolve);
     if (typeof resolved === 'string') {
-      this.data.disabledCommands.push(resolved);
+      this.data.disabledCommands = this.data.disabledCommands.filter(c => c !== resolved);
     } else {
       for (const id of resolved) {
-        this.data.disabledCommands.push(id);
+        this.data.disabledCommands = this.data.disabledCommands.filter(c => c !== id);
       }
     }
 
