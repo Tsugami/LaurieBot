@@ -45,6 +45,9 @@ export default class CmdConfig extends ModuleCommand {
         },
         {
           id: 'enable_command',
+          validate(_, guildData) {
+            return guildData.disabledCommands.length > 0;
+          },
           async run(msg, guildData, { command }: CmdArgs) {
             await guildData.enableCommands(command.id);
             msg.reply(msg.t('commands:cmdconfig.enabled_command', { command: msg.util?.parsed?.prefix + command.id }));
@@ -62,6 +65,9 @@ export default class CmdConfig extends ModuleCommand {
         },
         {
           id: 'enable_channel',
+          validate(_, guildData) {
+            return guildData.disabledChannels.length > 0;
+          },
           async run(msg, guildData, { channel }: ChannelArgs) {
             await guildData.enableChannel(channel.id);
             return msg.reply(msg.t('commands:cmdconfig.enabled_channel', { channel: `${channel}` }));
