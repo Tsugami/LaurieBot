@@ -1,10 +1,9 @@
-import { Message, Client } from 'discord.js';
+import { Message } from 'discord.js';
 
 export default class CooldownSet {
   private ids = new Set<string>();
 
-  constructor(public client: Client, public cooldown: number, public command = false) {
-    this.client = client;
+  constructor(public cooldown: number, public command = false) {
     this.command = command;
     this.cooldown = cooldown;
   }
@@ -16,7 +15,7 @@ export default class CooldownSet {
   add(message: Message) {
     const id = this.parseId(message);
     this.ids.add(id);
-    this.client.setTimeout(() => this.ids.delete(id), this.cooldown);
+    setTimeout(() => this.ids.delete(id), this.cooldown);
     return this;
   }
 

@@ -5,9 +5,9 @@ import LaurieEmbed from '@structures/LaurieEmbed';
 import CooldownSet from '@utils/cooldown';
 
 export default class CommandBlockedAddListener extends Listener {
-  disabledCommand = new CooldownSet(this.client, 3 * 60000, true);
+  disabledCommand = new CooldownSet(3 * 60000, true);
 
-  disabledChannel = new CooldownSet(this.client, 3 * 60000, true);
+  disabledChannel = new CooldownSet(3 * 60000, true);
 
   constructor() {
     super('commandBlocked', {
