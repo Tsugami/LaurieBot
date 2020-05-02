@@ -65,6 +65,7 @@ export interface TicketConfigModule {
 }
 
 export interface GuildDocument extends Document {
+  autoroleID?: string;
   language?: string;
   guildId: string;
   disabledChannels: string[];

@@ -24,6 +24,15 @@ class GuildController extends Base<GuildDocument> {
     return this.data.penaltyChannel;
   }
 
+  get autoroleID() {
+    return this.data.autoroleID;
+  }
+
+  setAutorole(roleID?: string) {
+    this.data.autoroleID = roleID;
+    return this.save();
+  }
+
   disableChannel(channelId: string) {
     this.data.disabledChannels.push(channelId);
     return this.save();

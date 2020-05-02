@@ -18,7 +18,7 @@ export default class Botinfo extends LaurieCommand {
       return this.client.users.cache.get(userId)?.tag ?? (await this.client.users.fetch(userId, false))?.tag ?? userId;
     };
 
-    const owner = await findUser(process.env.OWNER_ID);
+    const owner = await findUser(process.env.CREATOR_ID);
     const dev = await findUser(process.env.DEV_ID);
     const invite = await this.client.generateInvite();
 

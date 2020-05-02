@@ -4,7 +4,7 @@ import locales from '@utils/locales';
 
 export default class WelcomeUtil {
   static parseText(text: string, user: User, guild: Guild) {
-    return text.replace(/{{user}}/gi, user.username).replace(/{{guild}}/gi, guild.name);
+    return text.replace(/{{user}}/gi, `${user}`).replace(/{{guild}}/gi, guild.name);
   }
 
   static async send(member: GuildMember) {

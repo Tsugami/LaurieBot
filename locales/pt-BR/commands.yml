@@ -405,3 +405,20 @@ setlanguage:
     language:
       otherwise: 'Invalido! tente uma dessas linguas: {{ languages }}.'
   changed: 'Linguagem alterada com sucesso para {{ language }}!'
+autorole: 
+  title: 'CONFIGURAÇÕES DE AUTOROLE'
+  description: 'Adiciona um cargo quando usuário entrar no servidor'
+  args:
+    option:
+      enable: 'Ativar autorole.'
+      disable: 'Desativar autorole.'
+      change_role: 'Alterar cargo.'
+      role:
+        enable: 'Mencione um cargo valido!'
+        change_role: 'Mencione um cargo valido!'
+        retry: 'Invalido! Tente mencionar um cargo valido!'
+  isHighestRole: 'Esse cargo é maior que o meu!'
+  enabled: 'Autorole ativado com sucesso!'
+  disabled: 'Autorole desativado com sucesso!'
+  changed: 'cargo alterado com sucesso!'
+  role: 'Cargo'
